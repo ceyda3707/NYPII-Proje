@@ -1,14 +1,28 @@
-from flask import Flask, render_template, request
-from flask_sqlalchemy import SQLAlchemy
-import os
+from flask import Flask
+from extensions import db
+from model import YemekTarifi, TurkTarifi
 
 app = Flask(__name__)
 
-# Veritabanı konfigürasyonu
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tarifler.db'
+# Veritabanı konfigürasyonu (dosya yollarını kontrol edin)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/tarifler.db'
 app.config['SQLALCHEMY_BINDS'] = {
-    'turk_tarifleri': 'sqlite:///turk_tarifleri.db'
+    'turk_tarifleri': 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/turk_tarifleri.db'
 }
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db.init_app(app)
+
+# Veritabanı bağlantı test route'u
+@app.route('/test')
+def test_db():
+    with app.app_context():
+        try:
+            yemek_sayisi = db.session.query(YemekTarifi).count()
+            turk_sayisi = db.session.query(TurkTarifi).count()
+            return f"Bağlantı başarılı! Yemekler: {yemek_sayisi}, Türk Tarifleri: {turk_sayisi}"
+        except Exception as e:
+            return f"Hata: {str(e)}"
+
+if __name__ == '__main__':
+    app.run(debug=True)
