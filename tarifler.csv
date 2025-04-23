@@ -50,3 +50,47 @@ isim,kategori,bolge,malzemeler,tarif,resim_url
 "Ezme Salata","Salata","Güneydoğu","3 domates,2 yeşil biber,1 kırmızı biber,1 soğan,maydanoz,nar ekşisi,tuz","1. Tüm malzemeleri ince doğrayın\n2. Maydanoz ekleyin\n3. Nar ekşisi ile tatlandırın","https://i.nefisyemektarifleri.com/2018/04/15/ezme-salatasi-tarifi.jpg"
 "Pazı Salatası","Salata","Karadeniz","1 demet pazı,2 diş sarımsak,1 limon,zeytinyağı,tuz","1. Pazıları haşlayın\n2. Sarımsak ve zeytinyağı ekleyin\n3. Limon sıkıp servis edin","https://i.nefisyemektarifleri.com/2018/04/15/pazi-salatasi-tarifi.jpg"
 "Kabak Salatası","Salata","Ege","2 kabak,1 havuç,1 limon,zeytinyağı,tuz","1. Kabak ve havucu rendeleyin\n2. Limon ve zeytinyağı ekleyin\n3. Soğuk servis yapın","https://cdn.yemek.com/mnresize/940/940/uploads/2014/11/kabak-salatasi-yemekcom.jpg"
+
+
+"Tarhana Çorbası","Çorba","İç Anadolu","2 yemek kaşığı tarhana,2 yemek kaşığı salça,4 su bardağı su,1 yemek kaşığı tereyağı","1. Tarhanayı suda açın\n2. Salça ve yağla kavurun\n3. Karıştırarak pişirin","https://ornek.com/tarhana.jpg"
+"Mercimek Çorbası","Çorba","Ege","1 su bardağı kırmızı mercimek,1 adet havuç,1 adet soğan,2 yemek kaşığı yağ","1. Tüm malzemeleri haşlayın\n2. Blenderdan geçirin\n3. Yağda salçayla karıştırın","https://ornek.com/mercimek.jpg"
+"Ezogelin Çorbası","Çorba","Güneydoğu","1 su bardağı kırmızı mercimek,bulgur,domates salçası,nane,kimyon","1. Malzemeleri kavurun\n2. Üzerine su ekleyin\n3. Baharatlarla pişirin","https://ornek.com/ezogelin.jpg"
+"Yayla Çorbası","Çorba","Karadeniz","1 su bardağı yoğurt,1 yemek kaşığı un,1 yumurta,2 yemek kaşığı pirinç,nane","1. Yoğurt, un, yumurtayı karıştırın\n2. Pirinci ekleyin\n3. Kaynatın ve nane ekleyin","https://ornek.com/yayla.jpg"
+"İşkembe Çorbası","Çorba","Trakya","500g işkembe,2 diş sarımsak,sirke,un,tereyağı","1. İşkembeyi haşlayın\n2. Terbiye yapın\n3. Sarımsaklı sosla servis edin","https://ornek.com/iskembe.jpg"
+"Kelle Paça Çorbası","Çorba","Doğu Anadolu","1 adet kelle,1 ayak,2 diş sarımsak,limon,un","1. Kelleyi haşlayın\n2. Ayırın ve terbiyeli pişirin\n3. Sarımsakla tatlandırın","https://ornek.com/kellepaca.jpg"
+"Tavuk Suyu Çorbası","Çorba","Marmara","1 adet tavuk budu,havuç,şehriye,tuz,karabiber","1. Tavukları haşlayın\n2. Sebze ve şehriye ekleyin\n3. Pişirip sıcak servis edin","https://ornek.com/tavuksuyu.jpg"
+"Düğün Çorbası","Çorba","İç Anadolu","300g et,un,limon,tereyağı,karabiber","1. Eti haşlayın\n2. Un ve terbiyeyle pişirin\n3. Üzerine yağ dökün","https://ornek.com/dugun.jpg"
+"Ayran Aşı Çorbası","Çorba","Doğu Anadolu","1 su bardağı yoğurt,1/2 su bardağı buğday,nane,nohut","1. Buğday ve nohutu haşlayın\n2. Yoğurtla karıştırın\n3. Soğuk servis edin","https://ornek.com/ayranasi.jpg"
+"Domates Çorbası","Çorba","Ege","4 domates,1 yemek kaşığı un,1 yemek kaşığı tereyağı,kaşar","1. Domatesleri rendeleyin\n2. Unla pişirin\n3. Kaşarla servis edin","https://ornek.com/domates.jpg"
+"Brokoli Çorbası","Çorba","Marmara","250g brokoli,1 patates,1 soğan,süt,tereyağı","1. Sebzeleri haşlayın\n2. Blenderdan geçirin\n3. Süt ve yağla pişirin","https://ornek.com/brokoli.jpg"
+"Kabak Çorbası","Çorba","Akdeniz","2 kabak,1 havuç,1 soğan,süt,un","1. Sebzeleri haşlayın\n2. Un ve sütle karıştırın\n3. Blenderdan geçirip pişirin","https://ornek.com/kabak.jpg"
+"Şehriye Çorbası","Çorba","Karadeniz","1 su bardağı tel şehriye,domates salçası,et suyu,tuz","1. Şehriyeyi kavurun\n2. Salçayı ekleyin\n3. Et suyuyla pişirin","https://ornek.com/sehriye.jpg"
+"Yoğurtlu Buğday Çorbası","Çorba","Doğu Anadolu","1 su bardağı yoğurt,1/2 su bardağı buğday,nane,un","1. Buğdayı haşlayın\n2. Yoğurtla karıştırın\n3. Terbiye edip kaynatın","https://ornek.com/yogurtbugday.jpg"
+"Beyran Çorbası","Çorba","Güneydoğu","200g kuzu eti,pirinç,sarımsak,acı biber yağı","1. Eti haşlayın\n2. Pirinci ekleyin\n3. Baharatlı yağla sunun","https://ornek.com/beyran.jpg"
+"Kabak Çiçeği Çorbası","Çorba","Ege","Kabak çiçeği,soğan,un,yoğurt","1. Çiçekleri haşlayın\n2. Soğanla kavurun\n3. Terbiyeyle pişirin","https://ornek.com/kabakcicegi.jpg"
+"Tutmaç Çorbası","Çorba","İç Anadolu","Erişte,yeşil mercimek,yoğurt,nane","1. Mercimeği haşlayın\n2. Erişte ve yoğurtla pişirin\n3. Nane serpin","https://ornek.com/tutmac.jpg"
+"Tereyağlı Lahana Çorbası","Çorba","Karadeniz","Lahana,patates,soğan,tereyağı","1. Lahanaları haşlayın\n2. Diğer sebzeleri ekleyin\n3. Tereyağlı pişirin","https://ornek.com/lahana.jpg"
+"Sebze Çorbası","Çorba","Marmara","Patates,havuç,brokoli,kereviz,tereyağı","1. Sebzeleri doğrayın\n2. Haşlayın ve pişirin\n3. Blenderdan geçirin","https://ornek.com/sebze.jpg"
+"Balık Çorbası","Çorba","Karadeniz","Levrek fileto,limon,sebzeler,defne yaprağı","1. Balığı haşlayın\n2. Sebzeleri ekleyin\n3. Limonla sunun","https://ornek.com/balik.jpg"
+"Köfteli Sebze Çorbası","Çorba","Marmara","Küçük köfteler,patates,havuç,bezelye","1. Köfteleri hazırlayın\n2. Sebzelerle pişirin\n3. Baharatlayın","https://ornek.com/koftelisabze.jpg"
+"Kesme Çorbası","Çorba","Doğu Anadolu","Kesme hamur,mercimek,salça,nane","1. Hamuru kesin\n2. Mercimekle pişirin\n3. Salçayla tatlandırın","https://ornek.com/kesme.jpg"
+"Acem Çorbası","Çorba","Doğu Anadolu","Et,bulgur,salça,soğan,tereyağı","1. Eti kavurun\n2. Bulgurla pişirin\n3. Baharatla sunun","https://ornek.com/acem.jpg"
+"Ekşili Çorba","Çorba","Güneydoğu","Limon,bulgur,et suyu,nane","1. Bulguru pişirin\n2. Limon ve nane ekleyin\n3. Kaynatın","https://ornek.com/eksili.jpg"
+"Analı Kızlı Çorbası","Çorba","Güneydoğu","İçli köfte,bulgur,yoğurt,salça","1. İçli köfteleri hazırlayın\n2. Yoğurtla pişirin\n3. Salça ekleyin","https://ornek.com/analikizli.jpg"
+"Un Çorbası","Çorba","Trakya","Un,tereyağı,su,tuz","1. Unu kavurun\n2. Suyu ekleyin\n3. Karıştırarak kaynatın","https://ornek.com/un.jpg"
+"Lebeniye Çorbası","Çorba","Güneydoğu","Yoğurt,küçük köfteler,nane,nohut","1. Köfteleri haşlayın\n2. Yoğurtla karıştırın\n3. Baharatla pişirin","https://ornek.com/lebeniye.jpg"
+"Kereviz Çorbası","Çorba","Ege","Kereviz,patates,süt,un","1. Sebzeleri haşlayın\n2. Sütle karıştırın\n3. Blenderdan geçirin","https://ornek.com/kereviz.jpg"
+"Fırınlanmış Soğan Çorbası","Çorba","Marmara","Soğan,tereyağı,un,et suyu","1. Soğanları kavurun\n2. Un ekleyin\n3. Et suyuyla pişirin","https://ornek.com/sogan.jpg"
+"Kırmızı Biber Çorbası","Çorba","Akdeniz","Kırmızı biber,süt,un,tereyağı","1. Biberleri közleyin\n2. Blenderdan geçirin\n3. Sütle pişirin","https://ornek.com/kirmizibiber.jpg"
+
+Humus,Meze,Orta Doğu & Türkiye,"1 su bardağı haşlanmış nohut, 2 yemek kaşığı tahin, 1 diş sarımsak, limon suyu, zeytinyağı, kimyon, tuz","1. Tüm malzemeleri blenderdan geçirin|2. Üzerine zeytinyağı ve pul biber ekleyin",https://images.unsplash.com/photo-1546069901-ba9599a7e63c
+Haydari,Meze,Ege,"1 kase yoğurt, 2 yemek kaşığı labne, nane, sarımsak, dereotu, zeytinyağı","1. Yoğurt ve labneyi karıştırın|2. Sarımsak ve baharatları ekleyip soğuk servis yapın",https://images.unsplash.com/photo-1601050690597-df0568f70950
+Patlıcan Ezmesi,Meze,Akdeniz,"2 közlenmiş patlıcan, 1 diş sarımsak, limon suyu, zeytinyağı, tuz","1. Patlıcanları ezin|2. Sarımsak ve baharatlarla karıştırın",https://images.unsplash.com/photo-1611270631113-db422f6d63a4
+Acılı Ezme,Meze,Güneydoğu,"2 domates, 2 yeşil biber, 1 kırmızı biber, 1 soğan, maydanoz, limon, pul biber, tuz","1. Tüm malzemeleri ince doğrayın|2. Zeytinyağı ve limonla karıştırın",https://images.unsplash.com/photo-1596797038530-2c107229654b
+Zeytinyağlı Enginar,Meze,Ege,"4 enginar, 1 limon, 1 soğan, dereotu, zeytinyağı","1. Enginarları limonlu suda haşlayın|2. Soğan ve zeytinyağı ile sotelenip soğutun",https://images.unsplash.com/photo-1563245372-f21724e3856d
+Fava,Meze,Ege,"500 g taze bakla, 1 soğan, zeytinyağı, dereotu","1. Baklaları haşlayıp ezerek püre yapın|2. Soğan ve zeytinyağı ile pişirip soğutun",https://images.unsplash.com/photo-1630918326541-1e80a8f8fe7b
+Cacık,Meze,Ege,"2 su bardağı yoğurt, 1 salatalık, 2 diş sarımsak, nane, zeytinyağı","1. Yoğurdu sulandırın|2. Rendelenmiş salatalık ve sarımsak ekleyin",https://images.unsplash.com/photo-1601050690597-df0568f70950
+Beyaz Peynirli Karpuz,Meze,Genel,"200 g beyaz peynir, 4 dilim karpuz, nane","1. Peyniri küp küp doğrayın|2. Karpuzla birlikte servis yapın",https://images.unsplash.com/photo-1563245372-f21724e3856d
+Piyaz,Meze,Akdeniz,"2 su bardağı haşlanmış kuru fasulye, 1 soğan, maydanoz, limon, sumak","1. Fasulyeleri soğan ve maydanozla karıştırın|2. Limon ve sumak ekleyin",https://images.unsplash.com/photo-1596797038530-2c107229654b
+Babalıç,Meze,Güneydoğu,"1 su bardağı haşlanmış nohut, 1 soğan, biber salçası, kimyon","1. Nohut ve soğanı karıştırın|2. Salça ve baharatlarla tatlandırın",https://images.unsplash.com/photo-1546069901-ba9599a7e63c
+Tarator,Meze,Ege,"1 su bardağı ceviz içi, 2 dilim ekmek, sarımsak, zeytinyağı, limon","1. Tüm malzemeleri blenderdan geçirin|2. Soğuk servis yapın",https://images.unsplash.com/photo-1601050690597-df0568f70950
