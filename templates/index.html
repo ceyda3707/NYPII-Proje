@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <svg width="50" height="50" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Pot Base -->
+                    <path d="M50,80 C50,80 45,100 45,120 C45,140 50,150 100,150 C150,150 155,140 155,120 C155,100 150,80 150,80 Z" fill="#dad0b3"/>
+                    <!-- Pot Top -->
+                    <path d="M40,80 L160,80 C160,80 150,60 100,60 C50,60 40,80 40,80 Z" fill="#ffffff"/>
+                    
+                    <!-- Handles -->
+                    <path d="M40,80 C30,80 25,90 30,100 L40,100 Z" fill="#ffffff"/>
+                    <path d="M160,80 C170,80 175,90 170,100 L160,100 Z" fill="#ffffff"/>
+                    
+                    <!-- Steam -->
+                    <path class="steam steam-1" d="M90,60 C90,40 110,50 110,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path class="steam steam-2" d="M100,60 C100,45 80,40 80,25" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path class="steam steam-3" d="M110,60 C110,50 120,45 125,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                </svg>
+                <span>RECIPIA</span>
+            </div>
+            
+            <nav class="site-nav">
+                <ul>
+                    <li><a href="#">Ana Sayfa</a></li>
+                    <li><a href="#">Kategoriler</a></li>
+                    <li><a href="#">Popüler</a></li>
+                    <li><a href="#">Hakkımızda</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="login-btn">Giriş Yap</button>
+                <button class="signup-btn">Üye Ol</button>
+            </div>
+        </div>
+    </header>
+
+ 
+    <section class="hero-section">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="hero-header">
+                    <div class="hero-icon">
+                        <svg width="80" height="80" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Pot Base -->
+                            <path d="M50,80 C50,80 45,100 45,120 C45,140 50,150 100,150 C150,150 155,140 155,120 C155,100 150,80 150,80 Z" fill="#dad0b3"/>
+                            <!-- Pot Top -->
+                            <path d="M40,80 L160,80 C160,80 150,60 100,60 C50,60 40,80 40,80 Z" fill="#ffffff"/>
+                            <!-- Handles -->
+                            <path d="M40,80 C30,80 25,90 30,100 L40,100 Z" fill="#ffffff"/>
+                            <path d="M160,80 C170,80 175,90 170,100 L160,100 Z" fill="#ffffff"/>
+                            <!-- Steam -->
+                            <path class="steam steam-1" d="M90,60 C90,40 110,50 110,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                            <path class="steam steam-2" d="M100,60 C100,45 80,40 80,25" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                            <path class="steam steam-3" d="M110,60 C110,50 120,45 125,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h1>Lezzetli Tarifleri Keşfedin</h1>
+                </div>
+
+                <p>Binlerce tarif arasından seçim yapın ve mutfağınızda harikalar yaratın</p>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Tarif ara...">
+                    <button>Şimdi Keşfet</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="kategoriler">
+        <h2>Kategoriler</h2>
+        <div class="kategori-buttons">
+          <button class="active">Tümü</button>
+          <button>Kahvaltı</button>
+          <button>Ana Yemekler</button>
+          <button>Tatlılar</button>
+          <button>Çorbalar</button>
+          <button>Salatalar</button>
+          <button>İçecekler</button>
+        </div>
+      </section>
+      
+
+      <section id="malzeme-secimi">
+        <div class="malzeme-container">
+          <h2>
+            <i id="logo" class="logo">
+              <!-- SVG Logo -->
+              <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Pot Base -->
+                <path d="M50,80 C50,80 45,100 45,120 C45,140 50,150 100,150 C150,150 155,140 155,120 C155,100 150,80 150,80 Z" fill="#244435"/>
+                <!-- Pot Top -->
+                <path d="M40,80 L160,80 C160,80 150,60 100,60 C50,60 40,80 40,80 Z" fill="#dad0b3"/>
+                <!-- Handles -->
+                <path d="M40,80 C30,80 25,90 30,100 L40,100 Z" fill="#dad0b3"/>
+                <path d="M160,80 C170,80 175,90 170,100 L160,100 Z" fill="#dad0b3"/>
+                <!-- Steam -->
+                <path class="steam steam-1" d="M90,60 C90,40 110,50 110,30" stroke="#244435" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <path class="steam steam-2" d="M100,60 C100,45 80,40 80,25" stroke="#244435" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <path class="steam steam-3" d="M110,60 C110,50 120,45 125,30" stroke="#244435" stroke-width="4" fill="none" stroke-linecap="round"/>
+              </svg>
+            </i> 
+            Elimdeki Malzemelerle Tarif Bul
+          </h2>
+          <p>Evinizdeki malzemeleri seçin, size uygun tarifleri gösterelim!</p>
+      
+          <h3>Malzemelerinizi Seçin</h3>
+          <div class="malzeme-listesi">
+            <button>🥚 Yumurta</button>
+            <button>🧀 Peynir</button>
+            <button>🥛 Süt</button>
+            <button>🍅 Domates</button>
+            <button>🧅 Soğan</button>
+            <button>🥔 Patates</button>
+            <button>🍗 Tavuk</button>
+            <button>🥩 Kıyma</button>
+            <button>🍚 Pirinç</button>
+            <button>🍝 Makarna</button>
+            <button>🧄 Sarımsak</button>
+            <button>🥕 Havuç</button>
+          </div>
+      
+          <h3>Başka Malzeme Ekle</h3>
+          <div class="malzeme-ekle">
+            <input type="text" placeholder="Malzeme adı yazın...">
+            <button class="ekle-btn">Ekle</button>
+          </div>
+      
+          <h3>Seçilen Malzemeler</h3>
+          <div class="secilen-malzeme-listesi" id="secilen-malzemeler">
+            <!-- Seçilen malzemeler buraya eklenecek -->
+          </div>
+      
+          <button class="tarif-bul-btn">🔍 Bu Malzemelerle Tarif Bul</button>
+        </div>
+      </section>
+      
+      
+
+      <section class="featured-recipes">
+        <div class="title">
+          <div class="title-top">
+            <div class="logo-animation">
+              <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Pot Base -->
+                <path d="M50,80 C50,80 45,100 45,120 C45,140 50,150 100,150 C150,150 155,140 155,120 C155,100 150,80 150,80 Z" fill="#244435"/>
+                <!-- Pot Top -->
+                <path d="M40,80 L160,80 C160,80 150,60 100,60 C50,60 40,80 40,80 Z" fill="#dad0b3"/>
+                <!-- Handles -->
+                <path d="M40,80 C30,80 25,90 30,100 L40,100 Z" fill="#dad0b3"/>
+                <path d="M160,80 C170,80 175,90 170,100 L160,100 Z" fill="#dad0b3"/>
+                <!-- Steam -->
+                <path class="steam steam-1" d="M90,60 C90,40 110,50 110,30" stroke="#244435" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <path class="steam steam-2" d="M100,60 C100,45 80,40 80,25" stroke="#244435" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <path class="steam steam-3" d="M110,60 C110,50 120,45 125,30" stroke="#244435" stroke-width="4" fill="none" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h2>Öne Çıkan Tarifler</h2>
+          </div>
+          <p>Kullanıcılarımızın en çok beğendiği tarifler</p>
+        </div>
+      
+        <div class="recipe-cards">
+            <div class="recipe-card">
+              <div class="card-top">
+                <div class="plus">+</div>
+                <div class="time-badge">30 dk</div>
+              </div>
+              <div class="card-content">
+                <span class="difficulty easy">Kolay</span>
+                <h3>Klasik Türk Kahvaltısı</h3>
+                <p>Geleneksel Türk kahvaltısı için tüm malzemeler ve hazırlama adımları.</p>
+                <div class="card-footer">
+                  <span>6 malzeme</span>
+                  <a href="#">Tarifi Gör →</a>
+                </div>
+              </div>
+              <div class="rating">⭐ 4.8</div>
+            </div>
+        
+            <div class="recipe-card">
+              <div class="card-top">
+                <div class="plus">+</div>
+                <div class="time-badge">45 dk</div>
+              </div>
+              <div class="card-content">
+                <span class="difficulty medium">Orta</span>
+                <h3>Ev Yapımı Mantı</h3>
+                <p>Geleneksel Türk mantısı için hamur ve iç harcı hazırlama adımları.</p>
+                <div class="card-footer">
+                  <span>10 malzeme</span>
+                  <a href="#">Tarifi Gör →</a>
+                </div>
+              </div>
+              <div class="rating">⭐ 4.6</div>
+            </div>
+        
+            <div class="recipe-card">
+              <div class="card-top">
+                <div class="plus">+</div>
+                <div class="time-badge">20 dk</div>
+              </div>
+              <div class="card-content">
+                <span class="difficulty easy">Kolay</span>
+                <h3>Çoban Salatası</h3>
+                <p>Taze sebzelerle hazırlanan geleneksel Türk salatası.</p>
+                <div class="card-footer">
+                  <span>5 malzeme</span>
+                  <a href="#">Tarifi Gör →</a>
+                </div>
+              </div>
+              <div class="rating">⭐ 4.9</div>
+            </div>
+          </div>
+        
+          <button class="more-btn">Daha Fazla Tarif</button>
+
+        </section>
+
+        <footer class="footer">
+          <div class="container footer-container">
+            <div class="footer-section logo-section">
+              <div class="footer-logo">
+                <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Pot Base -->
+                  <path d="M50,80 C50,80 45,100 45,120 C45,140 50,150 100,150 C150,150 155,140 155,120 C155,100 150,80 150,80 Z" fill="#dad0b3"/>
+                  <!-- Pot Top -->
+                  <path d="M40,80 L160,80 C160,80 150,60 100,60 C50,60 40,80 40,80 Z" fill="#ffffff"/>
+                  <!-- Handles -->
+                  <path d="M40,80 C30,80 25,90 30,100 L40,100 Z" fill="#ffffff"/>
+                  <path d="M160,80 C170,80 175,90 170,100 L160,100 Z" fill="#ffffff"/>
+                  <!-- Steam -->
+                  <path class="steam steam-1" d="M90,60 C90,40 110,50 110,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                  <path class="steam steam-2" d="M100,60 C100,45 80,40 80,25" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                  <path class="steam steam-3" d="M110,60 C110,50 120,45 125,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                </svg>
+                <span>RECIPIA</span>
+              </div>
+              <p class="footer-description">Mutfak tutkunları için en lezzetli tarifler ve ipuçları.</p>
+              <div class="footer-social">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+              </div>
+            </div>
+        
+            <div class="footer-section">
+              <h4>Hızlı Bağlantılar</h4>
+              <ul>
+                <li><a href="#">Ana Sayfa</a></li>
+                <li><a href="#">Kategoriler</a></li>
+                <li><a href="#">Popüler Tarifler</a></li>
+                <li><a href="#">Yeni Eklenenler</a></li>
+              </ul>
+            </div>
+        
+            <div class="footer-section">
+              <h4>Kategoriler</h4>
+              <ul>
+                <li><a href="#">Kahvaltı</a></li>
+                <li><a href="#">Ana Yemekler</a></li>
+                <li><a href="#">Tatlılar</a></li>
+                <li><a href="#">İçecekler</a></li>
+              </ul>
+            </div>
+        
+            <div class="footer-section">
+              <h4>İletişim</h4>
+              <ul>
+                <li><a href="mailto:info@recipia.com">info@recipia.com</a></li>
+                <li><a href="tel:+902121234567">+90 212 123 4567</a></li>
+              </ul>
+            </div>
+          </div>
+        
+          <div class="footer-bottom">
+            <p>© 2023 RECIPIA. Tüm hakları saklıdır.</p>
+          </div>
+        </footer>
+        
+      
+        <script src="script.js"></script>
+</body>
+</html>
