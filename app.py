@@ -9,11 +9,13 @@ from model import User
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+
     'DATABASE_URL', 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/tarifler.db'
 )
 app.config['SQLALCHEMY_BINDS'] = {
     'turk_tarifleri': os.getenv(
         'TURK_DATABASE_URL', 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/turk_tarifleri.db'
+
     )
 }
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
