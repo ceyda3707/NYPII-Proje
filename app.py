@@ -1,7 +1,10 @@
 import os
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for
 from extensions import db
 from model import YemekTarifi, TurkTarifi
+from model import User
+
+
 
 app = Flask(__name__)
 
@@ -28,6 +31,22 @@ def test_db():
             return f"Bağlantı başarılı! Yemekler: {yemek_sayisi}, Türk Tarifleri: {turk_sayisi}"
         except Exception as e:
             return f"Hata: {str(e)}"
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        # Formdan gelen verileri al
+        username = request.form['username']
+        password = request.form['password']
+
+        # Yeni kullanıcı oluştur ve veritabanına ekle
+        new_user = User(username=username, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return redirect(url_for('login'))  # Giriş sayfasına yönlendir
+    return render_template('register.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
