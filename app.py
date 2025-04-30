@@ -47,6 +47,10 @@ def register():
         return redirect(url_for('login'))  # Giriş sayfasına yönlendir
     return render_template('register.html')
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
