@@ -2,12 +2,11 @@ import requests
 import sqlite3
 import os
 
-
 # API'den veri çeken sınıf
 class APIClient:
     def __init__(self):
         self.base_url = "https://www.themealdb.com/api/json/v1/1/search.php?f={}"
-    
+
     def tum_tarifleri_getir(self):
         tum_tarifler = []
         for harf in "abcdefghijklmnopqrstuvwxyz":
@@ -25,36 +24,78 @@ class Veritabani:
         self.vt_yol = os.path.join(self.dizin, dosya_adi)
         self.conn = None
         self.cursor = None
-        self.baglanti_kontrol()  # <--- buraya taşıdık
+        self.baglanti_kontrol()
 
     def baglanti_kontrol(self):
         try:
             self.conn = sqlite3.connect(self.vt_yol)
             self.cursor = self.conn.cursor()
-            self.tablo_olustur()  # <--- buraya taşıdık
+            self.tablolar_olustur()
         except sqlite3.Error as e:
             print("Veritabanı bağlantısı sağlanamadı:", e)
-            
-       
 
-    def tablo_olustur(self):
+    def tabloları_var_mi(self):
+        self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+        return self.cursor.fetchall()
+
+    def tabloları_sil(self):
+        self.cursor.execute("DROP TABLE IF EXISTS yemek_tarifleri")
+        self.cursor.execute("DROP TABLE IF EXISTS ingredients")
+        self.cursor.execute("DROP TABLE IF EXISTS recipe_ingredients")
+        self.conn.commit()
+
+    def tablolar_olustur(self):
+        self.cursor.execute("DROP TABLE IF EXISTS yemek_tarifleri")  # Eski tabloyu sil
         self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS yemek_tarifleri (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            isim TEXT,
-            kategori TEXT,
-            bolge TEXT,
-            tarif TEXT,
-            resim_url TEXT
-        )
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        meal_id TEXT,
+        isim TEXT,
+        kategori TEXT,
+        bolge TEXT,
+        tarif TEXT,
+        resim_url TEXT
+       )
         """)
         self.conn.commit()
 
-    def veri_ekle(self, isim, kategori, bolge, tarif, resim):
-        self.cursor.execute("""
-        INSERT INTO yemek_tarifleri (isim, kategori, bolge, tarif, resim_url)
-        VALUES (?, ?, ?, ?, ?)
-        """, (isim, kategori, bolge, tarif, resim))
+
+    def tarif_ekle(self, meal_id, isim, kategori, bolge, tarif, resim):
+        try:
+            self.cursor.execute("""
+            INSERT INTO yemek_tarifleri (meal_id, isim, kategori, bolge, tarif, resim_url)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """, (meal_id, isim, kategori, bolge, tarif, resim))
+            self.conn.commit()
+        except sqlite3.IntegrityError:
+            print(f"Tarif zaten var: {isim} (ID: {meal_id})")
+
+    def malzemeleri_ekle(self, meal_id, meal_data):
+        # tarif ID'sini bul
+        self.cursor.execute("SELECT id FROM yemek_tarifleri WHERE meal_id = ?", (meal_id,))
+        result = self.cursor.fetchone()
+        if not result:
+            return
+        recipe_db_id = result[0]
+
+        for i in range(1, 21):
+            malzeme = meal_data.get(f"strIngredient{i}")
+            olcu = meal_data.get(f"strMeasure{i}")
+
+            if malzeme and malzeme.strip():
+                self.cursor.execute("SELECT id FROM ingredients WHERE name = ?", (malzeme.strip(),))
+                row = self.cursor.fetchone()
+                if row:
+                    ingredient_id = row[0]
+                else:
+                    self.cursor.execute("INSERT INTO ingredients (name) VALUES (?)", (malzeme.strip(),))
+                    ingredient_id = self.cursor.lastrowid
+
+                self.cursor.execute("""
+                INSERT INTO recipe_ingredients (recipe_id, ingredient_id, measure)
+                VALUES (?, ?, ?)
+                """, (recipe_db_id, ingredient_id, olcu.strip() if olcu else ""))
+
         self.conn.commit()
 
     def kapat(self):
@@ -69,13 +110,17 @@ class YemekServisi:
     def baslat(self):
         tarifler = self.api.tum_tarifleri_getir()
         for meal in tarifler:
+            meal_id = int(meal.get("idMeal"))
             isim = meal.get("strMeal", "")
             kategori = meal.get("strCategory", "")
             bolge = meal.get("strArea", "")
             tarif = meal.get("strInstructions", "")
             resim = meal.get("strMealThumb", "")
-            self.db.veri_ekle(isim, kategori, bolge, tarif, resim)
-        print("Tüm tarifler başarıyla kaydedildi.")
+
+            self.db.tarif_ekle(meal_id, isim, kategori, bolge, tarif, resim)
+            self.db.malzemeleri_ekle(meal_id, meal)
+
+        print("Tüm tarifler ve malzemeler başarıyla kaydedildi.")
         self.db.kapat()
 
 # Çalıştırma
