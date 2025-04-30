@@ -5,13 +5,12 @@ from model import YemekTarifi, TurkTarifi
 
 app = Flask(__name__)
 
-# Veritabanı konfigürasyonu (ortam değişkenlerinden oku)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
-    'DATABASE_URL', 'sqlite:///default_tarifler.db'
+    'DATABASE_URL', 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/tarifler.db'
 )
 app.config['SQLALCHEMY_BINDS'] = {
     'turk_tarifleri': os.getenv(
-        'TURK_DATABASE_URL', 'sqlite:///default_turk_tarifleri.db'
+        'TURK_DATABASE_URL', 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/turk_tarifleri.db'
     )
 }
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
