@@ -1,0 +1,529 @@
+/* Sayfa genel arka planı */
+body {
+    margin: 0;
+    padding: 20px 0; /* Üst ve alt boşluğu padding ile veriyoruz */
+    background-color: #7c7c7d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container (Dikdörtgenin dış kutusu) */
+
+.container {
+    width: 67.5%;
+    height: 1050px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* İçerik kutusu (Dikdörtgen) */
+.inner-box {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px; /* Genel köşe yuvarlama */
+    overflow: hidden; /* İçerik taşmasını engeller */
+}
+
+/* Sol taraf */
+.inner-box .left {
+    background-color: #1a2b47; /* Sol tarafın rengi */
+    width: 41.66%; /* Sol tarafın genişliği */
+    height: 100%;
+}
+
+/* Sağ taraf (daraltılmış ve eşit boşluklar) */
+.inner-box .right {
+    background-color: white; /* Sağ tarafın rengi */
+    width: 58.34%; /* Sağ tarafı daha dar yapıyoruz */
+    height: 100%;
+    border-top-right-radius: 20px; /* Sağ üst köşe yuvarlama */
+    border-bottom-right-radius: 20px; /* Sağ alt köşe yuvarlama */
+}
+
+.left {
+    background-color: #1a2b47;
+    width: 35%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Logo ve yazıyı yatay hizala */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0 0 20px; /* üstten ve soldan boşluk */
+}
+
+/* Logo yazısı */
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    font-family: 'Poppins', sans-serif; /* Varsa senin fontun */
+}
+
+/* SVG içindeki buhar çizgilerine animasyon */
+.steam {
+    opacity: 0;
+    animation: steamRise 3s infinite;
+  }
+  
+  .steam-1 {
+    animation-delay: 0s;
+  }
+  .steam-2 {
+    animation-delay: 0.5s;
+  }
+  .steam-3 {
+    animation-delay: 1s;
+  }
+  
+  @keyframes steamRise {
+    0% {
+      opacity: 0;
+      transform: translateY(0px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+
+/* Aramıza Katılın yazısı */
+.register-text {
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+    margin-top: 240px;  /* Hoş Geldiniz yazısını logonun altına yerleştirir */
+    margin-bottom: 15px; /* Aşağıdan boşluk */
+    margin-left: 30px;
+}  
+
+/* Açıklama metni */
+.description-text {
+    font-size: 18px;
+    color: #dad0b3;
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0px; /* Yukarıdan boşluk */
+    margin-bottom: 10px; /* Aşağıdan boşluk */
+    margin-left: 30px;
+    max-width: 400px; /* Satırların çok uzun olmaması için genişliği sınırlayalım */
+    line-height: 1.5; /* Satır arası boşluğu artırır (varsayılan genelde 1.4'tür) */
+}
+
+.security-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px; /* Üstteki yazıyla aradaki boşluk */
+    margin-left: 30px; /* Soldan boşluk */
+}
+  
+.security-text {
+    font-size: 14px;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    opacity: 0.8; /* Yazının opaklığı */
+}
+  
+.icon svg {
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+.right .sign-up-title {
+    font-family: 'Montserrat', sans-serif; /* İstenilen font */
+    font-size: 24px; /* Başlık boyutu */
+    font-weight: 700; /* Başlık kalınlığı */
+    color: #1a2b47; /* Başlık rengi */
+    margin-top: 49px; /* Üstten biraz boşluk */
+    margin-left: 50px; /* Soldan biraz boşluk */
+    margin-bottom: 0px; /* Aşağıdan boşluk */
+}
+
+.right .sub-description {
+    font-family: 'Montserrat', sans-serif; /* Aynı font */
+    font-size: 16px; /* Alt yazı boyutu */
+    font-weight: 400; /* Alt yazı kalınlığı */
+    color: #7c7c7d; /* Açık gri renk */
+    line-height: 1.4; /* Satır yüksekliği */
+    margin-left: 50px; /* Soldan biraz boşluk */
+    transform: translateY(-5px); /* Yukarı kaydırma */
+}
+
+.right .name-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1a2b47;
+    margin-top: 37px;
+    margin-bottom: 10px; /* Aşağıdan boşluk */
+    margin-left: 50px; /* Soldan biraz boşluk */
+    display: block;
+}
+
+.right .email-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1a2b47;
+    margin-top: 37px;
+    margin-bottom: 10px; /* Aşağıdan boşluk */
+    margin-left: 50px; /* Soldan biraz boşluk */
+    display: block;
+}
+
+.input-container {
+    position: relative;
+    width: 500px;
+    margin-left: 49px; /* input ve icon birlikte kayar */
+}
+
+.name-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateX(1px) translateY(-10px); /* İkonu dikey ortalar */
+    opacity: 0.8;
+    pointer-events: none;
+    color: #616060; 
+}
+
+.input-field-n {
+    width: 452px; 
+    height: 55px;
+    border: 1px solid #dad0b3; /* Bej rengi kenarlık */
+    border-radius: 8px; /* Köşe yuvarlaklığı */
+    font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+    font-size: 16px;
+    color: #7c7c7d; /* Yazı rengi */
+    background-color: rgba(255, 255, 255, 0.9); /* Hafif şeffaf beyaz */
+    transition: all 0.3s ease; /* Geçiş efekti */
+    padding-left: 45px; /* İkonun sığması için boşluk */
+}
+
+.input-container-n {
+    position: relative;
+    width: 500px;
+    margin-left: 49px; /* input ve icon birlikte kayar */
+    margin-top: 5px; /* Yukarıdan boşluk */
+}
+
+.email-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateX(1px) translateY(-10px); /* İkonu dikey ortalar */
+    opacity: 0.8;
+    pointer-events: none;
+    color: #616060; 
+}
+  
+.input-field {
+    width: 452px; 
+    height: 55px;
+    border: 1px solid #dad0b3; /* Bej rengi kenarlık */
+    border-radius: 8px; /* Köşe yuvarlaklığı */
+    font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+    font-size: 16px;
+    color: #7c7c7d; /* Yazı rengi */
+    background-color: rgba(255, 255, 255, 0.9); /* Hafif şeffaf beyaz */
+    transition: all 0.3s ease; /* Geçiş efekti */
+    padding-left: 45px; /* İkonun sığması için boşluk */
+}
+  
+  
+  /* Odaklandığında kenarlık rengi ve gölge efekti */
+.input-field:focus {
+    border-color: #cc7548; /* Turuncu kenarlık */
+    box-shadow: 0 0 0 3px rgba(204, 117, 72, 0.2); /* Turuncu gölge */
+    background-color: #ffffff; /* Beyaz arka plan */
+}
+  
+  /* Placeholder metni stili */
+.input-field::placeholder {
+    color: #7c7c7d; /* Placeholder rengi */
+}
+  
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 0px; /* Soldan boşluk */
+    transform: translateY(-12px); /* Yukarı kaydırma */
+}
+  
+.forgot-password {
+    font-size: 14px;
+    color: #cc7548;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    opacity: 0.9;
+    transition: color 0.3s ease;
+    margin-right: 51px; /* Sağdan boşluk */
+    transform: translateY(15px);
+}
+  
+.forgot-password:hover {
+    color: #a95132;
+    text-decoration: underline;
+}
+  
+
+.password-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateX(1px) translateY(-10px); /* İkonu dikey ortalar */
+  opacity: 0.8;
+  pointer-events: none;
+  color: #616060;
+}
+
+.input-field-p {
+  width: 452px; 
+  height: 55px;
+  border: 1px solid #dad0b3; /* Bej rengi kenarlık */
+  border-radius: 8px; /* Köşe yuvarlaklığı */
+  font-family: 'Montserrat', sans-serif;  /* Yazı tipi */
+  font-size: 24px;
+  color: #7c7c7d; /* Yazı rengi */
+  background-color: rgba(255, 255, 255, 0.9); /* Hafif şeffaf beyaz */
+  transition: all 0.3s ease; /* Geçiş efekti */
+  padding-left: 45px; /* İkonun sığması için boşluk */
+}
+
+.input-field-p.big-font {
+    font-size: 16px;
+}
+
+.input-container-p {
+  position: relative;
+  width: 500px;
+  margin-left: 49px; /* input ve icon birlikte kayar */
+  margin-top: 5px; /* Yukarıdan boşluk */
+}
+
+.input-field-c {
+    width: 452px; 
+    height: 55px;
+    border: 1px solid #dad0b3; /* Bej rengi kenarlık */
+    border-radius: 8px; /* Köşe yuvarlaklığı */
+    font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+    font-size: 24px;
+    color: #7c7c7d; /* Yazı rengi */
+    background-color: rgba(255, 255, 255, 0.9); /* Hafif şeffaf beyaz */
+    transition: all 0.3s ease; /* Geçiş efekti */
+    padding-left: 45px; /* İkonun sığması için boşluk */
+}
+
+.input-container-c {
+    position: relative;
+    width: 500px;
+    margin-left: 49px; /* input ve icon birlikte kayar */
+    margin-top: 5px; /* Yukarıdan boşluk */
+  }
+  
+.remember-container {
+  display: flex;
+  align-items: center;
+  margin-left: 46px;
+  margin-top: 20px;
+  gap: 8px;
+}
+
+.remember-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #cc7548; /* Modern tarayıcılarda checkbox rengi */
+  cursor: pointer;
+  transform: translateY(-7px); /* Yukarı kaydırma */
+}
+
+.remember-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #7c7c7d;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Giriş Yap Butonu */
+.login-button {
+  width: 500px; 
+  height: 57px;
+  background: linear-gradient(to right, #cc7548, #d68a63); /* Turuncu gradyan */
+  color: white; /* Yazı rengi beyaz */
+  font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+  font-size: 16px; /* Yazı boyutu */
+  font-weight: 700; /* Yazı kalınlığı */
+  border: none; /* Kenarlık yok */
+  border-radius: 8px; /* Köşe yuvarlama */
+  box-shadow: 0 4px 10px rgba(204, 117, 72, 0.3); /* Gölge */
+  cursor: pointer; /* Farenin üzerine gelince el işareti */
+  transition: all 0.3s ease; /* Geçiş efekti */
+  display: flex; /* Flexbox kullanarak içerik düzeni */
+  justify-content: center; /* Yatayda ortalama */
+  align-items: center; /* Dikeyde ortalama */
+  margin-left: 49px; /* input ve icon birlikte kayar */
+  margin-top: 33px; /* Yukarıdan boşluk */
+}
+
+/* Hover Durumu */
+.login-button:hover {
+  transform: translateY(-2px); /* 2px yukarı kaydırma */
+  box-shadow: 0 6px 15px rgba(204, 117, 72, 0.4); /* Daha belirgin gölge */
+}
+
+/* Kapsayıcı Div */
+.continue-wrapper {
+  margin-top: 3rem; /* Üstten boşluk */
+  position: relative; /* Göreceli konumlandırma */
+}
+
+/* Yatay Çizgi */
+.divider {
+  position: absolute; /* Kapsayıcıyı tamamen kaplar */
+  inset: 0; /* Tüm kenarlara sıfır */
+  display: flex;
+  align-items: center; /* Yatayda ortalama */
+  justify-content: center; /* Yatayda ortalama */
+}
+
+.divider:before {
+  content: '';
+  width: 80%; /* Tam genişlik */
+  border-top: 1px solid #dad0b3; /* Bej renkli çizgi */
+  position: absolute; /* Çizgiyi konumlandır */
+  top: 50%; /* Çizgiyi ortala */
+  transform: translateY(-50%); /* Dikeyde ortala */
+}
+
+/* Metin Kapsayıcı */
+.text-wrapper {
+  position: relative; /* Göreceli konumlandırma */
+  display: flex;
+  justify-content: center; /* Yatayda ortala */
+  font-size: 0.875rem; /* 14px */
+  z-index: 1; /* Çizginin üzerinde görünmesi için */
+}
+
+/* "Veya Şununla Devam Et" Metni */
+.text-content {
+  background-color: white; /* Beyaz arka plan */
+  padding-left: 1rem; /* Sol boşluk */
+  padding-right: 1rem; /* Sağ boşluk */
+  color: #7c7c7d; /* Gri renk */
+  font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+}
+
+.social-buttons {
+  display: flex;
+  gap: 0px;
+  margin-top: 24px;
+}
+
+.social-btn {
+  height: 50px; /* Buton yüksekliği */
+  width: 230px; /* Buton genişliği */
+  border: 1px solid #dad0b3; /* Bej rengi kenarlık */
+  border-radius: 8px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 4px rgba(0,0,0,0.05);
+  margin-top: 30px;
+  margin-left: 10pz;
+  padding: 0;
+}
+
+.social-btn:first-child {
+  margin-right: 0px;
+  margin-left: 60px;
+}
+
+.social-btn:last-child {
+  margin-left: 20px;
+}
+
+.social-btn:hover {
+  transform: translateY(-2px);  /* Hoverda 2px yukarı hareket */
+  background-color: rgba(245, 229, 181, 0.2);  /* Hoverda bej rengi, %20 opaklık */
+  box-shadow: 0 6px 15px rgba(245, 229, 181, 0.2); /* Daha belirgin gölge */
+}
+
+.social-btn .icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 30px;  /* İkon ile yazı arasındaki boşluk */
+}
+
+/* Üye Ol yazısı için genel stil */
+.sign-up-section {
+  text-align: center; /* Yazıyı ortalar */
+  transform: translateY(30px);
+}
+
+.sign-up-text {
+  font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+  font-size: 16px; /* Yazı boyutu */
+  color: #7c7c7d; /* Gri renk */
+}
+
+.sign-up-link {
+  font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+  font-size: 14px;
+  font-weight: bold; /* Kalın yazı */
+  color: #cc7548; /* Turuncu renk */
+  text-decoration: none; /* Alt çizgi kaldır */
+}
+
+.sign-up-link:hover {
+  color: #d68a63; /* Hover rengi */
+}
+
+.gri-cizgi {
+    width: 500px; /* Çizginin genişliği */
+    border: none; /* Kenarlık yok */
+    border-radius: 2px;
+    height: 4px;
+    background-color: #e7e7e7; /* açık gri */
+    margin-left: 49px;
+}
+
+.password-text {
+    font-family: 'Montserrat', sans-serif; /* Yazı tipi */
+    font-size: 12px; /* Yazı boyutu */
+    font-weight: 400; /* Yazı kalınlığı */
+    color: #7c7c7d; /* Gri renk */
+    margin-left: 50px; /* Soldan boşluk */
+    margin-top: 10px; /* Yukarıdan boşluk */
+    transform: translateY(-5px); /* Yukarı kaydırma */
+}
+
+#togglePassword {
+    color: #7c7c7d; /* Göz simgesinin rengi */
+    position: absolute;
+    right: 10px;  /* Göz simgesini sağa hizala */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+  
