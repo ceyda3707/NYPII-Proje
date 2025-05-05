@@ -147,6 +147,7 @@
       
           <button class="tarif-bul-btn">🔍 Bu Malzemelerle Tarif Bul</button>
         </div>
+        <script src="{{ url_for('static', filename='/script.js') }}"></script>
       </section>
       
       
@@ -175,61 +176,28 @@
         </div>
       
         <div class="recipe-cards">
-            <div class="recipe-card">
-              <div class="card-top">
-                <div class="plus">+</div>
-                <div class="time-badge">30 dk</div>
-              </div>
-              <div class="card-content">
-                <span class="difficulty easy">Kolay</span>
-                <h3>Klasik Türk Kahvaltısı</h3>
-                <p>Geleneksel Türk kahvaltısı için tüm malzemeler ve hazırlama adımları.</p>
-                <div class="card-footer">
-                  <span>6 malzeme</span>
-                  <a href="#">Tarifi Gör →</a>
-                </div>
-              </div>
-              <div class="rating">⭐ 4.8</div>
+          {% for tarif in tarifler %}
+          <div class="recipe-card">
+            <div class="card-top">
+              <img src="{{ tarif[6] or '/static/placeholder.jpg' }}" alt="{{ tarif[1] }}" style="width:100%; height:150px; object-fit:cover;">
+              <div class="plus">+</div>
+              <div class="time-badge">30 dk</div>
             </div>
-        
-            <div class="recipe-card">
-              <div class="card-top">
-                <div class="plus">+</div>
-                <div class="time-badge">45 dk</div>
+            <div class="card-content">
+              <span class="difficulty">{{ tarif[2] }}</span>
+              <h3>{{ tarif[1] }}</h3>
+              <p>{{ tarif[4].split(',')|length }} malzeme</p>
+              <div class="card-footer">
+                <span>{{ tarif[3] }}</span>
+                <a href="{{ url_for('tarif_detay', tarif_id=tarif[0]) }}">Tarifi Gör →</a>
               </div>
-              <div class="card-content">
-                <span class="difficulty medium">Orta</span>
-                <h3>Ev Yapımı Mantı</h3>
-                <p>Geleneksel Türk mantısı için hamur ve iç harcı hazırlama adımları.</p>
-                <div class="card-footer">
-                  <span>10 malzeme</span>
-                  <a href="#">Tarifi Gör →</a>
-                </div>
-              </div>
-              <div class="rating">⭐ 4.6</div>
             </div>
-        
-            <div class="recipe-card">
-              <div class="card-top">
-                <div class="plus">+</div>
-                <div class="time-badge">20 dk</div>
-              </div>
-              <div class="card-content">
-                <span class="difficulty easy">Kolay</span>
-                <h3>Çoban Salatası</h3>
-                <p>Taze sebzelerle hazırlanan geleneksel Türk salatası.</p>
-                <div class="card-footer">
-                  <span>5 malzeme</span>
-                  <a href="#">Tarifi Gör →</a>
-                </div>
-              </div>
-              <div class="rating">⭐ 4.9</div>
-            </div>
+            <div class="rating">⭐ 4.8</div>
           </div>
-        
-          <button class="more-btn">Daha Fazla Tarif</button>
-
-        </section>
+          {% endfor %}
+        </div>
+        <button class="more-btn">Daha Fazla Tarif</button>
+      </section>
 
         <footer class="footer">
           <div class="container footer-container">

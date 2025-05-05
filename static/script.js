@@ -198,3 +198,11 @@ function malzemeEkle(malzemeAdi, emoji = "") {
         secilenListesi.appendChild(secilen);
     }
 }
+
+document.getElementById('yumurta').addEventListener('click', function() {
+    alert('Yumurta seçildi!');
+});
+
+document.getElementById('peynir').addEventListener('click', function() {
+    alert('Peynir seçildi!');
+});

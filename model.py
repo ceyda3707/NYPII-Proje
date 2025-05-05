@@ -23,6 +23,14 @@ class TurkTarifi(db.Model):
     tarif = db.Column(db.Text)
     resim_url = db.Column(db.Text)
 
+class Tarif(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    isim = db.Column(db.String(100))  # tarifin adı
+    yapilis = db.Column(db.Text)
+    zorluk = db.Column(db.String(20))  # örnek: 'Kolay'
+    sure = db.Column(db.String(10))   # örnek: '30 dk'
+    malzeme_sayisi = db.Column(db.Integer)
+    resim_url = db.Column(db.String(255))  # görsel için
 
 
 class User(db.Model):
