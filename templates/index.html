@@ -162,6 +162,18 @@
       
 
       <section class="featured-recipes">
+        <!-- Ana sayfada (featured-recipes bölümüne ekleyin) -->
+  <div class="diet-filters">
+    <a href="{{ url_for('filtreli_tarifler', etiket='vegan') }}" class="diet-filter vegan">
+        <i class="fas fa-leaf"></i> Vegan
+    </a>
+    <a href="{{ url_for('filtreli_tarifler', etiket='vejetaryen') }}" class="diet-filter vegetarian">
+        <i class="fas fa-carrot"></i> Vejetaryen
+    </a>
+   <a href="{{ url_for('filtreli_tarifler', etiket='laktozsuz') }}" class="diet-filter lactose-free">
+        <i class="fas fa-cheese"></i> Laktozsuz
+    </a>
+  </div>
         <div class="title">
           <div class="title-top">
             <div class="logo-animation">

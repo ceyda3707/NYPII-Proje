@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Recipia - Lezzetli Tarifler{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <a href="{{ url_for('index') }}">
+                    <svg width="50" height="50" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50,80 C50,80 45,100 45,120 C45,140 50,150 100,150 C150,150 155,140 155,120 C155,100 150,80 150,80 Z" fill="#dad0b3"/>
+                        <path d="M40,80 L160,80 C160,80 150,60 100,60 C50,60 40,80 40,80 Z" fill="#ffffff"/>
+                        <path d="M40,80 C30,80 25,90 30,100 L40,100 Z" fill="#ffffff"/>
+                        <path d="M160,80 C170,80 175,90 170,100 L160,100 Z" fill="#ffffff"/>
+                        <path class="steam steam-1" d="M90,60 C90,40 110,50 110,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <path class="steam steam-2" d="M100,60 C100,45 80,40 80,25" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <path class="steam steam-3" d="M110,60 C110,50 120,45 125,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <span>RECIPIA</span>
+                </a>
+            </div>
+            
+            <nav class="site-nav">
+                <ul>
+                    <li><a href="{{ url_for('index') }}" {% if request.path == url_for('index') %}class="active"{% endif %}>Ana Sayfa</a></li>
+                    <li><a href="{{ url_for('tarifler') }}" {% if request.path == url_for('tarifler') %}class="active"{% endif %}>Tüm Tarifler</a></li>
+                    <li><a href="{{ url_for('kategoriler') }}" {% if request.path == url_for('kategoriler') %}class="active"{% endif %}>Kategoriler</a></li>
+                    
+                </ul>
+            </nav>
+            
+            <div class="auth-buttons">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('profil') }}" class="profile-btn"><i class="fas fa-user-circle"></i> Profil</a>
+                    <a href="{{ url_for('cikis') }}" class="logout-btn">Çıkış Yap</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="login-btn">Giriş Yap</a>
+                    <a href="{{ url_for('register') }}" class="signup-btn">Üye Ol</a>
+                {% endif %}
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Diet Filters (Tüm sayfalarda gösterilebilir) -->
+    {% block diet_filters %}
+    <div class="diet-filters">
+        <div class="container">
+            <a href="{{ url_for('filtreli_tarifler', etiket='vegan') }}" class="diet-filter vegan {% if request.path == url_for('filtreli_tarifler', etiket='vegan') %}active{% endif %}">
+                <i class="fas fa-leaf"></i> Vegan
+            </a>
+            <a href="{{ url_for('filtreli_tarifler', etiket='vejetaryen') }}" class="diet-filter vegetarian {% if request.path == url_for('filtreli_tarifler', etiket='vejetaryen') %}active{% endif %}">
+                <i class="fas fa-carrot"></i> Vejetaryen
+            </a>
+            <a href="{{ url_for('filtreli_tarifler', etiket='laktozsuz') }}" class="diet-filter lactose-free {% if request.path == url_for('filtreli_tarifler', etiket='laktozsuz') %}active{% endif %}">
+                <i class="fas fa-cheese"></i> Laktozsuz
+            </a>
+        </div>
+    </div>
+    {% endblock %}
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section logo-section">
+                <div class="footer-logo">
+                    <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50,80 C50,80 45,100 45,120 C45,140 50,150 100,150 C150,150 155,140 155,120 C155,100 150,80 150,80 Z" fill="#dad0b3"/>
+                        <path d="M40,80 L160,80 C160,80 150,60 100,60 C50,60 40,80 40,80 Z" fill="#ffffff"/>
+                        <path d="M40,80 C30,80 25,90 30,100 L40,100 Z" fill="#ffffff"/>
+                        <path d="M160,80 C170,80 175,90 170,100 L160,100 Z" fill="#ffffff"/>
+                        <path class="steam steam-1" d="M90,60 C90,40 110,50 110,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <path class="steam steam-2" d="M100,60 C100,45 80,40 80,25" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <path class="steam steam-3" d="M110,60 C110,50 120,45 125,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <span>RECIPIA</span>
+                </div>
+                <p class="footer-description">Mutfak tutkunları için en lezzetli tarifler ve ipuçları.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Hızlı Bağlantılar</h4>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Ana Sayfa</a></li>
+                    <li><a href="{{ url_for('tarifler') }}">Tüm Tarifler</a></li>
+
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Kategoriler</h4>
+                <ul>
+                    <li><a href="{{ url_for('kategoriler', kategoriler='Meze') }}">Meze</a></li>
+                    <li><a href="{{ url_for('kategoriler', kategoriler='Çorba') }}">Çorba</a></li>
+                    <li><a href="{{ url_for('kategoriler', kategoriler='Salata') }}">Salata</a></li>
+                    <li><a href="{{ url_for('kategoriler', kategoriler='Tatlı') }}">Tatlı </a></li>
+                    <li><a href="{{ url_for('kategoriler', kategoriler='Ana-Yemek') }}">Ana Yemekler</a></li>  
+                    <li><a href="{{ url_for('kategoriler', kategoriler='icecek') }}">İçecekler</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>İletişim</h4>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:info@recipia.com">info@recipia.com</a></li>
+                    <li><i class="fas fa-phone"></i> <a href="tel:+902121234567">+90 212 123 4567</a></li>
+                    <li><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</li>
+                </ul>
+            </div>
+        </div>
+        
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

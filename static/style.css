@@ -184,7 +184,44 @@ body {
     text-align: left; /* Yazıyı sola yaslar */
     white-space: pre-wrap; /* Satır sonlarını korur ve kelime kırılmasına izin verir */
 }
+/* Diyet filtre butonları */
+.diet-filters {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
+.diet-filter {
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.diet-filter:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.diet-filter.vegan {
+  background-color: #4CAF50;
+}
+
+.diet-filter.vegetarian {
+  background-color: #8BC34A;
+}
+
+.diet-filter.lactose-free {
+  background-color: #FFC107;
+  color: #333;
+}
 /* Search Bar */
 .search-bar {
     display: flex;
@@ -733,7 +770,7 @@ body {
 }
 
 .footer-social a:hover {
-  color: #38bdf8;
+  color: #ffffff;
 }
 
 .footer-section h4 {

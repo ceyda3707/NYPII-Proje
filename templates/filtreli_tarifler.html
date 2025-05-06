@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="filtered-recipes-container">
+    <h1 class="filter-header">{{ sayfa_basligi }}</h1>
+    <p class="filter-description">{{ etiket.capitalize() }} beslenme tarzına uygun {{ tarifler|length }} tarif bulundu.</p>
+    
+    <div class="recipe-cards">
+        {% for tarif in tarifler %}
+        <div class="recipe-card">
+            <div class="card-top">
+                <img src="{{ tarif['resim_url'] or '/static/placeholder.jpg' }}" alt="{{ tarif['isim'] }}">
+                <div class="diet-badges">
+                    {% for etiket in tarif['etiketler'] %}
+                    <span class="diet-badge {{ etiket }}">{{ etiket }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card-content">
+                <h3>{{ tarif['isim'] }}</h3>
+                <p>{{ tarif['malzemeler'].split(',')|length }} malzeme</p>
+                <a href="{{ url_for('tarif_detay', tarif_id=tarif['id']) }}" class="view-recipe-btn">
+                    Tarifi Gör <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 
