@@ -207,7 +207,11 @@ document.getElementById('tarif-bul-btn').addEventListener('click', function() {
 
     // Seçilen malzemeleri alalım
     const secilenMalzemeler = document.querySelectorAll('#secilen-malzemeler .secilen span');
-    const malzemeler = Array.from(secilenMalzemeler).map(malzeme => malzeme.innerText);
+    const malzemeler = Array.from(secilenMalzemeler).map(malzeme => {
+        // Sadece yazı kısmını al (emojileri çıkar, trimle)
+        return malzeme.innerText.replace(/^[^\w\s]+/, '').trim();
+    });
+    
 
 
      // Yeni paneli ve listeyi seçiyoruz (önemli!)
@@ -225,26 +229,27 @@ document.getElementById('tarif-bul-btn').addEventListener('click', function() {
         .then(tarifler => {
             console.log("Gelen tarifler:", tarifler);
             // Tarifleri listele
-            const tarifListesi = document.getElementById('filtreli-tarifler');
+            const tarifListesi = document.getElementById('tarif-listesi');
             tarifListesi.innerHTML = ''; // Önceki tarifleri temizle
 
             tarifler.forEach(tarif => {
                 const tarifCard = document.createElement('div');
                 tarifCard.classList.add('tarif-card');
                 tarifCard.innerHTML = `
-                    <div class="card-header">
-                        <img src="${tarif.resim}" alt="${tarif.isim}">
-                        <div class="time">${tarif.sure}</div>
+                   <div class="card-header">
+                        <img src="${tarif.resim_url}" alt="${tarif.isim}">
+                        <div class="time">30 dk</div>
                     </div>
                     <div class="card-content">
                         <h3>${tarif.isim}</h3>
-                        <p>${tarif.aciklama}</p>
-                        <div class="difficulty">${tarif.zorluk}</div>
+                        <p>${tarif.tarif}</p>
+                        <div class="difficulty">Orta</div>
                         <button class="tarif-link">Tarifi Gör</button>
                     </div>
                 `;
                 tarifListesi.appendChild(tarifCard);
             });
+            
 
             // Tarifler bölmesini göster
             document.getElementById('tarifler').style.display = 'block';
