@@ -1,12 +1,14 @@
 import sqlite3
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from extensions import db
-from model import YemekTarifi, TurkTarifi
-from model import User
+from model import YemekTarifi, TurkTarifi, Tarif, Malzeme, TarifMalzeme, User
+from flask_migrate import Migrate
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 
+
+#SQLALCHEMY_BINDS, farklı veritabanlarına bağlanmak için kullanılan bir parametredir.
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
     'DATABASE_URL', 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/tarifler.db'
 )
@@ -17,7 +19,7 @@ app.config['SQLALCHEMY_BINDS'] = {
 }
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db.init_app(app)
+db.init_app(app)#Bu satırda, SQLAlchemy'yi Flask uygulamanıza entegre ediyorsunuz. Bu bağlantı, db objesinin Flask'a entegre edilmesini sağlar.
 
 # Veritabanı bağlantı test route'u
 @app.route('/test')
@@ -71,6 +73,62 @@ def tarif_detay(tarif_id):
         return "Tarif bulunamadı", 404
 
     return render_template("tarif_detay.html", tarif=tarif)
+
+
+def get_db_connection():
+    # Burada tam yolunu yazıyoruz
+    conn = sqlite3.connect('C:/Users/ozget/Desktop/nyp_proje/NYPII-Proje/malzemeler.db')
+    conn.row_factory = sqlite3.Row  # Satırları dictionary olarak almak için
+    return conn
+
+
+def get_all_malzemeler():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Tüm malzemeleri alıyoruz
+    cursor.execute('SELECT * FROM malzemeler')
+    malzemeler_data = cursor.fetchall()
+    conn.close()
+
+    return malzemeler_data
+
+@app.route('/test', methods=['GET'])
+def test():
+    malzemeler = get_all_malzemeler()
+    return jsonify([dict(malzeme) for malzeme in malzemeler])
+
+
+
+@app.route('/api/tarifler', methods=['GET'])
+def get_tarifler():
+    # URL'den malzemeleri alıyoruz
+    malzemeler = request.args.get('malzemeler')
+
+    # Eğer malzemeler eksikse, hata mesajı döndürüyoruz
+    if not malzemeler:
+        return jsonify({"error": "Malzemeler eksik"}), 400
+
+    # Malzemeleri virgülle ayırıyoruz
+    malzemeler_listesi = malzemeler.split(',')
+
+    # LIKE sorgusunu her malzeme için dinamik olarak oluşturuyoruz
+    placeholders = ' OR '.join([f"isim LIKE ?" for _ in malzemeler_listesi])
+    query = f"SELECT * FROM malzemeler WHERE {placeholders}"
+
+    # Veritabanına bağlanıyoruz
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Her bir malzeme için LIKE parametrelerini hazırlıyoruz ve % işareti ekliyoruz
+    #cursor.execute(query, [f"%{m}%" for m in malzemeler_listesi])
+
+    # Sonuçları alıyoruz
+    malzemeler_data = cursor.fetchall()
+    conn.close()
+
+    # Verileri JSON formatında döndürüyoruz
+    return jsonify([dict(malzeme) for malzeme in malzemeler_data])
 
 if __name__ == '__main__':
     app.run(debug=True)

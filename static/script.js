@@ -199,10 +199,58 @@ function malzemeEkle(malzemeAdi, emoji = "") {
     }
 }
 
-document.getElementById('yumurta').addEventListener('click', function() {
-    alert('Yumurta seçildi!');
-});
 
-document.getElementById('peynir').addEventListener('click', function() {
-    alert('Peynir seçildi!');
+
+document.getElementById('tarif-bul-btn').addEventListener('click', function() {
+    
+    console.log("!!!!!!!!!!Butona tıklandı!");
+
+    // Seçilen malzemeleri alalım
+    const secilenMalzemeler = document.querySelectorAll('#secilen-malzemeler .secilen span');
+    const malzemeler = Array.from(secilenMalzemeler).map(malzeme => malzeme.innerText);
+
+
+     // Yeni paneli ve listeyi seçiyoruz (önemli!)
+     const panel = document.getElementById("tarifler");
+     const tarifListesi = document.getElementById("tarif-listesi");
+
+     // Paneli görünür yap ve eski sonuçları temizle
+    panel.style.display = "block";
+    tarifListesi.innerHTML = "";
+
+
+    // Bu malzemelere uygun tarifleri alalım (burada API kullanabilirsiniz)
+    fetch(`/api/tarifler?malzemeler=${malzemeler.join(',')}`)
+        .then(response => response.json())
+        .then(tarifler => {
+            console.log("Gelen tarifler:", tarifler);
+            // Tarifleri listele
+            const tarifListesi = document.getElementById('filtreli-tarifler');
+            tarifListesi.innerHTML = ''; // Önceki tarifleri temizle
+
+            tarifler.forEach(tarif => {
+                const tarifCard = document.createElement('div');
+                tarifCard.classList.add('tarif-card');
+                tarifCard.innerHTML = `
+                    <div class="card-header">
+                        <img src="${tarif.resim}" alt="${tarif.isim}">
+                        <div class="time">${tarif.sure}</div>
+                    </div>
+                    <div class="card-content">
+                        <h3>${tarif.isim}</h3>
+                        <p>${tarif.aciklama}</p>
+                        <div class="difficulty">${tarif.zorluk}</div>
+                        <button class="tarif-link">Tarifi Gör</button>
+                    </div>
+                `;
+                tarifListesi.appendChild(tarifCard);
+            });
+
+            // Tarifler bölmesini göster
+            document.getElementById('tarifler').style.display = 'block';
+            document.getElementById('more-tarifler-btn').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Hata:', error);
+        });
 });
