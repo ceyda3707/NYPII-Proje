@@ -1,28 +1,12 @@
-<<<<<<< HEAD
-{% extends 'base.html' %}
-
-{% block content %}
-  <h2>Giriş Yap</h2>
-  <form method="POST">
-    <label for="username">Kullanıcı Adı:</label>
-    <input type="text" id="username" name="username" required><br><br>
-
-    <label for="password">Şifre:</label>
-    <input type="password" id="password" name="password" required><br><br>
-
-    <button type="submit">Giriş Yap</button>
-  </form>
-{% endblock %}
-=======
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giriş Sayfası</title>
+    <title>Üye Ol Sayfası</title>
     <!-- head etiketinin içine -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="register.css">
 </head>
 <body>
     <div class="container">
@@ -47,11 +31,11 @@
                     </svg>
                     <span class="logo-text">RECIPIA</span>
                   </div>
-                <h1 class="welcome-text">Hoş Geldiniz</h1>
+                <h1 class="register-text">Aramıza Katılın</h1>
                 <p class="description-text">
-                    Hesabınıza giriş yaparak <br>
-                    kişiselleştirilmiş deneyiminize <br>
-                    devam edin.
+                    Üye olarak özel avantajlardan ve<br>
+                    kişiselleştirilmiş deneyimlerden<br>
+                    yararlanın.
                 </p>
                 <!-- Güvenlik Bilgisi ve İkon -->
                 <div class="security-info">
@@ -68,8 +52,17 @@
             </div>
             <!-- Sağ taraf -->
             <div class="right">
-                <h1 class="login-title">Giriş Yap</h1>
-                <p class="sub-description">Hesabınıza erişmek için bilgilerinizi girin</p>
+                <h1 class="sign-up-title">Üye Ol</h1>
+                <p class="sub-description">Hesabınızı oluşturmak için bilgilerinizi girin</p>
+
+                <!-- Ad Soyad -->
+                <label for="name" class="name-label">Ad Soyad</label>
+                <div class="input-container-n">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="name-icon">
+                        <path d="M16 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm0-12c-2.757 0-5 2.243-5 5s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5zM23.942 32H8.058A4.062 4.062 0 0 1 4 27.942c0-6.616 5.383-12 12-12s12 5.384 12 12A4.062 4.062 0 0 1 23.942 32zM16 17.942c-5.514 0-10 4.486-10 10A2.06 2.06 0 0 0 8.058 30h15.884A2.06 2.06 0 0 0 26 27.942c0-5.514-4.486-10-10-10z"/>
+                    </svg>                    
+                    <input type="text" id="name" class="input-field-n w-full pl-12 pr-4 py-4 rounded-lg focus:outline-none" placeholder="Adınız Soyadınız" />
+                </div>
 
                 <!-- E-Posta Adresi -->
                 <label for="email" class="email-label">E-posta Adresi</label>
@@ -81,28 +74,46 @@
                     <input type="email" id="email" class="input-field w-full pl-12 pr-4 py-4 rounded-lg focus:outline-none" placeholder="ornek@email.com" />
                 </div>
 
-                <!-- Şifre etiketi ve "Şifremi Unuttum" aynı satırda -->
-                <div class="label-row">
-                    <label for="password" class="email-label">Şifre</label>
-                    <a href="#" class="forgot-password">Şifremi Unuttum</a>
-                </div>
-  
                 <!-- Şifre giriş alanı -->
+                <label for="password" class="email-label">Şifre</label>
                 <div class="input-container-p">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="password-icon" viewBox="0 0 24 24">
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                     </svg>                      
-                    <input type="password" id="password" class="input-field-p w-full pl-12 pr-4 py-4 rounded-lg focus:outline-none" placeholder="........" />
+                    <input type="password" id="password" class="input-field-p w-full pl-12 pr-12 py-4 rounded-lg focus:outline-none" placeholder="........" />
+    
+                <!-- Göz simgesi -->
+                <svg id="togglePassword" xmlns="http://www.w3.org/2000/svg" class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+                </div>
+
+                <hr class="gri-cizgi">
+                <h1 class="password-text">En az 8 karakter, büyük/küçük harf ve rakam içermelidir.</h1>
+
+  
+                <!-- Şifre Tekrar Girişi -->
+                <label for="confirmPassword" class="email-label">Şifre Tekrar</label>
+                <div class="input-container-c">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="password-icon" viewBox="0 0 24 24">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>                      
+                    <input type="password" id="password" class="input-field-c w-full pl-12 pr-4 py-4 rounded-lg focus:outline-none" placeholder="........" />
                 </div>
 
                 <div class="remember-container">
                     <input type="checkbox" id="rememberMe" class="remember-checkbox">
-                    <label for="rememberMe" class="remember-label">Beni hatırla</label>
+                    <label for="rememberMe" class="remember-label">
+                        Üyelik sözleşmesini ve gizlilik politikasını okudum ve kabul<br> 
+                        ediyorum.
+                    </label>
                 </div>        
                 
                 <button type="submit" class="login-button">
-                    Giriş Yap ➜
+                    Üye Ol ➜
                 </button>                
 
                 <div class="continue-wrapper">
@@ -130,12 +141,14 @@
                   </div>
                   
                 <div class="sign-up-section">
-                    <p class="sign-up-text">Hesabınız yok mu? <a href="#" class="sign-up-link">Üye Ol</a></p>
+                    <p class="sign-up-text">Zaten hesabınız var mı? <a href="#" class="sign-up-link">Giriş Yap</a></p>
                 </div>
                 
+  
             </div>
         </div>
     </div>
+
+    <script src="register.js"></script>
 </body>
 </html>
->>>>>>> a1d65ff6706822a33d3e42449dff679864b88261
