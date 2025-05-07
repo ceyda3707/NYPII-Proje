@@ -6,7 +6,7 @@ import sqlite3
 df = pd.read_csv('tarifler.csv', encoding='utf-8')
 
 # Veritabanına yazma
-with sqlite3.connect('turk_tarifleri.db') as conn:
+with sqlite3.connect('i.db') as conn:
     df.to_sql('tarifler', conn, if_exists='append', index=False)
 
 print("Veri aktarımı tamamlandı!")
