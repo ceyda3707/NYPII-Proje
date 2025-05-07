@@ -142,14 +142,23 @@
       
           <h3>Seçilen Malzemeler</h3>
           <div class="secilen-malzeme-listesi" id="secilen-malzemeler">
-            <!-- Seçilen malzemeler buraya eklenecek -->
+              <!-- Seçilen malzemeler buraya eklenecek -->
           </div>
-      
-          <button class="tarif-bul-btn">🔍 Bu Malzemelerle Tarif Bul</button>
-        </div>
-        <script src="{{ url_for('static', filename='/script.js') }}"></script>
-      </section>
-      
+  
+          <button class="tarif-bul-btn" id="tarif-bul-btn">🔍 Bu Malzemelerle Tarif Bul</button>
+      </div>
+  </section>
+  
+  <!-- Tariflerin Görüntüleneceği Alan -->
+  <section id="tarifler" style="display:none;">
+      <h2>Malzemelerinize Uygun Tarifler</h2>
+      <div id="tarif-listesi" class="tarif-listesi">
+          <!-- Tarifler burada yer alacak -->
+      </div>
+      <button class="more-btn" id="more-tarifler-btn" style="display:none;">Daha Fazla Tarif</button>
+  </section>
+  
+  
       
 
       <section class="featured-recipes">
@@ -274,6 +283,7 @@
         </footer>
         
       
-        <script src="script.js"></script>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+      
 </body>
 </html>

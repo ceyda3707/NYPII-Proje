@@ -1,26 +1,21 @@
 import sqlite3
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from extensions import db
 from model import YemekTarifi, TurkTarifi
 from model import User
 from flask_login import LoginManager, current_user, login_user , current_user
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
-    'DATABASE_URL', 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/tarifler.db'
-)
-app.config['SQLALCHEMY_BINDS'] = {
-    'turk_tarifleri': os.getenv(
-        'TURK_DATABASE_URL', 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/turk_tarifleri.db'
-    )
-}
+
+#SQLALCHEMY_BINDS, farklı veritabanlarına bağlanmak için kullanılan bir parametredir.
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/turk_tarifleri.db'  # Tek veritabanı
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db.init_app(app)
-import sqlite3
 
-def tarif_etiketlerini_belirle(malzeme_metni, veritabani='tarifler.db'):
+
+def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifler.db'):
     malzeme_metni = malzeme_metni.lower()
 
     # Etiket için referans listeleri
@@ -31,15 +26,10 @@ def tarif_etiketlerini_belirle(malzeme_metni, veritabani='tarifler.db'):
     bulunan_malzemeler = []
 
     # Veritabanına bağlan ve malzeme isimlerini çek
-    if veritabani == 'tarifler.db':
-        conn = sqlite3.connect('tarifler.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT name FROM ingredients")
-        tum_malzemeler = [row[0].lower() for row in cursor.fetchall()]
-    elif veritabani == 'turk_tarifleri.db':
+    if veritabani == 'turk_tarifleri.db':
         conn = sqlite3.connect('turk_tarifleri.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT isim FROM malzemeler")
+        cursor.execute("SELECT name FROM ingredients")
         tum_malzemeler = [row[0].lower() for row in cursor.fetchall()]
     else:
         return []  # Geçersiz veritabanı adı
@@ -76,9 +66,8 @@ def etiket_id_getir(conn, etiket_adi):
         cursor.execute("INSERT INTO etiketler (ad) VALUES (?)", (etiket_adi,))
         conn.commit()
         return cursor.lastrowid
-def tum_tarifleri_etiketle(veritabani='tarifler.db'):
-    import sqlite3
-
+    
+def tum_tarifleri_etiketle(veritabani='turk_tarifler.db'):
     conn = sqlite3.connect(veritabani)
     cursor = conn.cursor()
 
@@ -114,19 +103,17 @@ def tum_tarifleri_etiketle(veritabani='tarifler.db'):
 
 
 def get_db_connection():
-    conn = sqlite3.connect("C:/Users/user/OneDrive/Desktop/NYPII-Proje/tarifler.db")
-    conn.row_factory = sqlite3.Row  # Sözlük gibi erişim sağlar
+    conn = sqlite3.connect('turk_tarifleri.db')
+    conn.row_factory = sqlite3.Row  # Satırları sözlük gibi döndür
     return conn
 
-def tarif_etiketlerini_guncelle(tarif_id, veritabani='tarifler.db'):
+def tarif_etiketlerini_guncelle(tarif_id, veritabani='turk_tarifler.db'):
     conn = sqlite3.connect(veritabani)
     cursor = conn.cursor()
 
     # Tarifin malzemelerini al
-    if veritabani == 'tarifler.db':
+    if veritabani == 'turk_tarifler.db':
         cursor.execute("SELECT malzemeler FROM yemek_tarifleri WHERE id = ?", (tarif_id,))
-    elif veritabani == 'turk_tarifleri.db':
-        cursor.execute("SELECT malzemeler FROM tarifler WHERE id = ?", (tarif_id,))
     else:
         conn.close()
         return False
@@ -228,6 +215,8 @@ login_manager.init_app(app)
 @app.context_processor
 def inject_user():
     return dict(current_user=current_user)
+
+
 @app.route('/tarif/ekle', methods=['POST'])
 def tarif_ekle():
     if request.method == 'POST':
@@ -251,6 +240,8 @@ def tarif_ekle():
         conn.close()
 
         return redirect(url_for('yemek_tarifleri'))
+    
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -324,6 +315,26 @@ def tarif_detay(tarif_id):
         return "Tarif bulunamadı", 404
 
     return render_template("tarif_detay.html", tarif=tarif)
+
+@app.route('/api/tarifler', methods=['GET'])
+def api_tarifleri_getir():
+    malzemeler = request.args.get('malzemeler')
+    if not malzemeler:
+        return jsonify({"error": "Malzeme listesi yok"}), 400
+
+    secilenler = malzemeler.split(',')
+    placeholders = ' OR '.join(['malzemeler LIKE ?' for _ in secilenler])
+    query = f"SELECT * FROM tarifler WHERE {placeholders}"
+
+    conn = sqlite3.connect('turk_tarifleri.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute(query, [f"%{malzeme.strip()}%" for malzeme in secilenler])
+    tarifler = cursor.fetchall()
+    conn.close()
+
+    return jsonify([dict(t) for t in tarifler])
+
     
 if __name__ == '__main__':
     app.run(debug=True)

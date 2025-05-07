@@ -456,6 +456,59 @@ body {
   .tarif-bul-btn:hover {
     background-color: #cc7548;
   }
+
+  .tarif-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  .tarif-kart {
+    width: 250px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .tarif-kart:hover {
+    transform: scale(1.03);
+  }
+  
+  .tarif-kart img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .tarif-kart .icerik {
+    padding: 15px;
+  }
+  
+  .tarif-kart .icerik h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .tarif-kart .icerik p {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .tarif-kart .icerik a {
+    display: inline-block;
+    margin-top: 10px;
+    background: #d97a47;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+  
   
   /* Genel Alan */
 .featured-recipes {
@@ -801,4 +854,57 @@ body, html {
   padding: 48px;
   width: 65%;
   background-color: white;
+}
+
+#tarif-listesi {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 1rem;
+  scroll-snap-type: x mandatory;
+}
+
+.tarif-card {
+  min-width: 300px;
+  flex: 0 0 auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  scroll-snap-align: start;
+  transition: transform 0.3s;
+}
+
+.tarif-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
+}
+
+.tarif-card h3 {
+  font-size: 1.2rem;
+  margin: 0.5rem;
+}
+
+.tarif-card p {
+  font-size: 0.9rem;
+  margin: 0.5rem;
+}
+
+.tarif-card .time,
+.tarif-card .difficulty {
+  font-size: 0.8rem;
+  margin: 0.5rem;
+  color: #555;
+}
+
+.tarif-card button {
+  margin: 0.5rem;
+  background: #e07a5f;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
 }

@@ -23,6 +23,7 @@ class TurkTarifi(db.Model):
     tarif = db.Column(db.Text)
     resim_url = db.Column(db.Text)
 
+    
 class Tarif(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     isim = db.Column(db.String(100))  # tarifin adı
@@ -31,6 +32,24 @@ class Tarif(db.Model):
     sure = db.Column(db.String(10))   # örnek: '30 dk'
     malzeme_sayisi = db.Column(db.Integer)
     resim_url = db.Column(db.String(255))  # görsel için
+
+    # Malzeme ile ilişkiyi tanımlıyoruz
+    malzemeler = db.relationship('Malzeme', secondary='tarif_malzeme', backref='tarifler')
+
+# Malzeme Modeli
+class Malzeme(db.Model):
+    __tablename__ = "malzemeler"  # Veritabanındaki "malzemeler" tablosunu temsil eder
+    id = db.Column(db.Integer, primary_key=True)
+    isim = db.Column(db.String(100), nullable=False)  # Malzemenin ismi
+
+    # Tariflerle ilişkiyi tanımlıyoruz (çoka çok ilişki)
+    tarifler = db.relationship('Tarif', secondary='tarif_malzeme', backref='malzemeler', lazy='dy')
+
+# TarifMalzeme (Bağlantı) Tablosu
+class TarifMalzeme(db.Model):
+    __tablename__ = 'tarif_malzeme'
+    tarif_id = db.Column(db.Integer, db.ForeignKey('tarifler.id'), primary_key=True)
+    malzeme_id = db.Column(db.Integer, db.ForeignKey('malzemeler.id'), primary_key=True)
 
 
 class User(db.Model):
