@@ -1,5 +1,12 @@
 import sqlite3
+from app import app
+from extensions import db
 
+with app.app_context():
+    db.create_all()
+    print("Veritabanı başarıyla oluşturuldu.")
+
+    
 def setup_database():
     # Ana veritabanı için tablolar
     conn = sqlite3.connect('tarifler.db')
