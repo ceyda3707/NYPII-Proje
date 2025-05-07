@@ -6,7 +6,8 @@
     <title>Üye Ol Sayfası</title>
     <!-- head etiketinin içine -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+
 </head>
 <body>
     <div class="container">
@@ -52,6 +53,8 @@
             </div>
             <!-- Sağ taraf -->
             <div class="right">
+                <form method="POST" action="{{ url_for('register') }}">
+
                 <h1 class="sign-up-title">Üye Ol</h1>
                 <p class="sub-description">Hesabınızı oluşturmak için bilgilerinizi girin</p>
 
@@ -141,14 +144,14 @@
                   </div>
                   
                 <div class="sign-up-section">
-                    <p class="sign-up-text">Zaten hesabınız var mı? <a href="#" class="sign-up-link">Giriş Yap</a></p>
+                    <p class="sign-up-text">Zaten hesabınız var mı?  <a href="{{ url_for('login') }}" class="sign-up-link">Giriş Yap</a></p>
                 </div>
                 
   
             </div>
         </div>
     </div>
-
+    </form>
     <script src="register.js"></script>
 </body>
 </html>
