@@ -238,7 +238,8 @@ document.getElementById('tarif-bul-btn').addEventListener('click', function() {
                 tarifCard.classList.add('tarif-card');
                 tarifCard.innerHTML = `
                    <div class="card-header">
-                        <img src="${tarif.resim_url}" alt="${tarif.isim}">
+                        <img src="${tarif.resim_url || '/static/placeholder.jpg'}" alt="${tarif.isim}">
+
                         <div class="time">30 dk</div>
                     </div>
                     <div class="card-content">

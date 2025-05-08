@@ -311,6 +311,8 @@ def tarif_detay(tarif_id):
     cursor.execute("SELECT * FROM tarifler WHERE id = ?", (tarif_id,))
     tarif = cursor.fetchone()
     conn.close()
+    
+   
 
     if not tarif:
         return "Tarif bulunamadı", 404
@@ -345,6 +347,8 @@ def api_tarif_detay(tarif_id):
     data = cursor.fetchone()
     conn.close()
 
+    
+
     if data:
        import random
        return jsonify({
@@ -361,6 +365,8 @@ def api_tarif_detay(tarif_id):
         })
     else:
         return jsonify({"error": "Tarif bulunamadı"}), 404
+    
+
 
 @app.route("/api/tum_tarifler", methods=["GET"])
 def tum_tarifleri_getir():
