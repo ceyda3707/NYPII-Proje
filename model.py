@@ -60,3 +60,4 @@ class User(db.Model):
     username = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False, unique=True)
+    

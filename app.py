@@ -1,22 +1,26 @@
 import re
 import sqlite3
 import os
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify,session, flash
 from extensions import db
-from model import YemekTarifi, TurkTarifi
-from model import User
+from model import YemekTarifi, TurkTarifi, User
 from flask_login import LoginManager, current_user, login_user , current_user
-app = Flask(__name__)
 
-basedir = os.path.abspath(os.path.dirname(__file__))  # bu satır eksikti
-#SQLALCHEMY_BINDS, farklı veritabanlarına bağlanmak için kullanılan bir parametredir.
+
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')  # Kullanıcı verileri
+app.secret_key = 'benimcokgizlisirrimsin2025' 
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
 app.config['SQLALCHEMY_BINDS'] = {
-    'turk_tarifleri': 'sqlite:///' + os.path.join(basedir, 'turk_tarifleri.db')  # Tarif verileri
+    'turk_tarifleri': 'sqlite:///' + os.path.join(basedir, 'turk_tarifleri.db')
 }
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db.init_app(app)
+
 
 
 def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifler.db'):
@@ -256,6 +260,8 @@ def test_db():
         except Exception as e:
             return f"Hata: {str(e)}"
 
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -268,9 +274,13 @@ def login():
 
         if not user:
             return render_template('login.html', error="Kullanıcı bulunamadı.")
+        
         if user.password != password:
             return render_template('login.html', error="Şifre hatalı.")
         
+        
+        session['user_email'] = user.email
+        flash(f"Hoş geldin, {user.username.split()[0]}!")
         return redirect(url_for('index'))
 
     return render_template('login.html')

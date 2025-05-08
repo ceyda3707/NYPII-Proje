@@ -32,6 +32,8 @@
                 <span>RECIPIA</span>
             </div>
             
+            
+
             <nav class="site-nav">
                 <ul>
                     <li><a href="#">Ana Sayfa</a></li>
@@ -47,6 +49,14 @@
             </div>
         </div>
     </header>
+    
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div id="flash-message" class="flash-popup">
+          {{ messages[0] }}
+        </div>
+      {% endif %}
+    {% endwith %}
 
  
     <section class="hero-section">
@@ -285,6 +295,8 @@
         
       
         <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+        
       
 </body>
 </html>

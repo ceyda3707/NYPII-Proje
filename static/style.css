@@ -908,3 +908,27 @@ body, html {
   border-radius: 8px;
   cursor: pointer;
 }
+
+.flash-popup {
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #e7f8ec;
+  color: #1a5d2d;
+  border: 2px solid #b4dfc1;
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 9999;
+  animation: fadeout 3s ease forwards;
+}
+
+@keyframes fadeout {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
