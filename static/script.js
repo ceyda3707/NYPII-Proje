@@ -201,6 +201,7 @@ function malzemeEkle(malzemeAdi, emoji = "") {
 
 
 
+
 document.getElementById('tarif-bul-btn').addEventListener('click', function() {
     
     console.log("!!!!!!!!!!Butona tıklandı!");
@@ -244,7 +245,7 @@ document.getElementById('tarif-bul-btn').addEventListener('click', function() {
                         <h3>${tarif.isim}</h3>
                         <p>${tarif.tarif}</p>
                         <div class="difficulty">Orta</div>
-                        <button class="tarif-link">Tarifi Gör</button>
+                        <a href="/tarif/${tarif.id}" class="tarif-link">Tarifi Gör</a>
                     </div>
                 `;
                 tarifListesi.appendChild(tarifCard);
@@ -259,3 +260,26 @@ document.getElementById('tarif-bul-btn').addEventListener('click', function() {
             console.error('Hata:', error);
         });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("/api/tum_tarifler")
+      .then(response => response.json())
+      .then(tarifler => {
+        const container = document.getElementById("tarif-container");
+
+        tarifler.forEach(tarif => {
+          const kart = document.createElement("div");
+          kart.className = "tarif-kart";
+
+          kart.innerHTML = `
+            <img src="${tarif.resim_url || '/static/placeholder.jpg'}" alt="${tarif.isim}">
+            <h3>${tarif.isim}</h3>
+            <p>${tarif.tarif.substring(0, 80)}...</p>
+            <a href="/tarif/${tarif.id}" class="tarif-link">Tarifi Gör</a>
+          `;
+
+          container.appendChild(kart);
+        });
+      });
+});
+

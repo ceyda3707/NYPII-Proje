@@ -1,3 +1,4 @@
+import re
 import sqlite3
 import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify
@@ -335,7 +336,46 @@ def api_tarifleri_getir():
 
     return jsonify([dict(t) for t in tarifler])
 
+
+@app.route("/api/tarif/<int:tarif_id>")
+def api_tarif_detay(tarif_id):
+    conn = sqlite3.connect("turk_tarifleri.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT isim, kategori, malzemeler, tarif FROM tarifler WHERE id = ?", (tarif_id,))
+    data = cursor.fetchone()
+    conn.close()
+
+    if data:
+       import random
+       return jsonify({
+            "isim": data[0],
+            "kategori": data[1],
+            "malzemeler": data[2].split(','),
+            "hazirlanis": re.split(r'\\n|\\d+\\.', data[3])  # 1. 2. 3. ile bölmek için
+,
+            # Bunlar veritabanında yok, sabit/random gönderiyoruz:
+            "hazirlik_suresi": f"{random.randint(10, 25)} dk",
+            "pisirme_suresi": f"{random.randint(20, 60)} dk",
+            "kalori": f"~{random.randint(100, 600)} kcal",
+            "porsiyon": random.choice(["2 kişilik", "4-6 kişilik", "6-8 kişilik"])
+        })
+    else:
+        return jsonify({"error": "Tarif bulunamadı"}), 404
+
+@app.route("/api/tum_tarifler", methods=["GET"])
+def tum_tarifleri_getir():
+    conn = sqlite3.connect("turk_tarifleri.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, isim, kategori, bolge, malzemeler, tarif, resim_url FROM tarifler")
+    tarifler = cursor.fetchall()
+    conn.close()
+
+    return jsonify([dict(t) for t in tarifler])
+
+
+
+
     
 if __name__ == '__main__':
     app.run(debug=True)
-filtreli_tarifler
