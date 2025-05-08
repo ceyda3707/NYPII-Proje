@@ -3,7 +3,7 @@ from extensions import db  # db objesini buradan al
 
 class YemekTarifi(db.Model):
     __tablename__ = 'yemek_tarifleri'
-    __bind_key__ = None
+    __bind_key__ = 'turk_tarifleri'
     
     id = db.Column(db.Integer, primary_key=True)
     isim = db.Column(db.String)
@@ -25,6 +25,7 @@ class TurkTarifi(db.Model):
 
     
 class Tarif(db.Model):
+    __tablename__='tarif'
     id = db.Column(db.Integer, primary_key=True)
     isim = db.Column(db.String(100))  # tarifin adı
     yapilis = db.Column(db.Text)
@@ -34,7 +35,7 @@ class Tarif(db.Model):
     resim_url = db.Column(db.String(255))  # görsel için
 
     # Malzeme ile ilişkiyi tanımlıyoruz
-    malzemeler = db.relationship('Malzeme', secondary='tarif_malzeme', backref='tarifler')
+    malzemeler = db.relationship('Malzeme', secondary='tarif_malzeme', backref='ilgili_tarifler')
 
 # Malzeme Modeli
 class Malzeme(db.Model):
@@ -43,12 +44,12 @@ class Malzeme(db.Model):
     isim = db.Column(db.String(100), nullable=False)  # Malzemenin ismi
 
     # Tariflerle ilişkiyi tanımlıyoruz (çoka çok ilişki)
-    tarifler = db.relationship('Tarif', secondary='tarif_malzeme', backref='malzemeler', lazy='dy')
+   # tarifler = db.relationship('Tarif', secondary='tarif_malzeme', backref='malzemeler', lazy='dynamic')
 
 # TarifMalzeme (Bağlantı) Tablosu
 class TarifMalzeme(db.Model):
     __tablename__ = 'tarif_malzeme'
-    tarif_id = db.Column(db.Integer, db.ForeignKey('tarifler.id'), primary_key=True)
+    tarif_id = db.Column(db.Integer, db.ForeignKey('tarif.id'), primary_key=True)
     malzeme_id = db.Column(db.Integer, db.ForeignKey('malzemeler.id'), primary_key=True)
 
 

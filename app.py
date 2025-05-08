@@ -8,10 +8,13 @@ from model import User
 from flask_login import LoginManager, current_user, login_user , current_user
 app = Flask(__name__)
 
-
+basedir = os.path.abspath(os.path.dirname(__file__))  # bu satır eksikti
 #SQLALCHEMY_BINDS, farklı veritabanlarına bağlanmak için kullanılan bir parametredir.
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/turk_tarifleri.db'  # Tek veritabanı
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')  # Kullanıcı verileri
+app.config['SQLALCHEMY_BINDS'] = {
+    'turk_tarifleri': 'sqlite:///' + os.path.join(basedir, 'turk_tarifleri.db')  # Tarif verileri
+}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
@@ -241,19 +244,7 @@ def tarif_ekle():
         conn.close()
 
         return redirect(url_for('yemek_tarifleri'))
-    
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        user = User.query.filter_by(username=request.form['username']).first()
-        if user and user.password == request.form['password']:
-            login_user(user)
-            return redirect(url_for('index'))
-    return render_template('login.html')
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
 
 @app.route('/test')
 def test_db():
@@ -265,14 +256,44 @@ def test_db():
         except Exception as e:
             return f"Hata: {str(e)}"
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        print("Form verileri:", request.form)
+
+        user = User.query.filter_by(email=email).first()
+
+        if not user:
+            return render_template('login.html', error="Kullanıcı bulunamadı.")
+        if user.password != password:
+            return render_template('login.html', error="Şifre hatalı.")
+        
+        return redirect(url_for('index'))
+
+    return render_template('login.html')
+          
+            
+
+        
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        new_user = User(username=username, password=password)
+
+        new_user = User(username=username, password=password, email=email)
         db.session.add(new_user)
         db.session.commit()
+
         return redirect(url_for('login'))
     return render_template('register.html')
 
