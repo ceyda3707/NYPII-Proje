@@ -4,7 +4,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify,session, flash
 from extensions import db
 from model import YemekTarifi, TurkTarifi, User
-from flask_login import LoginManager, current_user, login_user , current_user
+from flask_login import LoginManager, current_user, login_user, logout_user
 
 
 
@@ -221,11 +221,9 @@ def filtreli_tarifler(etiket):
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-# current_user'ı tüm şablonlara otomatik aktar
-@app.context_processor
-def inject_user():
-    return dict(current_user=current_user)
-
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 @app.route('/tarif/ekle', methods=['POST'])
 def tarif_ekle():
@@ -261,8 +259,7 @@ def test_db():
             return f"Bağlantı başarılı! Yemekler: {yemek_sayisi}, Türk Tarifleri: {turk_sayisi}"
         except Exception as e:
             return f"Hata: {str(e)}"
-
-
+        
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -280,6 +277,7 @@ def login():
         if user.password != password:
             return render_template('login.html', error="Şifre hatalı.")
         
+        login_user(user)
         
         session['user_email'] = user.email
         flash(f"Hoş geldin, {user.username.split()[0]}!")
@@ -287,13 +285,16 @@ def login():
 
     return render_template('login.html')
           
-            
-
-        
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    session.clear()
+    return redirect(url_for('index'))
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -308,6 +309,11 @@ def register():
 
         return redirect(url_for('login'))
     return render_template('register.html')
+
+@app.route('/favoriler')
+def favoriler():
+    return render_template('favoriler.html')  # Bu dosya varsa
+
 
 @app.route('/')
 def index():
@@ -359,8 +365,6 @@ def tarif_detay(tarif_id):
     cursor.execute("SELECT * FROM tarifler WHERE id = ?", (tarif_id,))
     tarif = cursor.fetchone()
     conn.close()
-    
-   
 
     if not tarif:
         return "Tarif bulunamadı", 404
