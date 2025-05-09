@@ -1,0 +1,595 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Genel container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    /*justify-content: space-between;*/
+}
+
+/* Header */
+.site-header {
+    background-color: #1a2b47; /* daha koyu mavi */
+    padding: 25px 0;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    gap: 10px;
+    transform: translateX(-50px); /* Logoyu sola 20px kaydır */
+}
+
+.logo img {
+    width: 36px;
+    height: 36px;
+    margin-right: 8px;
+}
+
+.logo span {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Buhar animasyonu */
+@keyframes steamRise {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translateY(-10px) scale(1.05);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(1.1);
+    }
+}
+
+/* Her steam çizgisine animasyon uyguluyoruz */
+.steam {
+    animation: steamRise 3s infinite ease-in-out;
+}
+
+/* Her biri farklı zamanda başlasın diye küçük gecikmeler */
+.steam-1 {
+    animation-delay: 0s;
+}
+
+.steam-2 {
+    animation-delay: 1s;
+}
+
+.steam-3 {
+    animation-delay: 2s;
+}
+
+/* Navigasyon */
+.site-nav ul {
+  list-style: none;
+  display: flex;
+  margin-left: 360px;
+  gap: 24px;
+}
+
+.site-nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.site-nav a:hover {
+  color: #dad0b3;
+}
+
+/* Butonlar */
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+  transform: translateX(60px); /* Aşağıya 30px kaydırma */
+}
+
+.login-btn, .signup-btn {
+  font-size: 16px;
+  font-weight: 550;
+  padding: 11px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Giriş Yap */
+.login-btn {
+  background-color: #ffffff;
+  color: #1a2b47;
+}
+
+/* Üye Ol */
+.signup-btn {
+  background-color: #cc7548; /* tam turuncu tonu */
+  color: #ffffff;
+}
+
+/* Hover efektleri */
+.login-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.signup-btn:hover {
+  background-color: #e0e0e0;
+}
+
+
+.favorites-header {
+    padding: 40px 0;
+    background-color: #ffffff;
+  }
+  
+  .favorites-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .favorites-text h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 42px;
+    margin-bottom: 10px;
+    color: #1a2b47;
+    transform: translateX(-50px);
+  }
+  
+  .favorites-text p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    margin-bottom: 8px;
+    transform: translateX(-50px);
+    color: #7c7c7d;
+  }
+
+  .favorites-search {
+    position: relative;
+    width: 100%; /* istersen burada sabit genişlik verebilirsin */
+    max-width: 400px; /* isteğe bağlı */
+  }
+
+  .search-input::placeholder {
+    color: #7c7c7d; 
+    opacity: 0.6;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    transform: translateY(2px);
+  }
+  
+  
+  .search-input {
+    width: 100%;
+    height: 48px;
+    padding: 8px 16px 8px 40px;
+    background-color: #ffffff;
+    color: black;
+    border-radius: 30px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    border: 1px solid #dad0b3;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #cc7548;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    height: 20px;
+    width: 20px;
+    color: #7c7c7d;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  #kategoriler {
+    text-align: center;
+    padding: 50px 20px;
+    background: #ffffff;
+  }
+  
+  .kategori-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    margin-left: 100px;
+    margin-top: -50px;
+  }
+  
+  .kategori-buttons button {
+    background-color: #ded3b5;
+    color: #244435;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .kategori-buttons button.active {
+    background-color: #244435;
+    color: #ffffff;
+  }
+  
+  .kategori-buttons button:hover {
+    background-color: #cc7548;
+    color: white;
+  }
+  
+/* Kartlar Alanı */
+.recipe-cards {
+  display: flex;
+  justify-content: flex-start; /* Kartları soldan hizalar */
+  gap: 30px;  /* Kartlar arasındaki mesafe */
+  flex-wrap: wrap;
+  color: #ffffff;
+  background-color: #ffffff; /* Beyaz arka plan */
+  padding: 0 100px 50px 100px; /* Eğer gerekiyorsa padding ekleyebilirsiniz *//* üst sağ alt sol */
+}
+
+/* Kart */
+.recipe-card {
+  background: #ffffff;
+  width: 420px;
+  height: auto;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s;
+}
+
+
+.recipe-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Kart Üst */
+.card-top {
+  background: #d5d2b5;
+  height: 230px;
+  position: relative;
+}
+
+/* Kalp ikonu */
+.fav-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 35px;
+  height: 35px;
+  background-color: #ffffff;
+  color: #cc7548;
+  font-size: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.fav-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Kart İçerik */
+.card-content {
+  padding: 20px;
+  text-align: left;
+  flex-grow: 1;  /* İçeriğin esnemesini sağlar */
+}
+
+.difficulty {
+  display: inline-block;
+  background: #e5e7da;
+  color: #244435;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.card-content h3 {
+  font-size: 20px;
+  color: #244435;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* Süre bilgisi yeni konumda */
+.card-content .süre-bilgi {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Malzemeler için */
+.malzeme {
+  display: inline-block;
+  background: #f2f2f2;
+  color: #444;
+  font-size: 12px;
+  padding: 4px 6px;
+  border-radius: 30px;
+  margin-right: 5px;
+  margin-bottom: 12px;
+}
+
+/* Alt Bilgi */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.card-footer a {
+  color: #cc7548;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.süre-bilgi {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #7d7f92;
+  margin-top: 10px;
+}
+
+.süre-bilgi span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.süre-bilgi i {
+  font-size: 16px;
+  color: #cc7548;
+}
+
+.süre-bilgi .hazirlik i {
+  color: #244435; /* Hazırlık ikonu için yeşil */
+}
+
+.süre-bilgi .pisirme i {
+  color: #cc7548; /* Pişirme ikonu için kırmızı */
+}
+
+.ekstra-malzemeler {
+  color: #cc7548;
+  font-weight: bold;
+  font-size: 14px;
+  display: inline-block;
+  margin-left: 5px;
+  cursor: pointer;  /* Tıklanabilirlik ekleyelim */
+}
+
+.favori-bos {
+  text-align: center;
+  padding: 60px 20px;
+  color: #444;
+  max-width: 600px;
+  margin: 80px auto;
+}
+
+.favori-bos img {
+  width: 180px;
+  height: auto;
+  opacity: 0.6;
+  margin-bottom: 20px;
+}
+
+.favori-bos h2 {
+  font-size: 24px;
+  color: #1a2b47;
+  margin-bottom: 10px;
+}
+
+.favori-bos p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.keşfet-btn {
+  display: inline-block;
+  background-color: #cc7548;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.keşfet-btn:hover {
+  background-color: #bf5a33;
+}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.footer {
+    background-color: #1a2b47;
+    color: #ffffff;
+    padding: 60px 0 30px;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 40px;
+  }
+  
+  .footer-section {
+    flex: 1 1 200px;
+  }
+  
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .footer-logo img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .footer-logo span {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .footer-description {
+    margin: 20px 0;
+    color: #d1d5db;
+  }
+  
+  
+  .footer-social {
+    margin-top: 20px;
+  }
+  
+  .footer-social a {
+    color: #cbd5e1;
+    font-size: 20px;
+    margin-right: 15px;
+    transition: color 0.3s;
+  }
+  
+  .footer-social a:hover {
+    color: #38bdf8;
+  }
+  
+  .footer-section h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 10px;
+  }
+  
+  .footer-section ul li a {
+    color: #d1d5db;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .footer-section ul li a:hover {
+    color: #ffffff;
+  }
+  
+  .footer-bottom {
+    margin-top: 40px;
+    border-top: 1px solid #1f2937;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #9ca3af;
+  }
