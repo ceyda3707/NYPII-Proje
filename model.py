@@ -27,15 +27,12 @@ class TurkTarifi(db.Model):
 class Tarif(db.Model):
     __tablename__='tarif'
     id = db.Column(db.Integer, primary_key=True)
-    kategori = db.Column(db.String(100)) # tarifin kategorisi
     isim = db.Column(db.String(100))  # tarifin adı
     yapilis = db.Column(db.Text)
     zorluk = db.Column(db.String(20))  # örnek: 'Kolay'
     sure = db.Column(db.String(10))   # örnek: '30 dk'
     malzeme_sayisi = db.Column(db.Integer)
     resim_url = db.Column(db.String(255))  # görsel için
-    favori = db.Column(db.Boolean, default=False) # tarifin favori olup olmadığını belirtir
-    malzemeler = db.Column(db.Text)
 
     # Malzeme ile ilişkiyi tanımlıyoruz
     malzemeler = db.relationship('Malzeme', secondary='tarif_malzeme', backref='ilgili_tarifler')

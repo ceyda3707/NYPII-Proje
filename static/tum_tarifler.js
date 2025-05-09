@@ -1,52 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const tarifler = [ 
-    // Buraya 600 tarif gelecek...
-    {
-      kategori: "Tatlılar",
-      isim: "Çikolatalı Brownie",
-      hazirlik: "15 dk",
-      pisirme: "25 dk",
-      malzemeler: ["Bitter Çikolata", "Tereyağı", "Un", "Şeker"],
-      puan: 4.9,
-      favori: false
-    },
-        {
-      kategori: "Çorbalar",
-      isim: "Ezogelin Çorbası",
-      hazirlik: "20 dk",
-      pisirme: "40 dk",
-      malzemeler: ["Kırmızı Mercimek", "Bulgur", "Pirinç", "Domates Salçası"],
-      puan: 4.5,
-      favori: false // Favori durumu
-    },
-    {
-      kategori: "Ana Yemekler",
-      isim: "Fırında Tavuk",
-      hazirlik: "30 dk",
-      pisirme: "45 dk",
-      malzemeler: ["Tavuk But", "Patates", "Soğan", "Baharatlar"],
-      puan: 4.7,
-      favori: false // Favori durumu
-    },
-    {
-      kategori: "Tatlılar",
-      isim: "Kremalı Çilekli Pasta",
-      hazirlik: "30 dk",
-      pisirme: "35 dk",
-      malzemeler: ["Çilek", "Krema", "Bisküvi", "Süt", "Şeker", "Vanilya", "Tereyağı"],
-      puan: 4.8,
-      favori: false // Favori durumu
-    }
-    // Devamı...
-  ];
-
   const container = document.getElementById("tarifler-container");
   const aramaInput = document.getElementById("aramaInput");
-  const sayfalamaContainer = document.getElementById("sayfalama"); // sayfalama için ek div
+  const sayfalamaContainer = document.getElementById("sayfalama");
   let seciliKategori = "Hepsi";
   let aramaKelimesi = "";
   let mevcutSayfa = 1;
   const tarifSayisiBirSayfada = 20;
+
+  let tarifler = [];
+
+  async function tarifleriYukle() {
+    try {
+      const response = await fetch("http://localhost:5000/api/tarifler");
+      const veri = await response.json();
+
+      tarifler = veri.map(t => ({
+        ...t,
+        malzemeler: JSON.parse(t.malzemeler),
+        favori: t.favori === 1
+      }));
+
+      tarifleriGoster();
+    } catch (err) {
+      console.error("Tarifler yüklenemedi:", err);
+      container.innerHTML = "<p>Tarifler yüklenirken hata oluştu.</p>";
+    }
+  }
 
   function tarifleriGoster() {
     container.innerHTML = "";
@@ -63,13 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Sayfalama mantığı
     const toplamSayfa = Math.ceil(filtreliTarifler.length / tarifSayisiBirSayfada);
     const baslangic = (mevcutSayfa - 1) * tarifSayisiBirSayfada;
     const goruntulenecekTarifler = filtreliTarifler.slice(baslangic, baslangic + tarifSayisiBirSayfada);
 
     goruntulenecekTarifler.forEach((tarif, index) => {
-      const globalIndex = tarifler.indexOf(tarif); // gerçek index
+      const globalIndex = tarifler.indexOf(tarif);
       const ilkUcMalzeme = tarif.malzemeler.slice(0, 3);
       const geriKalanMalzemeler = tarif.malzemeler.slice(3);
 
@@ -108,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
       container.insertAdjacentHTML("beforeend", cardHTML);
     });
 
-    // Favori ikonu tıklama
     document.querySelectorAll(".fav-icon").forEach(icon => {
       icon.addEventListener("click", () => {
         const index = icon.dataset.index;
@@ -119,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // "+X daha" tıklama
     document.querySelectorAll(".ekstra-malzemeler").forEach(span => {
       span.addEventListener("click", () => {
         const index = span.dataset.index;
@@ -131,7 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Sayfa numaraları
     sayfalamaContainer.innerHTML = "";
     for (let i = 1; i <= toplamSayfa; i++) {
       const btn = document.createElement("button");
@@ -145,10 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Başlangıçta tarifleri göster
-  tarifleriGoster();
-
-  // Kategori butonları
   document.querySelectorAll('.kategori-buttons button').forEach(button => {
     button.addEventListener('click', function () {
       document.querySelectorAll('.kategori-buttons button').forEach(btn => btn.classList.remove('active'));
@@ -159,10 +130,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Arama kutusu
   aramaInput.addEventListener("input", () => {
     aramaKelimesi = aramaInput.value.trim();
     mevcutSayfa = 1;
     tarifleriGoster();
   });
+
+  tarifleriYukle(); // Sayfa yüklendiğinde API'den verileri çek
 });
