@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="tum-tarifler.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <svg width="50" height="50" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Pot Base -->
+                    <path d="M50,80 C50,80 45,100 45,120 C45,140 50,150 100,150 C150,150 155,140 155,120 C155,100 150,80 150,80 Z" fill="#dad0b3"/>
+                    <!-- Pot Top -->
+                    <path d="M40,80 L160,80 C160,80 150,60 100,60 C50,60 40,80 40,80 Z" fill="#ffffff"/>
+                    
+                    <!-- Handles -->
+                    <path d="M40,80 C30,80 25,90 30,100 L40,100 Z" fill="#ffffff"/>
+                    <path d="M160,80 C170,80 175,90 170,100 L160,100 Z" fill="#ffffff"/>
+                    
+                    <!-- Steam -->
+                    <path class="steam steam-1" d="M90,60 C90,40 110,50 110,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path class="steam steam-2" d="M100,60 C100,45 80,40 80,25" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path class="steam steam-3" d="M110,60 C110,50 120,45 125,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                </svg>
+                <span>RECIPIA</span>
+            </div>
+            
+            <nav class="site-nav">
+                <ul>
+                    <li><a href="#">Ana Sayfa</a></li>
+                    <li><a href="#">Kategoriler</a></li>
+                    <li><a href="#">Popüler</a></li>
+                    <li><a href="#">Hakkımızda</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="login-btn">Giriş Yap</button>
+                <button class="signup-btn">Üye Ol</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="all-header">
+        <div class="container all-header-content">
+          <div class="all-text">
+            <h1>Tüm Tarifler</h1>
+            <p>Birbirinden lezzetli ve denenmiş tarifler</p>
+          </div>
+      
+          <div class="all-search">
+            <input
+              type="text"
+              class="search-input"
+              id="aramaInput"
+              placeholder="Tarif ara..."
+              autocomplete="off"
+            />
+            <i class="fas fa-search search-icon"></i>
+          </div>          
+        </div>
+      </section>
+
+      <section id="kategoriler">
+        <div class="kategori-buttons">
+          <button class="active" data-kategori="Hepsi">Tümü</button>
+          <button data-kategori="Kahvaltı">Kahvaltı</button>
+          <button data-kategori="Ana Yemekler">Ana Yemekler</button>
+          <button data-kategori="Tatlılar">Tatlılar</button>
+          <button data-kategori="Çorbalar">Çorbalar</button>
+          <button data-kategori="Salatalar">Salatalar</button>
+          <button data-kategori="İçecekler">İçecekler</button>
+        </div>
+      </section>
+      
+      
+
+      <div id="tarifler-container" class="recipe-cards">
+        <!-- Tarif Kartları Dinamik Olarak Burada Yüklenecek -->
+      </div>
+      
+
+
+      <div id="sayfalama" class="sayfa-numaralari"></div>
+
+
+      
+      
+      
+
+
+
+    
+
+      
+    <footer class="footer">
+        <div class="container footer-container">
+          <div class="footer-section logo-section">
+            <div class="footer-logo">
+              <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Pot Base -->
+                <path d="M50,80 C50,80 45,100 45,120 C45,140 50,150 100,150 C150,150 155,140 155,120 C155,100 150,80 150,80 Z" fill="#dad0b3"/>
+                <!-- Pot Top -->
+                <path d="M40,80 L160,80 C160,80 150,60 100,60 C50,60 40,80 40,80 Z" fill="#ffffff"/>
+                <!-- Handles -->
+                <path d="M40,80 C30,80 25,90 30,100 L40,100 Z" fill="#ffffff"/>
+                <path d="M160,80 C170,80 175,90 170,100 L160,100 Z" fill="#ffffff"/>
+                <!-- Steam -->
+                <path class="steam steam-1" d="M90,60 C90,40 110,50 110,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <path class="steam steam-2" d="M100,60 C100,45 80,40 80,25" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <path class="steam steam-3" d="M110,60 C110,50 120,45 125,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+              </svg>
+              <span>RECIPIA</span>
+            </div>
+            <p class="footer-description">Mutfak tutkunları için en lezzetli tarifler ve ipuçları.</p>
+            <div class="footer-social">
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+      
+          <div class="footer-section">
+            <h4>Hızlı Bağlantılar</h4>
+            <ul>
+              <li><a href="#">Ana Sayfa</a></li>
+              <li><a href="#">Kategoriler</a></li>
+              <li><a href="#">Popüler Tarifler</a></li>
+              <li><a href="#">Yeni Eklenenler</a></li>
+            </ul>
+          </div>
+      
+          <div class="footer-section">
+            <h4>Kategoriler</h4>
+            <ul>
+              <li><a href="#">Kahvaltı</a></li>
+              <li><a href="#">Ana Yemekler</a></li>
+              <li><a href="#">Tatlılar</a></li>
+              <li><a href="#">İçecekler</a></li>
+            </ul>
+          </div>
+      
+          <div class="footer-section">
+            <h4>İletişim</h4>
+            <ul>
+              <li><a href="mailto:info@recipia.com">info@recipia.com</a></li>
+              <li><a href="tel:+902121234567">+90 212 123 4567</a></li>
+            </ul>
+          </div>
+        </div>
+      
+        <div class="footer-bottom">
+          <p>© 2023 RECIPIA. Tüm hakları saklıdır.</p>
+        </div>
+      </footer>
+
+      
+      <script src="tum-tarifler.js"></script>
+
+</body>
+</html>
