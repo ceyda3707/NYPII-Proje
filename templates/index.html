@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+  
+
 
     <header class="site-header">
         <div class="container">
@@ -43,9 +45,21 @@
                 </ul>
             </nav>
             <div class="auth-buttons">
-              <a href="{{ url_for('login') }}" class="login-btn">Giriş Yap</a>
-              <a href="{{ url_for('register') }}" class="signup-btn">Üye Ol</a>
-              
+               {% if current_user.is_authenticated %}
+                  <div class="user-menu">
+                    <div class="user-initials user-icon">
+                      {{ current_user.username[0]|upper }}{{ current_user.username.split(' ')[1][0]|upper if ' ' in current_user.username else '' }}
+                    </div>
+
+                    <div class="dropdown">
+                      <a href="{{ url_for('favoriler') }}">⭐ Favoriler</a>
+                      <a href="{{ url_for('logout') }}">🔓 Çıkış Yap</a>
+                    </div>
+                  </div>
+                {% else %}
+                  <a href="{{ url_for('login') }}" class="login-btn">Giriş Yap</a>
+                  <a href="{{ url_for('register') }}" class="signup-btn">Üye Ol</a>
+                {% endif %}
             </div>
         </div>
     </header>
@@ -295,5 +309,7 @@
         
       
 <script src="{{ url_for('static', filename='script.js') }}"></script>  
+    <i class="fa-solid fa-user" style="font-size: 40px; color: red;"></i>
+
 </body>
 </html>

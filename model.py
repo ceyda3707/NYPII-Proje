@@ -1,4 +1,5 @@
 from extensions import db  # db objesini buradan al
+from flask_login import UserMixin
 
 
 class YemekTarifi(db.Model):
@@ -53,7 +54,7 @@ class TarifMalzeme(db.Model):
     malzeme_id = db.Column(db.Integer, db.ForeignKey('malzemeler.id'), primary_key=True)
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'  # Açıkça tablo adı belirtelim
 
     id = db.Column(db.Integer, primary_key=True)
