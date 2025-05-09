@@ -1,29 +1,53 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const tarifler = [];
+  const tarifler = [ 
+    // Buraya 600 tarif gelecek...
+    {
+      kategori: "Tatlılar",
+      isim: "Çikolatalı Brownie",
+      hazirlik: "15 dk",
+      pisirme: "25 dk",
+      malzemeler: ["Bitter Çikolata", "Tereyağı", "Un", "Şeker"],
+      puan: 4.9,
+      favori: false
+    },
+        {
+      kategori: "Çorbalar",
+      isim: "Ezogelin Çorbası",
+      hazirlik: "20 dk",
+      pisirme: "40 dk",
+      malzemeler: ["Kırmızı Mercimek", "Bulgur", "Pirinç", "Domates Salçası"],
+      puan: 4.5,
+      favori: false // Favori durumu
+    },
+    {
+      kategori: "Ana Yemekler",
+      isim: "Fırında Tavuk",
+      hazirlik: "30 dk",
+      pisirme: "45 dk",
+      malzemeler: ["Tavuk But", "Patates", "Soğan", "Baharatlar"],
+      puan: 4.7,
+      favori: false // Favori durumu
+    },
+    {
+      kategori: "Tatlılar",
+      isim: "Kremalı Çilekli Pasta",
+      hazirlik: "30 dk",
+      pisirme: "35 dk",
+      malzemeler: ["Çilek", "Krema", "Bisküvi", "Süt", "Şeker", "Vanilya", "Tereyağı"],
+      puan: 4.8,
+      favori: false // Favori durumu
+    }
+    // Devamı...
+  ];
+
   const container = document.getElementById("tarifler-container");
   const aramaInput = document.getElementById("aramaInput");
-  const sayfalamaContainer = document.getElementById("sayfalama");
+  const sayfalamaContainer = document.getElementById("sayfalama"); // sayfalama için ek div
   let seciliKategori = "Hepsi";
   let aramaKelimesi = "";
   let mevcutSayfa = 1;
   const tarifSayisiBirSayfada = 20;
 
-  // Flask API'den tarifleri çekme
-  function fetchTarifler() {
-    fetch('/tarifler')
-      .then(response => response.json())
-      .then(data => {
-        tarifler.length = 0; // Eski tarifleri temizle
-        tarifler.push(...data.tarifler); // Yeni tarifleri ekle
-        tarifleriGoster(); // Tarifleri ekranda göster
-      })
-      .catch(error => {
-        console.error('Hata:', error);
-        container.innerHTML = "<p>Veriler alınırken bir hata oluştu.</p>";
-      });
-  }
-
-  // Tarifleri filtrele ve sayfalama yap
   function tarifleriGoster() {
     container.innerHTML = "";
 
@@ -44,21 +68,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const baslangic = (mevcutSayfa - 1) * tarifSayisiBirSayfada;
     const goruntulenecekTarifler = filtreliTarifler.slice(baslangic, baslangic + tarifSayisiBirSayfada);
 
-    goruntulenecekTarifler.forEach(tarif => {
-      const malzemelerHTML = tarif.malzemeler.slice(0, 3)
+    goruntulenecekTarifler.forEach((tarif, index) => {
+      const globalIndex = tarifler.indexOf(tarif); // gerçek index
+      const ilkUcMalzeme = tarif.malzemeler.slice(0, 3);
+      const geriKalanMalzemeler = tarif.malzemeler.slice(3);
+
+      const malzemelerHTML = ilkUcMalzeme
         .map(malzeme => `<span class="malzeme">${malzeme}</span>`)
         .join(" ");
 
-      const ekstraMalzemeHTML = tarif.malzemeler.length > 3
-        ? `<span class="ekstra-malzemeler" style="cursor:pointer;">+${tarif.malzemeler.length - 3} daha</span>`
+      const ekstraMalzemeHTML = geriKalanMalzemeler.length > 0
+        ? `<span class="ekstra-malzemeler" style="cursor:pointer;" data-index="${globalIndex}">+${geriKalanMalzemeler.length} daha</span>`
         : "";
 
       const favClass = tarif.favori ? "fa-solid" : "fa-regular";
 
       const cardHTML = `
-        <div class="recipe-card">
+        <div class="recipe-card" data-index="${globalIndex}">
           <div class="card-top">
-            <div class="fav-icon">
+            <div class="fav-icon" data-index="${globalIndex}">
               <i class="${favClass} fa-heart"></i>
             </div>
           </div>
@@ -80,7 +108,30 @@ document.addEventListener("DOMContentLoaded", () => {
       container.insertAdjacentHTML("beforeend", cardHTML);
     });
 
-    // Sayfa numaralarını ekle
+    // Favori ikonu tıklama
+    document.querySelectorAll(".fav-icon").forEach(icon => {
+      icon.addEventListener("click", () => {
+        const index = icon.dataset.index;
+        tarifler[index].favori = !tarifler[index].favori;
+        const heartIcon = icon.querySelector("i");
+        heartIcon.classList.toggle("fa-solid");
+        heartIcon.classList.toggle("fa-regular");
+      });
+    });
+
+    // "+X daha" tıklama
+    document.querySelectorAll(".ekstra-malzemeler").forEach(span => {
+      span.addEventListener("click", () => {
+        const index = span.dataset.index;
+        const geriKalan = tarifler[index].malzemeler.slice(3);
+        const ekstraHTML = geriKalan.map(m => `<span class="malzeme">${m}</span>`).join(" ");
+        const malzemeListesi = span.parentElement;
+        span.style.display = "none";
+        malzemeListesi.innerHTML += ` ${ekstraHTML}`;
+      });
+    });
+
+    // Sayfa numaraları
     sayfalamaContainer.innerHTML = "";
     for (let i = 1; i <= toplamSayfa; i++) {
       const btn = document.createElement("button");
@@ -94,9 +145,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  fetchTarifler(); // Sayfa yüklendiğinde tarifleri çek
+  // Başlangıçta tarifleri göster
+  tarifleriGoster();
 
-  // Kategori ve arama işlemleri
+  // Kategori butonları
   document.querySelectorAll('.kategori-buttons button').forEach(button => {
     button.addEventListener('click', function () {
       document.querySelectorAll('.kategori-buttons button').forEach(btn => btn.classList.remove('active'));
@@ -107,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Arama kutusu
   aramaInput.addEventListener("input", () => {
     aramaKelimesi = aramaInput.value.trim();
     mevcutSayfa = 1;

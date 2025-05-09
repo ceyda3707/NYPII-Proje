@@ -469,6 +469,9 @@ def chatbot():
 
     return render_template('chatbot.html', cevap=cevap)
 
+@app.route("/tum_tarifler")
+def tum_tarifler():
+    return render_template("tum_tarifler.html")
 
     
 if __name__ == '__main__':
