@@ -356,10 +356,11 @@ def tarif_detay(tarif_id):
 def get_tarifler():
     malzemeler = request.args.get('malzemeler')
     if not malzemeler:
-        return jsonify({"error": "Malzeme listesi yok"}), 400
+        return jsonify({"error": "Malzemeler parametresi eksik"}), 400
 
     secilenler = malzemeler.split(',')
-    placeholders = ' OR '.join(["LOWER(malzemeler) LIKE ?" for _ in secilenler])
+    # 🔥 OR değil AND
+    placeholders = ' AND '.join(["LOWER(malzemeler) LIKE ?" for _ in secilenler])
     query = f"SELECT * FROM tarifler WHERE {placeholders}"
     params = [f"%{m.strip().lower()}%" for m in secilenler]
 
@@ -367,20 +368,18 @@ def get_tarifler():
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     cursor.execute(query, params)
-    sonuc = cursor.fetchall()
+    satirlar = cursor.fetchall()
     conn.close()
 
-    # 👇 Burada sadece benzersiz tarif isimlerini alıyoruz
-    gorulen_isimler = set()
-    benzersiz = []
+    seen = set()
+    tarifler = []
+    for row in satirlar:
+        if row["id"] not in seen:
+            seen.add(row["id"])
+            tarifler.append(dict(row))
 
-    for row in sonuc:
-        isim = row["isim"].strip().lower()
-        if isim not in gorulen_isimler:
-            gorulen_isimler.add(isim)
-            benzersiz.append(dict(row))
+    return jsonify(tarifler)
 
-    return jsonify(benzersiz)
 
 
 
@@ -421,7 +420,39 @@ def tum_tarifleri_getir():
 
     return jsonify([dict(t) for t in tarifler])
 
+@app.route('/chatbot', methods=['GET', 'POST'])
+def chatbot():
+    cevap = ""
+    if request.method == 'POST':
+        soru = request.form.get('soru', '').lower()
 
+        # Bilinen malzeme listesi (örnek)
+        bilinen_malzemeler = ['süt', 'pirinç', 'soğan', 'yumurta', 'domates', 'patates', 'biber', 'şeker', 'un', 'yoğurt', 'et', 'tavuk']
+        secilen_malzemeler = [m for m in bilinen_malzemeler if m in soru]
+
+        if not secilen_malzemeler:
+            cevap = "Elindeki malzemeleri anlayamadım 😔 Lütfen açıkça yaz (örneğin: süt, pirinç, yumurta)"
+        else:
+            conn = sqlite3.connect("turk_tarifleri.db")
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+
+            # Bütün malzemelerin hepsi tarifte geçiyor mu kontrolü
+            conditions = ' AND '.join(["LOWER(malzemeler) LIKE ?" for _ in secilen_malzemeler])
+            query = f"SELECT * FROM tarifler WHERE {conditions}"
+            params = [f"%{m}%" for m in secilen_malzemeler]
+
+            cursor.execute(query, params)
+            tarifler = cursor.fetchall()
+            conn.close()
+
+            if not tarifler:
+                cevap = f"'{', '.join(secilen_malzemeler)}' malzemelerinin hepsini içeren tarif bulamadım."
+            else:
+                ilk_tarif = tarifler[0]
+                cevap = f"🧠 Elindeki malzemelerle '{ilk_tarif['isim']}' tarifini yapabilirsin! İçindekiler: {ilk_tarif['malzemeler']}"
+
+    return render_template('chatbot.html', cevap=cevap)
 
 
     

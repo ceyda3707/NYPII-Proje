@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Yemek Chatbotu</title>
+</head>
+<body>
+    <h2>Yemek Öneri Chatbotu 🤖</h2>
+    <form method="POST">
+        <input type="text" name="soru" placeholder="Bir şeyler sor..." style="width: 300px;">
+        <button type="submit">Gönder</button>
+    </form>
+
+    {% if cevap %}
+        <p><strong>Bot:</strong> {{ cevap }}</p>
+    {% endif %}
+</body>
+</html>
