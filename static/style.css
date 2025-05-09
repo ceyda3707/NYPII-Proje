@@ -908,3 +908,85 @@ body, html {
   border-radius: 8px;
   cursor: pointer;
 }
+
+.flash-popup {
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #e7f8ec;
+  color: #1a5d2d;
+  border: 2px solid #b4dfc1;
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 9999;
+  animation: fadeout 3s ease forwards;
+}
+
+@keyframes fadeout {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+.user-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.user-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  padding: 5px;
+  display: inline-block; /* EKLE */
+}
+
+.user-menu .dropdown {
+  display: none;
+  position: absolute;
+  background-color: white;
+  top: 100%;
+  right: 0;
+  min-width: 150px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  border-radius: 6px;
+}
+
+.user-menu:hover .dropdown {
+  display: block;
+}
+
+.dropdown a {
+  color: #333;
+  padding: 10px 15px;
+  display: block;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.dropdown a:hover {
+  background-color: #f2f2f2;
+}
+.user-initials {
+  background-color: white;
+  color: #244435;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+  transition: background 0.3s;
+}
+
+.user-initials:hover {
+  background-color: #eee;
+}

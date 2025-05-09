@@ -55,7 +55,8 @@
             <div class="right">
                 <h1 class="login-title">Giriş Yap</h1>
                 <p class="sub-description">Hesabınıza erişmek için bilgilerinizi girin</p>
-
+            
+            <form method="POST" action="/login">
                 <!-- E-Posta Adresi -->
                 <label for="email" class="email-label">E-posta Adresi</label>
                 <div class="input-container">
@@ -63,7 +64,7 @@
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2z"/>
                         <polyline points="22,6 12,13 2,6"/>
                     </svg>                    
-                    <input type="email" id="email" class="input-field w-full pl-12 pr-4 py-4 rounded-lg focus:outline-none" placeholder="ornek@email.com" />
+                    <input type="email" name="email" id="email" class="input-field w-full pl-12 pr-4 py-4 rounded-lg focus:outline-none" placeholder="ornek@email.com" />
                 </div>
 
                 <!-- Şifre etiketi ve "Şifremi Unuttum" aynı satırda -->
@@ -78,17 +79,23 @@
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                     </svg>                      
-                    <input type="password" id="password" class="input-field-p w-full pl-12 pr-4 py-4 rounded-lg focus:outline-none" placeholder="........" />
+                    <input type="password" name="password" id="password" class="input-field-p w-full pl-12 pr-4 py-4 rounded-lg focus:outline-none" placeholder="........" />
                 </div>
 
                 <div class="remember-container">
                     <input type="checkbox" id="rememberMe" class="remember-checkbox">
                     <label for="rememberMe" class="remember-label">Beni hatırla</label>
                 </div>        
-                
+                {% if error %}
+                <div style="background-color: #ffe6e6; border: 1px solid #cc0000; color: #cc0000; padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
+                    {{ error }}
+                </div>
+               {% endif %}
+
                 <button type="submit" class="login-button">
                     Giriş Yap ➜
-                </button>                
+                </button>   
+            </form>                             
 
                 <div class="continue-wrapper">
                     <div class="divider">
@@ -115,7 +122,10 @@
                   </div>
                   
                 <div class="sign-up-section">
-                    <p class="sign-up-text">Hesabınız yok mu? <a href="#" class="sign-up-link">Üye Ol</a></p>
+                    <p class="sign-up-text">Hesabınız yok mu? 
+                        <a href="{{ url_for('register') }}" class="sign-up-link">Üye Ol</a>
+                    </p>
+                    
                 </div>
                 
             </div>
