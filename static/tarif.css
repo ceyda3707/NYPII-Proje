@@ -1,0 +1,645 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Genel container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+}
+
+/* Header */
+.site-header {
+    background-color: #1a2b47; /* daha koyu mavi */
+    padding: 25px 0;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    gap: 10px;
+    transform: translateX(-50px); /* Logoyu sola 20px kaydır */
+}
+
+.logo img {
+    width: 36px;
+    height: 36px;
+    margin-right: 8px;
+}
+
+.logo span {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Buhar animasyonu */
+@keyframes steamRise {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translateY(-10px) scale(1.05);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(1.1);
+    }
+}
+
+/* Her steam çizgisine animasyon uyguluyoruz */
+.steam {
+    animation: steamRise 3s infinite ease-in-out;
+}
+
+/* Her biri farklı zamanda başlasın diye küçük gecikmeler */
+.steam-1 {
+    animation-delay: 0s;
+}
+
+.steam-2 {
+    animation-delay: 1s;
+}
+
+.steam-3 {
+    animation-delay: 2s;
+}
+
+/* Navigasyon */
+.site-nav ul {
+    list-style: none;
+    display: flex;
+    margin-left: 360px;
+    gap: 24px;
+}
+
+.site-nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.site-nav a:hover {
+    color: #dad0b3;
+}
+
+/* Butonlar */
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+    transform: translateX(60px); /* Aşağıya 30px kaydırma */
+}
+
+.login-btn, .signup-btn {
+    font-size: 16px;
+    font-weight: 550;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Giriş Yap */
+.login-btn {
+    background-color: #ffffff;
+    color: #1a2b47;
+}
+
+/* Üye Ol */
+.signup-btn {
+    background-color: #cc7548; /* tam turuncu tonu */
+    color: #ffffff;
+}
+
+/* Hover efektleri */
+.login-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.signup-btn:hover {
+    background-color: #e0e0e0;
+}
+
+
+
+/* Tarif İçerik Alanı */
+.tarif-alani {
+    background-color: #dad0b3;
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+}
+
+
+.tarif-bolunmus {
+    width: 68.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* İçerik kutusu (Dikdörtgen) */
+.inner-box {
+    display: flex;
+    width: 100%;
+    height: auto;
+    border-radius: 12px; /* Genel köşe yuvarlama */
+    overflow: hidden; /* İçerik taşmasını engeller */
+    box-shadow: 0 10px 30px -5px rgba(26, 43, 71, 0.2);
+    margin-bottom: 32px; /* Alt boşluk */
+}
+
+/* Sol taraf */
+.inner-box .left {
+    background-color: #244435; /* Sol tarafın rengi */
+    width: 50%; /* Sol tarafın genişliği */
+    height: auto;
+}
+
+/* Sağ taraf (daraltılmış ve eşit boşluklar) */
+.inner-box .right {
+    background-color: white; /* Sağ tarafın rengi */
+    width: 50%; /* Sağ tarafı daha dar yapıyoruz */
+    height: auto;
+    border-top-right-radius: 20px; /* Sağ üst köşe yuvarlama */
+    border-bottom-right-radius: 20px; /* Sağ alt köşe yuvarlama */
+}
+
+.kategori-baslik {
+    padding-left: 30px;
+    padding-top: 25px;
+    padding-bottom: 10px;
+}
+
+.kategori-baslik h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #cc7548;
+    font-family: 'Poppins', serif;
+}
+
+.tarif-adi {
+    padding-left: 30px;
+    padding-bottom: 20px;
+}
+
+.tarif-adi h3 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #1a2b47;
+    font-family: 'Playfair Display', sans-serif;
+}
+
+.tarif-detaylar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px; /* Elemanlar arası boşluk */
+    margin-top: 20px;
+   
+}
+
+.tarif-detay {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 40%; /* Aynı satıra 2 eleman sığdırmak için */
+    margin-left: 30px;
+}
+
+.ikon {
+    background-color: #dad0b3;
+    padding: 10px;
+    border-radius: 50%; /* Tam daire yapmak için */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #1a2b47;
+}
+
+
+.detay-baslik {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    color: #7c7c7d;
+    margin-right: 5px;
+    transform: translateY(-12px) translateX(5px);
+}
+
+.detay-deger {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    color: #1a2b47;
+    transform: translateY(8px) translateX(-50px);
+}
+
+.tarif-detay .detay-deger.porsiyon {
+    transform: translateX(-60px) translateY(8px);
+}
+
+
+/* Değerlendirme */
+.yildiz-degerlendirme {
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+    margin-top: 25px;
+    margin-bottom: 50px;
+}
+
+.yildizlar {
+    display: flex;
+    gap: 0px;
+}
+
+.yildiz {
+    font-size: 24px;
+    color: #dad0b3;  /* Yıldızların varsayılan rengi */
+    cursor: pointer;
+}
+
+.yildiz.hovered {
+    color: #cc7548;  /* Hover rengindeki yıldızın rengi */
+}
+
+.yildiz.selected {
+    color: #cc7548;  /* Tıklanan yıldızın rengi */
+}
+
+.yildiz-yazi {
+    margin-left: 10px;
+    margin-top: 5px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    color: #7c7c7d;
+}
+
+.alt-kutular {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 10px 0;
+    background-color: #dad0b3;
+}
+
+.kutucuk1 {
+    width: 328px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px -5px rgba(26, 43, 71, 0.2); /* kutucuk gölgesi */
+    display: flex;
+    flex-direction: column;  /* içerikleri dikey diz */
+    align-items: flex-start; /* içerikleri sola hizala */
+    margin-top: -55px;
+    margin-bottom: 30px;
+    padding: 24px;
+}
+
+.malzeme-icon {
+    width: 24px;
+    height: 24px;
+    color: #cc7548;
+    margin-bottom: 15px;
+}
+
+.malzeme-baslik {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #1a2b47;
+    margin-bottom: 15px;
+    transform: translateX(10px);
+}
+
+.malzeme-listesi {
+    list-style: none;
+    margin: 0;
+    padding: 8px; 
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; 
+}
+
+
+.malzeme-listesi li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #dad0b3; /* Çizgi rengi */
+    font-size: 16px;
+    color: #7c7c7d;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.malzeme-listesi li:last-child {
+    border-bottom: none; /* sonuncu öğeye çizgi uygulama */
+    margin-bottom: 0;     /* boşluğu da kaldırabilirsin istersen */
+}
+
+
+.malzeme-listesi li .circle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px; /* Dairenin genişliği */
+    height: 24px; /* Dairenin yüksekliği */
+    border-radius: 50%; /* Dairenin şeklini verir */
+    background-color: #dad0b3; /* Dairenin rengi */
+    margin-right: 10px;
+    flex-shrink: 0; /* boyut küçülmesini engelle */
+}
+
+.malzeme-listesi li .checkmark {
+    font-size: 14px; /* Tik işaretinin boyutu */
+    color: #244435; /* Tik işaretinin rengi */
+    font-weight: medium; /* Tik işaretinin kalınlığı */
+}
+
+.malzeme-baslik-kapsayici {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* ingredient-item sınıfına hover efekti */
+.ingredient-item {
+    transition: all 0.2s ease;
+}
+
+.ingredient-item:hover {
+    transform: translateX(5px); /* Hover ile sağa kayma efekti */
+}
+
+.kutucuk2 {
+    width: 692px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px -5px rgba(26, 43, 71, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: -55px;
+    margin-bottom: 30px;
+    padding: 24px;
+  }
+  
+  .hazirlanis-baslik-kapsayici {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .hazirlanis-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+  
+  .hazirlanis-baslik {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #1a2b47;
+  }
+  
+  .hazirlanis-adimlari {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+  }
+  
+  .hazirlanis-adimi {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .hazirlanis-adimi:hover {
+    background-color: rgba(204, 117, 72, 0.1);
+  }
+  
+  .hazirlanis-numara {
+    width: 32px;
+    height: 32px;
+    background-color: #244435;
+    color: #ffffff;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  
+  .hazirlanis-metin {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #7c7c7d;
+    line-height: 1.5;
+  }
+  
+  /* Responsive */
+  @media screen and (max-width: 768px) {
+    .kutucuk2 {
+      width: 100%;
+    }
+  }
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* Alt Bilgi */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+  
+  .card-footer a {
+    color: #cc7548;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  /* Puan */
+  .rating {
+    position: absolute;
+    top: 160px;
+    right: 20px;
+    color: #cc7548;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  /* Daha Fazla Buton */
+  .more-btn {
+    margin-top: 40px;
+    background: #cc7548;
+    color: #ffffff;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .more-btn:hover {
+    background: #bf5a33;
+  }
+  
+  
+  .footer {
+    background-color: #1a2b47;
+    color: #ffffff;
+    padding: 60px 0 30px;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 40px;
+  }
+  
+  .footer-section {
+    flex: 1 1 200px;
+  }
+  
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .footer-logo img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .footer-logo span {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .footer-description {
+    margin: 20px 0;
+    color: #d1d5db;
+  }
+  
+  
+  .footer-social {
+    margin-top: 20px;
+  }
+  
+  .footer-social a {
+    color: #cbd5e1;
+    font-size: 20px;
+    margin-right: 15px;
+    transition: color 0.3s;
+  }
+  
+  .footer-social a:hover {
+    color: #ffffff;
+  }
+  
+  .footer-section h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 10px;
+  }
+  
+  .footer-section ul li a {
+    color: #d1d5db;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .footer-section ul li a:hover {
+    color: #ffffff;
+  }
+  
+  .footer-bottom {
+    margin-top: 40px;
+    border-top: 1px solid #1f2937;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #9ca3af;
+  }
