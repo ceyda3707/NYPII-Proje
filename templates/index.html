@@ -109,13 +109,13 @@
     <section id="kategoriler">
         <h2>Kategoriler</h2>
         <div class="kategori-buttons">
-          <button class="active">Tümü</button>
-          <button>Kahvaltı</button>
-          <button>Ana Yemekler</button>
-          <button>Tatlılar</button>
-          <button>Çorbalar</button>
-          <button>Salatalar</button>
-          <button>İçecekler</button>
+            <button class="kategori-btn active" data-kategori="Tümü">Tümü</button>
+            <button class="kategori-btn" data-kategori="Kahvaltı">Kahvaltı</button>
+            <button class="kategori-btn" data-kategori="Ana Yemek">Ana Yemekler</button>
+            <button class="kategori-btn" data-kategori="Tatlı">Tatlılar</button>
+            <button class="kategori-btn" data-kategori="Çorba">Çorbalar</button>
+            <button class="kategori-btn" data-kategori="Salata">Salatalar</button>
+            <button class="kategori-btn" data-kategori="İçecek">İçecekler</button>
         </div>
       </section>
       
@@ -242,7 +242,8 @@
           </div>
           {% endfor %}
         </div>
-        <button class="more-btn">Daha Fazla Tarif</button>
+        <button class="more-btn" onclick="window.location.href='/tum_tarifler'">Daha Fazla Tarif</button>
+
       </section>
 
         <footer class="footer">

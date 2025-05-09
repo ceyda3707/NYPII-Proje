@@ -69,22 +69,42 @@
 
       <section id="kategoriler">
         <div class="kategori-buttons">
-          <button class="active" data-kategori="Hepsi">Tümü</button>
+          <button data-kategori="Tümü">Tümü</button>
           <button data-kategori="Kahvaltı">Kahvaltı</button>
-          <button data-kategori="Ana Yemekler">Ana Yemekler</button>
-          <button data-kategori="Tatlılar">Tatlılar</button>
-          <button data-kategori="Çorbalar">Çorbalar</button>
-          <button data-kategori="Salatalar">Salatalar</button>
-          <button data-kategori="İçecekler">İçecekler</button>
+          <button data-kategori="Ana Yemek">Ana Yemek</button>
+          <button data-kategori="Tatlı">Tatlı</button>
+          <button data-kategori="Çorba">Çorba</button>
+          <button data-kategori="Salata">Salata</button>
+          <button data-kategori="İçecek">İçecek</button>
+
         </div>
       </section>
       
       
 
       <div id="tarifler-container" class="recipe-cards">
-        <!-- Tarif Kartları Dinamik Olarak Burada Yüklenecek -->
+        {% for tarif in tarifler %}
+        <div class="recipe-card">
+          <div class="card-top">
+            <img src="${tarif.resim_url || '/static/placeholder.jpg'}" alt="${tarif.isim}">
+
+            <div class="plus">+</div>
+            <div class="time-badge">30 dk</div>
+          </div>
+          <div class="card-content">
+            <span class="difficulty">{{ tarif[2] }}</span>
+            <h3>{{ tarif[1] }}</h3>
+            <p>{{ tarif[4].split(',')|length }} malzeme</p>
+            <div class="card-footer">
+              <span>{{ tarif[3] }}</span>
+              <a href="{{ url_for('tarif_detay', tarif_id=tarif[0]) }}">Tarifi Gör →</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
       </div>
-      
+
+            
 
 
       <div id="sayfalama" class="sayfa-numaralari"></div>

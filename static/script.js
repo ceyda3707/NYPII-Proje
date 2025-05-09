@@ -143,6 +143,17 @@ const emojiListesi = {
         "Çam Fıstığı": "🌰"
 };
 
+let secilenKategori = "Tümü"; // Varsayılan
+
+document.querySelectorAll('.kategori-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.kategori-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    secilenKategori = this.dataset.kategori;
+  });
+});
+
+
 // Malzeme butonlarına tıklayınca seçilen malzemeyi ekler
 document.querySelectorAll('.malzeme-listesi button').forEach(button => {
     button.addEventListener('click', function() {
@@ -212,7 +223,8 @@ document.addEventListener("DOMContentLoaded", function () {
         m.innerText.replace(/^[^a-zA-ZçğıöşüÇĞİÖŞÜ]*\s*/, '').trim()
       );
   
-      fetch(`/api/tarifler?malzemeler=${malzemeler.join(',')}`)
+      fetch(`/api/tarifler?malzemeler=${malzemeler.join(',')}&kategori=${secilenKategori}`)
+
         .then(r => r.json())
         .then(tarifler => {
           const unique = new Map(); // 🔥 Tarifleri ID'ye göre sakla

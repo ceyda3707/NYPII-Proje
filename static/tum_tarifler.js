@@ -2,21 +2,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("tarifler-container");
   const aramaInput = document.getElementById("aramaInput");
   const sayfalamaContainer = document.getElementById("sayfalama");
-  let seciliKategori = "Hepsi";
+  let seciliKategori = "Tümü";
   let aramaKelimesi = "";
   let mevcutSayfa = 1;
   const tarifSayisiBirSayfada = 20;
 
   let tarifler = [];
-
+  
   async function tarifleriYukle() {
     try {
-      const response = await fetch("http://localhost:5000/api/tarifler");
+      const response = await fetch("/api/tum_tarifler");
       const veri = await response.json();
 
       tarifler = veri.map(t => ({
         ...t,
-        malzemeler: JSON.parse(t.malzemeler),
+        malzemeler: t.malzemeler.split(','),
+
         favori: t.favori === 1
       }));
 
@@ -28,10 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function tarifleriGoster() {
+    console.log("Görünen tarif sayısı:", document.querySelectorAll(".recipe-card").length);
+
     container.innerHTML = "";
 
     const filtreliTarifler = tarifler.filter(t => {
-      const kategoriEslesme = seciliKategori === "Hepsi" || t.kategori === seciliKategori;
+     const kategoriEslesme = seciliKategori === "Tümü" || !seciliKategori || t.kategori === seciliKategori;
       const isimEslesme = t.isim.toLowerCase().includes(aramaKelimesi.toLowerCase());
       return kategoriEslesme && isimEslesme;
     });

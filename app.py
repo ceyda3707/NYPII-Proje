@@ -374,14 +374,30 @@ def tarif_detay(tarif_id):
 @app.route('/api/tarifler', methods=['GET'])
 def get_tarifler():
     malzemeler = request.args.get('malzemeler')
+    kategori = request.args.get('kategori')  # Yeni kategori parametresi
+    
+    conn = sqlite3.connect("turk_tarifleri.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+
     if not malzemeler:
-        return jsonify({"error": "Malzemeler parametresi eksik"}), 400
+        cursor.execute("SELECT * FROM tarifler")
+        satirlar = cursor.fetchall()
+        conn.close()
+        return jsonify([dict(row) for row in satirlar])
 
     secilenler = malzemeler.split(',')
     # 🔥 OR değil AND
     placeholders = ' AND '.join(["LOWER(malzemeler) LIKE ?" for _ in secilenler])
     query = f"SELECT * FROM tarifler WHERE {placeholders}"
     params = [f"%{m.strip().lower()}%" for m in secilenler]
+
+    # Kategori filtresi ekleniyor (Tümü hariç)
+    if kategori and kategori.lower() != "tümü":
+        query += " AND LOWER(kategori) = LOWER(?)"
+        params.append(kategori.strip())
+
 
     conn = sqlite3.connect("turk_tarifleri.db")
     conn.row_factory = sqlite3.Row
@@ -427,18 +443,6 @@ def api_tarif_detay(tarif_id):
         return jsonify({"error": "Tarif bulunamadı"}), 404
     
 
-
-@app.route("/api/tum_tarifler", methods=["GET"])
-def tum_tarifleri_getir():
-    conn = sqlite3.connect("turk_tarifleri.db")
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, isim, kategori, bolge, malzemeler, tarif, resim_url FROM tarifler")
-    tarifler = cursor.fetchall()
-    conn.close()
-
-    return jsonify([dict(t) for t in tarifler])
-
 @app.route('/chatbot', methods=['GET', 'POST'])
 def chatbot():
     cevap = ""
@@ -473,9 +477,29 @@ def chatbot():
 
     return render_template('chatbot.html', cevap=cevap)
 
-@app.route("/tum_tarifler")
+
+@app.route("/api/tum_tarifler", methods=["GET"])
+def tum_tarifleri_getir():
+    conn = sqlite3.connect("turk_tarifleri.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, isim, kategori, bolge, malzemeler, tarif, resim_url FROM tarifler")
+    tarifler = cursor.fetchall()
+    conn.close()
+
+    return jsonify([dict(t) for t in tarifler])
+
+
+@app.route('/tum_tarifler')
 def tum_tarifler():
-    return render_template("tum_tarifler.html")
+    conn = sqlite3.connect("turk_tarifleri.db")
+    conn.row_factory = sqlite3.Row  # ← BU ŞART!
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM tarifler")
+    tarifler = cursor.fetchall()
+    conn.close()
+    return render_template("tum_tarifler.html", tarifler=tarifler)
+
 
     
 if __name__ == '__main__':
