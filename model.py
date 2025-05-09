@@ -1,9 +1,15 @@
 from extensions import db  # db objesini buradan al
+from flask_login import UserMixin
 
 
 class YemekTarifi(db.Model):
+<<<<<<< HEAD
     __tablename__ = 'tarifler'
     __bind_key__ = None
+=======
+    __tablename__ = 'yemek_tarifleri'
+    __bind_key__ = 'turk_tarifleri'
+>>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
     
     id = db.Column(db.Integer, primary_key=True)
     isim = db.Column(db.String)
@@ -25,6 +31,7 @@ class TurkTarifi(db.Model):
 
     
 class Tarif(db.Model):
+    __tablename__='tarif'
     id = db.Column(db.Integer, primary_key=True)
     isim = db.Column(db.String(100))  # tarifin adı
     yapilis = db.Column(db.Text)
@@ -34,7 +41,7 @@ class Tarif(db.Model):
     resim_url = db.Column(db.String(255))  # görsel için
 
     # Malzeme ile ilişkiyi tanımlıyoruz
-    malzemeler = db.relationship('Malzeme', secondary='tarif_malzeme', backref='tarifler')
+    malzemeler = db.relationship('Malzeme', secondary='tarif_malzeme', backref='ilgili_tarifler')
 
 # Malzeme Modeli
 class Malzeme(db.Model):
@@ -43,19 +50,20 @@ class Malzeme(db.Model):
     isim = db.Column(db.String(100), nullable=False)  # Malzemenin ismi
 
     # Tariflerle ilişkiyi tanımlıyoruz (çoka çok ilişki)
-    tarifler = db.relationship('Tarif', secondary='tarif_malzeme', backref='malzemeler', lazy='dy')
+   # tarifler = db.relationship('Tarif', secondary='tarif_malzeme', backref='malzemeler', lazy='dynamic')
 
 # TarifMalzeme (Bağlantı) Tablosu
 class TarifMalzeme(db.Model):
     __tablename__ = 'tarif_malzeme'
-    tarif_id = db.Column(db.Integer, db.ForeignKey('tarifler.id'), primary_key=True)
+    tarif_id = db.Column(db.Integer, db.ForeignKey('tarif.id'), primary_key=True)
     malzeme_id = db.Column(db.Integer, db.ForeignKey('malzemeler.id'), primary_key=True)
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'  # Açıkça tablo adı belirtelim
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False, unique=True)
+    

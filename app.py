@@ -1,22 +1,33 @@
 import re
 import sqlite3
 import os
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify,session, flash
 from extensions import db
-from model import YemekTarifi, TurkTarifi
-from model import User
-from flask_login import LoginManager, current_user, login_user , current_user
-app = Flask(__name__)
+from model import YemekTarifi, TurkTarifi, User
+from flask_login import LoginManager, current_user, login_user, logout_user
 
 
-#SQLALCHEMY_BINDS, farklı veritabanlarına bağlanmak için kullanılan bir parametredir.
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/user/OneDrive/Desktop/NYPII-Proje/turk_tarifleri.db'  # Tek veritabanı
+app.secret_key = 'benimcokgizlisirrimsin2025' 
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
+app.config['SQLALCHEMY_BINDS'] = {
+    'turk_tarifleri': 'sqlite:///' + os.path.join(basedir, 'turk_tarifleri.db')
+}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db.init_app(app)
 
 
+<<<<<<< HEAD
 def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifleri.db'):
+=======
+
+def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifler.db'):
+>>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
     malzeme_metni = malzeme_metni.lower()
 
     # Etiket için referans listeleri
@@ -57,6 +68,8 @@ def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifleri.db'):
         "gecen_malzemeler": gecen_malzemeler,
         "etiketler": bulunan_malzemeler
     }
+
+
 def etiket_id_getir(conn, etiket_adi):
     cursor = conn.cursor()
     cursor.execute("SELECT id FROM etiketler WHERE ad = ?", (etiket_adi,))
@@ -236,11 +249,9 @@ def filtreli_tarifler(etiket):
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-# current_user'ı tüm şablonlara otomatik aktar
-@app.context_processor
-def inject_user():
-    return dict(current_user=current_user)
-
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 @app.route('/tarif/ekle', methods=['POST'])
 def tarif_ekle():
@@ -265,20 +276,13 @@ def tarif_ekle():
         conn.commit()
         conn.close()
 
+<<<<<<< HEAD
         return redirect(url_for('tarifler'))
     
+=======
+        return redirect(url_for('yemek_tarifleri'))
+>>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        user = User.query.filter_by(username=request.form['username']).first()
-        if user and user.password == request.form['password']:
-            login_user(user)
-            return redirect(url_for('index'))
-    return render_template('login.html')
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
 
 @app.route('/test')
 def test_db():
@@ -289,17 +293,61 @@ def test_db():
             return f"Bağlantı başarılı! Yemekler: {yemek_sayisi}, Türk Tarifleri: {turk_sayisi}"
         except Exception as e:
             return f"Hata: {str(e)}"
+        
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        print("Form verileri:", request.form)
+
+        user = User.query.filter_by(email=email).first()
+
+        if not user:
+            return render_template('login.html', error="Kullanıcı bulunamadı.")
+        
+        if user.password != password:
+            return render_template('login.html', error="Şifre hatalı.")
+        
+        login_user(user)
+        
+        session['user_email'] = user.email
+        flash(f"Hoş geldin, {user.username.split()[0]}!")
+        return redirect(url_for('index'))
+
+    return render_template('login.html')
+          
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    session.clear()
+    return redirect(url_for('index'))
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        new_user = User(username=username, password=password)
+
+        new_user = User(username=username, password=password, email=email)
         db.session.add(new_user)
         db.session.commit()
+
         return redirect(url_for('login'))
     return render_template('register.html')
+
+@app.route('/favoriler')
+def favoriler():
+    return render_template('favoriler.html')  # Bu dosya varsa
+
 
 @app.route('/')
 def index():
@@ -317,9 +365,24 @@ def tarifler():
     cursor.execute("SELECT id, isim, kategori, bolge, malzemeler, tarif, resim_url FROM tarifler")
     kolonlar = ["id", "isim", "kategori", "bolge", "malzemeler", "tarif", "resim_url"]
     tarifler = [dict(zip(kolonlar, row)) for row in cursor.fetchall()]
+    
+    # Tarifleri uygun formatta hazırlıyoruz
+    tarifler_data = []
+    for tarif in tarifler:
+        tarif_data = {
+            "id": tarif[0],
+            "isim": tarif[1],
+            "kategori": tarif[2],
+            "zorluk": tarif[3],
+            "sure": tarif[4],
+            "malzemeler": tarif[5].split(','),  # Malzemeleri virgülle ayır
+            "resim_url": tarif[6],
+            "favori": tarif[7]
+        }
+        tarifler_data.append(tarif_data)
 
     conn.close()
-    return render_template("tarifler.html", tarifler=tarifler)
+    return render_template("tarifler.html", tarifler=tarifler_data)
     
 @app.route("/kategoriler")
 def kategoriler():
@@ -336,8 +399,6 @@ def tarif_detay(tarif_id):
     cursor.execute("SELECT * FROM tarifler WHERE id = ?", (tarif_id,))
     tarif = cursor.fetchone()
     conn.close()
-    
-   
 
     if not tarif:
         return "Tarif bulunamadı", 404
@@ -345,22 +406,54 @@ def tarif_detay(tarif_id):
     return render_template("tarif_detay.html", tarif=tarif)
 
 @app.route('/api/tarifler', methods=['GET'])
-def api_tarifleri_getir():
+def get_tarifler():
     malzemeler = request.args.get('malzemeler')
-    if not malzemeler:
-        return jsonify({"error": "Malzeme listesi yok"}), 400
-
-    secilenler = malzemeler.split(',')
-    placeholders = ' OR '.join(['malzemeler LIKE ?' for _ in secilenler])
-    query = f"SELECT * FROM tarifler WHERE {placeholders}"
-
-    conn = sqlite3.connect('turk_tarifleri.db')
+    kategori = request.args.get('kategori')  # Yeni kategori parametresi
+    
+    conn = sqlite3.connect("turk_tarifleri.db")
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
-    cursor.execute(query, [f"%{malzeme.strip()}%" for malzeme in secilenler])
-    tarifler = cursor.fetchall()
+
+
+    if not malzemeler:
+        cursor.execute("SELECT * FROM tarifler")
+        satirlar = cursor.fetchall()
+        conn.close()
+        return jsonify([dict(row) for row in satirlar])
+
+    secilenler = malzemeler.split(',')
+    # 🔥 OR değil AND
+    placeholders = ' AND '.join(["LOWER(malzemeler) LIKE ?" for _ in secilenler])
+    query = f"SELECT * FROM tarifler WHERE {placeholders}"
+    params = [f"%{m.strip().lower()}%" for m in secilenler]
+
+    # Kategori filtresi ekleniyor (Tümü hariç)
+    if kategori and kategori.lower() != "tümü":
+        query += " AND LOWER(kategori) = LOWER(?)"
+        params.append(kategori.strip())
+
+
+    conn = sqlite3.connect("turk_tarifleri.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute(query, params)
+    satirlar = cursor.fetchall()
     conn.close()
+<<<<<<< HEAD
     return jsonify([dict(t) for t in tarifler])
+=======
+
+    seen = set()
+    tarifler = []
+    for row in satirlar:
+        if row["id"] not in seen:
+            seen.add(row["id"])
+            tarifler.append(dict(row))
+
+    return jsonify(tarifler)
+
+
+>>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
 
 
 @app.route("/api/tarif/<int:tarif_id>")
@@ -370,9 +463,6 @@ def api_tarif_detay(tarif_id):
     cursor.execute("SELECT isim, kategori, malzemeler, tarif FROM tarifler WHERE id = ?", (tarif_id,))
     data = cursor.fetchone()
     conn.close()
-
-    
-
     if data:
        import random
        return jsonify({
@@ -391,6 +481,40 @@ def api_tarif_detay(tarif_id):
         return jsonify({"error": "Tarif bulunamadı"}), 404
     
 
+@app.route('/chatbot', methods=['GET', 'POST'])
+def chatbot():
+    cevap = ""
+    if request.method == 'POST':
+        soru = request.form.get('soru', '').lower()
+
+        # Bilinen malzeme listesi (örnek)
+        bilinen_malzemeler = ['süt', 'pirinç', 'soğan', 'yumurta', 'domates', 'patates', 'biber', 'şeker', 'un', 'yoğurt', 'et', 'tavuk']
+        secilen_malzemeler = [m for m in bilinen_malzemeler if m in soru]
+
+        if not secilen_malzemeler:
+            cevap = "Elindeki malzemeleri anlayamadım 😔 Lütfen açıkça yaz (örneğin: süt, pirinç, yumurta)"
+        else:
+            conn = sqlite3.connect("turk_tarifleri.db")
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+
+            # Bütün malzemelerin hepsi tarifte geçiyor mu kontrolü
+            conditions = ' AND '.join(["LOWER(malzemeler) LIKE ?" for _ in secilen_malzemeler])
+            query = f"SELECT * FROM tarifler WHERE {conditions}"
+            params = [f"%{m}%" for m in secilen_malzemeler]
+
+            cursor.execute(query, params)
+            tarifler = cursor.fetchall()
+            conn.close()
+
+            if not tarifler:
+                cevap = f"'{', '.join(secilen_malzemeler)}' malzemelerinin hepsini içeren tarif bulamadım."
+            else:
+                ilk_tarif = tarifler[0]
+                cevap = f"🧠 Elindeki malzemelerle '{ilk_tarif['isim']}' tarifini yapabilirsin! İçindekiler: {ilk_tarif['malzemeler']}"
+
+    return render_template('chatbot.html', cevap=cevap)
+
 
 @app.route("/api/tum_tarifler", methods=["GET"])
 def tum_tarifleri_getir():
@@ -403,6 +527,21 @@ def tum_tarifleri_getir():
 
     return jsonify([dict(t) for t in tarifler])
 
+<<<<<<< HEAD
+=======
+
+@app.route('/tum_tarifler')
+def tum_tarifler():
+    conn = sqlite3.connect("turk_tarifleri.db")
+    conn.row_factory = sqlite3.Row  # ← BU ŞART!
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM tarifler")
+    tarifler = cursor.fetchall()
+    conn.close()
+    return render_template("tum_tarifler.html", tarifler=tarifler)
+
+
+>>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
     
 # ... (diğer importlar ve kodlar aynı)
 
