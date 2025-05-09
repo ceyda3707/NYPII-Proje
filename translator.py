@@ -16,7 +16,7 @@ def translate_text(text):
         return text  # Hata olursa orijinali koru
 
 # 1. yemek_tarifleri tablosunu çevir
-cursor.execute("SELECT id, isim, kategori, bolge, tarif FROM yemek_tarifleri")
+cursor.execute("SELECT id, isim, kategori, bolge, tarif FROM tarifler")
 for row in cursor.fetchall():
     id, isim, kategori, bolge, tarif = row
     isim_tr = translate_text(isim)
@@ -24,7 +24,7 @@ for row in cursor.fetchall():
     bolge_tr = translate_text(bolge)
     tarif_tr = translate_text(tarif)
     cursor.execute("""
-        UPDATE yemek_tarifleri SET isim = ?, kategori = ?, bolge = ?, tarif = ?
+        UPDATE kategori = ?, bolge = ?, tarif = ?
         WHERE id = ?
     """, (isim_tr, kategori_tr, bolge_tr, tarif_tr, id))
     print(f"✅ Tarif ID {id} güncellendi")

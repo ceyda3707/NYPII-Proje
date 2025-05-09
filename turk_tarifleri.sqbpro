@@ -1,85 +1,169 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="turk_tarifleri.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1430"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="malzemeler" custom_title="0" dock_id="7" table="4,10:mainmalzemeler"/><table title="tarif_malzemeleri" custom_title="0" dock_id="8" table="4,17:maintarif_malzemeleri"/><dock_state state="000000ff00000000fd00000001000000020000023600000215fc0100000003fc00000000000002360000000000fffffffa000000000100000004fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500330100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500340100000000ffffffff0000000000000000fc00000000000002360000000000fffffffa000000000100000002fb000000160064006f0063006b00420072006f00770073006500350100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500360100000000ffffffff0000000000000000fc00000000000002360000012f00fffffffa000000010100000002fb000000160064006f0063006b00420072006f00770073006500370100000000ffffffff0000012f00fffffffb000000160064006f0063006b00420072006f00770073006500380100000000ffffffff0000011e00ffffff000002360000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="malzemeler" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="199"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="tarif_malzemeleri" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="51"/><column index="3" value="79"/><column index="4" value="35"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'patlıcan'), '6 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'kıyma'), '300g'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '2 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'domates'), '3 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'salça'), '2 yemek kaşığı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'kırmızı biber'), 'yeterli miktarda');
-
--- İmam Bayıldı
-INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
-((SELECT id FROM yemek_tarifleri WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'patlıcan'), '6 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '3 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'domates'), '3 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'sarımsak'), '4 diş'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'zeytinyağı'), 'yeterli miktarda'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'şeker'), '1 çay kaşığı');
-
--- Etli Nohut
-INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Etli Nohut'), (SELECT id FROM malzemeler WHERE isim = 'nohut'), '2 su bardağı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Etli Nohut'), (SELECT id FROM malzemeler WHERE isim = 'et'), '300g'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Etli Nohut'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '1 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Etli Nohut'), (SELECT id FROM malzemeler WHERE isim = 'salça'), '1 yemek kaşığı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Etli Nohut'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda');
-
--- Kuru Fasulye
-INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Kuru Fasulye'), (SELECT id FROM malzemeler WHERE isim = 'kuru fasulye'), '2 su bardağı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Kuru Fasulye'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '1 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Kuru Fasulye'), (SELECT id FROM malzemeler WHERE isim = 'salça'), '1 yemek kaşığı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Kuru Fasulye'), (SELECT id FROM malzemeler WHERE isim = 'sıvı yağ'), '1 çay bardağı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Kuru Fasulye'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda');
-
--- Tas Kebabı
-INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'et'), '500g'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '2 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'domates'), '2 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'salça'), '1 yemek kaşığı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'karabiber'), 'yeterli miktarda');
-
--- Diğer tarifler için aynı şekilde devam edebilirsiniz
--- Örnek olarak birkaç tarif daha ekliyorum:
-
--- Baklava
-INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'yufka'), '500g'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'tereyağı'), '250g'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'ceviz'), '300g'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'şeker'), '3 su bardağı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'su'), '2 su bardağı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'limon'), '1 dilim');
-
--- Çoban Salata
-INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'domates'), '2 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'salatalık'), '1 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'biber'), '1 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '1 küçük'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'maydanoz'), '1 demet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'zeytinyağı'), '2 yemek kaşığı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'limon'), '1 adet'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda');
-
--- Humus
-INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'nohut'), '1 su bardağı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'tahin'), '2 yemek kaşığı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'sarımsak'), '1 diş'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'limon suyu'), '2 yemek kaşığı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'zeytinyağı'), '2 yemek kaşığı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'kimyon'), '1 çay kaşığı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda');
-
--- Naneli Ayran
-INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Naneli Ayran'), (SELECT id FROM malzemeler WHERE isim = 'yoğurt'), '2 su bardağı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Naneli Ayran'), (SELECT id FROM malzemeler WHERE isim = 'su'), '1 su bardağı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Naneli Ayran'), (SELECT id FROM malzemeler WHERE isim = 'nane'), '1 avuç'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Naneli Ayran'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), '1 çay kaşığı'),
-((SELECT id FROM yemek_tarifleri WHERE isim = 'Naneli Ayran'), (SELECT id FROM malzemeler WHERE isim = 'buz'), 'isteğe bağlı');
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="turk_tarifleri.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1430"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="malzemeler" custom_title="0" dock_id="7" table="4,10:mainmalzemeler"/><table title="tarif_malzemeleri" custom_title="0" dock_id="8" table="4,17:maintarif_malzemeleri"/><dock_state state="000000ff00000000fd00000001000000020000023600000215fc0100000003fc00000000000002360000000000fffffffa000000000100000004fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500330100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500340100000000ffffffff0000000000000000fc00000000000002360000000000fffffffa000000000100000002fb000000160064006f0063006b00420072006f00770073006500350100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500360100000000ffffffff0000000000000000fc00000000000002360000012f00fffffffa000000010100000002fb000000160064006f0063006b00420072006f00770073006500370100000000ffffffff0000012f00fffffffb000000160064006f0063006b00420072006f00770073006500380100000000ffffffff0000011e00ffffff000002360000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="malzemeler" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="199"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="tarif_malzemeleri" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="51"/><column index="3" value="79"/><column index="4" value="35"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
+
+((SELECT id FROM tarifler WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'patlıcan'), '6 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'kıyma'), '300g'),
+
+((SELECT id FROM tarifler WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '2 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'domates'), '3 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'salça'), '2 yemek kaşığı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda'),
+
+((SELECT id FROM tarifler WHERE isim = 'Karnıyarık'), (SELECT id FROM malzemeler WHERE isim = 'kırmızı biber'), 'yeterli miktarda');
+
+
+
+-- İmam Bayıldı
+
+INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
+
+((SELECT id FROM tarifler WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'patlıcan'), '6 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '3 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'domates'), '3 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'sarımsak'), '4 diş'),
+
+((SELECT id FROM tarifler WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'zeytinyağı'), 'yeterli miktarda'),
+
+((SELECT id FROM tarifler WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda'),
+
+((SELECT id FROM tarifler WHERE isim = 'İmam Bayıldı'), (SELECT id FROM malzemeler WHERE isim = 'şeker'), '1 çay kaşığı');
+
+
+
+-- Etli Nohut
+
+INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
+
+((SELECT id FROM tarifler WHERE isim = 'Etli Nohut'), (SELECT id FROM malzemeler WHERE isim = 'nohut'), '2 su bardağı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Etli Nohut'), (SELECT id FROM malzemeler WHERE isim = 'et'), '300g'),
+
+((SELECT id FROM tarifler WHERE isim = 'Etli Nohut'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '1 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'Etli Nohut'), (SELECT id FROM malzemeler WHERE isim = 'salça'), '1 yemek kaşığı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Etli Nohut'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda');
+
+
+
+-- Kuru Fasulye
+
+INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
+
+((SELECT id FROM tarifler WHERE isim = 'Kuru Fasulye'), (SELECT id FROM malzemeler WHERE isim = 'kuru fasulye'), '2 su bardağı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Kuru Fasulye'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '1 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'Kuru Fasulye'), (SELECT id FROM malzemeler WHERE isim = 'salça'), '1 yemek kaşığı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Kuru Fasulye'), (SELECT id FROM malzemeler WHERE isim = 'sıvı yağ'), '1 çay bardağı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Kuru Fasulye'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda');
+
+
+
+-- Tas Kebabı
+
+INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
+
+((SELECT id FROM tarifler WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'et'), '500g'),
+
+((SELECT id FROM tarifler WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '2 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'domates'), '2 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'salça'), '1 yemek kaşığı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda'),
+
+((SELECT id FROM tarifler WHERE isim = 'Tas Kebabı'), (SELECT id FROM malzemeler WHERE isim = 'karabiber'), 'yeterli miktarda');
+
+
+
+-- Diğer tarifler için aynı şekilde devam edebilirsiniz
+
+-- Örnek olarak birkaç tarif daha ekliyorum:
+
+
+
+-- Baklava
+
+INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
+
+((SELECT id FROM tarifler WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'yufka'), '500g'),
+
+((SELECT id FROM tarifeler WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'tereyağı'), '250g'),
+
+((SELECT id FROM tarifler WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'ceviz'), '300g'),
+
+((SELECT id FROM tarifler WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'şeker'), '3 su bardağı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'su'), '2 su bardağı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Baklava'), (SELECT id FROM malzemeler WHERE isim = 'limon'), '1 dilim');
+
+
+
+-- Çoban Salata
+
+INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
+
+((SELECT id FROM tarifler WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'domates'), '2 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'salatalık'), '1 adet'),
+
+((SELECT id FROM  WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'biber'), '1 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'soğan'), '1 küçük'),
+
+((SELECT id FROM tarifler WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'maydanoz'), '1 demet'),
+
+((SELECT id FROM tarifler WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'zeytinyağı'), '2 yemek kaşığı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'limon'), '1 adet'),
+
+((SELECT id FROM tarifler WHERE isim = 'Çoban Salata'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda');
+
+
+
+-- Humus
+
+INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
+
+((SELECT id FROM tarifler WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'nohut'), '1 su bardağı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'tahin'), '2 yemek kaşığı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'sarımsak'), '1 diş'),
+
+((SELECT id FROM tarifler WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'limon suyu'), '2 yemek kaşığı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'zeytinyağı'), '2 yemek kaşığı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'kimyon'), '1 çay kaşığı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Humus'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), 'yeterli miktarda');
+
+
+
+-- Naneli Ayran
+
+INSERT INTO tarif_malzemeleri (tarif_id, malzeme_id, olcu) VALUES
+
+((SELECT id FROM tarifler WHERE isim = 'Naneli Ayran'), (SELECT id FROM malzemeler WHERE isim = 'yoğurt'), '2 su bardağı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Naneli Ayran'), (SELECT id FROM malzemeler WHERE isim = 'su'), '1 su bardağı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Naneli Ayran'), (SELECT id FROM malzemeler WHERE isim = 'nane'), '1 avuç'),
+
+((SELECT id FROM tarifler WHERE isim = 'Naneli Ayran'), (SELECT id FROM malzemeler WHERE isim = 'tuz'), '1 çay kaşığı'),
+
+((SELECT id FROM tarifler WHERE isim = 'Naneli Ayran'), (SELECT id FROM malzemeler WHERE isim = 'buz'), 'isteğe bağlı');
+
 </sql><current_tab id="0"/></tab_sql></sqlb_project>

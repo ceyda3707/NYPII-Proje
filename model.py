@@ -2,7 +2,7 @@ from extensions import db  # db objesini buradan al
 
 
 class YemekTarifi(db.Model):
-    __tablename__ = 'yemek_tarifleri'
+    __tablename__ = 'tarifler'
     __bind_key__ = None
     
     id = db.Column(db.Integer, primary_key=True)
