@@ -64,6 +64,8 @@ def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifler.db'):
         "gecen_malzemeler": gecen_malzemeler,
         "etiketler": bulunan_malzemeler
     }
+
+
 def etiket_id_getir(conn, etiket_adi):
     cursor = conn.cursor()
     cursor.execute("SELECT id FROM etiketler WHERE ad = ?", (etiket_adi,))
@@ -351,23 +353,35 @@ def tarif_detay(tarif_id):
     return render_template("tarif_detay.html", tarif=tarif)
 
 @app.route('/api/tarifler', methods=['GET'])
-def api_tarifleri_getir():
+def get_tarifler():
     malzemeler = request.args.get('malzemeler')
     if not malzemeler:
         return jsonify({"error": "Malzeme listesi yok"}), 400
 
     secilenler = malzemeler.split(',')
-    placeholders = ' OR '.join(['malzemeler LIKE ?' for _ in secilenler])
+    placeholders = ' OR '.join(["LOWER(malzemeler) LIKE ?" for _ in secilenler])
     query = f"SELECT * FROM tarifler WHERE {placeholders}"
+    params = [f"%{m.strip().lower()}%" for m in secilenler]
 
-    conn = sqlite3.connect('turk_tarifleri.db')
+    conn = sqlite3.connect("turk_tarifleri.db")
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
-    cursor.execute(query, [f"%{malzeme.strip()}%" for malzeme in secilenler])
-    tarifler = cursor.fetchall()
+    cursor.execute(query, params)
+    sonuc = cursor.fetchall()
     conn.close()
 
-    return jsonify([dict(t) for t in tarifler])
+    # 👇 Burada sadece benzersiz tarif isimlerini alıyoruz
+    gorulen_isimler = set()
+    benzersiz = []
+
+    for row in sonuc:
+        isim = row["isim"].strip().lower()
+        if isim not in gorulen_isimler:
+            gorulen_isimler.add(isim)
+            benzersiz.append(dict(row))
+
+    return jsonify(benzersiz)
+
 
 
 @app.route("/api/tarif/<int:tarif_id>")
@@ -377,9 +391,6 @@ def api_tarif_detay(tarif_id):
     cursor.execute("SELECT isim, kategori, malzemeler, tarif FROM tarifler WHERE id = ?", (tarif_id,))
     data = cursor.fetchone()
     conn.close()
-
-    
-
     if data:
        import random
        return jsonify({

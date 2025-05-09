@@ -201,86 +201,47 @@ function malzemeEkle(malzemeAdi, emoji = "") {
 
 
 
-
-document.getElementById('tarif-bul-btn').addEventListener('click', function() {
-    
-    console.log("!!!!!!!!!!Butona tıklandı!");
-
-    // Seçilen malzemeleri alalım
-    const secilenMalzemeler = document.querySelectorAll('#secilen-malzemeler .secilen span');
-    const malzemeler = Array.from(secilenMalzemeler).map(malzeme => {
-        // Sadece yazı kısmını al (emojileri çıkar, trimle)
-        return malzeme.innerText.replace(/^[^\w\s]+/, '').trim();
-    });
-    
-
-
-     // Yeni paneli ve listeyi seçiyoruz (önemli!)
-     const panel = document.getElementById("tarifler");
-     const tarifListesi = document.getElementById("tarif-listesi");
-
-     // Paneli görünür yap ve eski sonuçları temizle
-    panel.style.display = "block";
-    tarifListesi.innerHTML = "";
-
-
-    // Bu malzemelere uygun tarifleri alalım (burada API kullanabilirsiniz)
-    fetch(`/api/tarifler?malzemeler=${malzemeler.join(',')}`)
-        .then(response => response.json())
-        .then(tarifler => {
-            console.log("Gelen tarifler:", tarifler);
-            // Tarifleri listele
-            const tarifListesi = document.getElementById('tarif-listesi');
-            tarifListesi.innerHTML = ''; // Önceki tarifleri temizle
-
-            tarifler.forEach(tarif => {
-                const tarifCard = document.createElement('div');
-                tarifCard.classList.add('tarif-card');
-                tarifCard.innerHTML = `
-                   <div class="card-header">
-                        <img src="${tarif.resim_url || '/static/placeholder.jpg'}" alt="${tarif.isim}">
-
-                        <div class="time">30 dk</div>
-                    </div>
-                    <div class="card-content">
-                        <h3>${tarif.isim}</h3>
-                        <p>${tarif.tarif}</p>
-                        <div class="difficulty">Orta</div>
-                        <a href="/tarif/${tarif.id}" class="tarif-link">Tarifi Gör</a>
-                    </div>
-                `;
-                tarifListesi.appendChild(tarifCard);
-            });
-            
-
-            // Tarifler bölmesini göster
-            document.getElementById('tarifler').style.display = 'block';
-            document.getElementById('more-tarifler-btn').style.display = 'block';
-        })
-        .catch(error => {
-            console.error('Hata:', error);
-        });
-});
-
 document.addEventListener("DOMContentLoaded", function () {
-    fetch("/api/tum_tarifler")
-      .then(response => response.json())
-      .then(tarifler => {
-        const container = document.getElementById("tarif-container");
-
-        tarifler.forEach(tarif => {
-          const kart = document.createElement("div");
-          kart.className = "tarif-kart";
-
-          kart.innerHTML = `
-            <img src="${tarif.resim_url || '/static/placeholder.jpg'}" alt="${tarif.isim}">
-            <h3>${tarif.isim}</h3>
-            <p>${tarif.tarif.substring(0, 80)}...</p>
-            <a href="/tarif/${tarif.id}" class="tarif-link">Tarifi Gör</a>
-          `;
-
-          container.appendChild(kart);
+    const buton = document.getElementById("tarif-bul-btn");
+    const tarifListesi = document.getElementById("tarif-listesi");
+    const tariflerBolumu = document.getElementById("tarifler");
+  
+    buton.addEventListener("click", function () {
+      const secilenler = document.querySelectorAll('#secilen-malzemeler .secilen span');
+      const malzemeler = Array.from(secilenler).map(m =>
+        m.innerText.replace(/^[^a-zA-ZçğıöşüÇĞİÖŞÜ]*\s*/, '').trim()
+      );
+  
+      fetch(`/api/tarifler?malzemeler=${malzemeler.join(',')}`)
+        .then(r => r.json())
+        .then(tarifler => {
+          const unique = new Map(); // 🔥 Tarifleri ID'ye göre sakla
+          tarifler.forEach(t => {
+            if (!unique.has(t.id)) {
+              unique.set(t.id, t);
+            }
+          });
+  
+          tarifListesi.innerHTML = '';
+          unique.forEach(tarif => {
+            const card = document.createElement('div');
+            card.classList.add('tarif-card');
+            card.innerHTML = `
+              <div class="card-header">
+                <img src="${tarif.resim_url || '/static/placeholder.jpg'}" alt="${tarif.isim}">
+                <div class="time">30 dk</div>
+              </div>
+              <div class="card-content">
+                <h3>${tarif.isim}</h3>
+                <p>${tarif.tarif || tarif.hazirlanis?.join('<br>')}</p>
+                <a href="/tarif/${tarif.id}" class="tarif-link">Tarifi Gör</a>
+              </div>
+            `;
+            tarifListesi.appendChild(card);
+          });
+  
+          tariflerBolumu.style.display = 'block';
         });
-      });
-});
-
+    });
+  });
+  
