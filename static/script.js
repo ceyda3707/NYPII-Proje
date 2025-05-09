@@ -217,9 +217,10 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(tarifler => {
           const unique = new Map(); // 🔥 Tarifleri ID'ye göre sakla
           tarifler.forEach(t => {
-            if (!unique.has(t.id)) {
-              unique.set(t.id, t);
-            }
+              const key = t.isim.toLowerCase().trim();
+              if (!unique.has(key)) {
+                unique.set(key, t);
+      }
           });
   
           tarifListesi.innerHTML = '';
