@@ -331,9 +331,24 @@ def tarifler():
     cursor.execute("SELECT id, isim, kategori, bolge, malzemeler, tarif, resim_url FROM tarifler")
     kolonlar = ["id", "isim", "kategori", "bolge", "malzemeler", "tarif", "resim_url"]
     tarifler = [dict(zip(kolonlar, row)) for row in cursor.fetchall()]
+    
+    # Tarifleri uygun formatta hazırlıyoruz
+    tarifler_data = []
+    for tarif in tarifler:
+        tarif_data = {
+            "id": tarif[0],
+            "isim": tarif[1],
+            "kategori": tarif[2],
+            "zorluk": tarif[3],
+            "sure": tarif[4],
+            "malzemeler": tarif[5].split(','),  # Malzemeleri virgülle ayır
+            "resim_url": tarif[6],
+            "favori": tarif[7]
+        }
+        tarifler_data.append(tarif_data)
 
     conn.close()
-    return render_template("tarifler.html", tarifler=tarifler)
+    return render_template("tarifler.html", tarifler=tarifler_data)
     
 @app.route("/kategoriler")
 def kategoriler():
@@ -458,6 +473,9 @@ def chatbot():
 
     return render_template('chatbot.html', cevap=cevap)
 
+@app.route("/tum_tarifler")
+def tum_tarifler():
+    return render_template("tum_tarifler.html")
 
     
 if __name__ == '__main__':
