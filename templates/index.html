@@ -225,7 +225,9 @@
           {% for tarif in tarifler %}
           <div class="recipe-card">
             <div class="card-top">
-              <img src="{{ tarif[6] or '/static/placeholder.jpg' }}" alt="{{ tarif[1] }}" style="width:100%; height:150px; object-fit:cover;">
+             <img src="{{ tarif[6] }}" alt="{{ tarif[1] }}" class="test-gorsel">
+
+
               <div class="plus">+</div>
               <div class="time-badge">30 dk</div>
             </div>

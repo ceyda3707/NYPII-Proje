@@ -242,7 +242,10 @@ document.addEventListener("DOMContentLoaded", function () {
             
             card.innerHTML = `
              <div class="card-top">
-                          <img src="${tarif.resim_url || '/static/placeholder.jpg'}" alt="${tarif.isim}" style="width:100%; height:150px; object-fit:cover;">
+                 <img src="${tarif.resim && tarif.resim.length > 5 ? tarif.resim : '/static/placeholder.png'}" alt="${tarif.isim}" class="dinamik-gorsel">
+
+
+
                   <div class="plus">+</div>
                   <div class="time-badge">${tarif.hazirlama_suresi || '30 dk'}</div>
                   <div class="favorite-btn">♡</div>
