@@ -180,6 +180,20 @@ body {
     height: auto;
 }
 
+.inner-box .left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Eğer görsel placeholder ise özel stil */
+.inner-box .left img[src*="placeholder.png"] {
+  object-fit: contain;
+  background-color: #e5f4e0; /* açık pastel yeşil */
+  padding: 20px;
+}
+
 /* Sağ taraf (daraltılmış ve eşit boşluklar) */
 .inner-box .right {
     background-color: white; /* Sağ tarafın rengi */
@@ -772,3 +786,4 @@ body, html {
     font-size: 14px;
     color: #9ca3af;
   }
+

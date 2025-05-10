@@ -7,17 +7,16 @@ from model import YemekTarifi, TurkTarifi, User
 from flask_login import LoginManager, current_user, login_user, logout_user
 
 def slugify(text):
-    return (
-        text.strip().lower()
-        .replace(" ", "-")
-        .replace("ı", "i")
-        .replace("ö", "o")
-        .replace("ü", "u")
-        .replace("ç", "c")
-        .replace("ş", "s")
-        .replace("ğ", "g")
-    )
-
+        return (
+            text.strip().lower()
+            .replace(" ", "-")
+            .replace("ı", "i")
+            .replace("ö", "o")
+            .replace("ü", "u")
+            .replace("ç", "c")
+            .replace("ş", "s")
+            .replace("ğ", "g")
+        )
 
 app = Flask(__name__)
 app.secret_key = 'benimcokgizlisirrimsin2025' 
@@ -579,6 +578,20 @@ def tum_tarifler():
 
     app.run(debug=True)
 
+@app.context_processor
+def utility_processor():
+    def slugify(text):
+        return (
+            text.strip().lower()
+            .replace(" ", "-")
+            .replace("ı", "i")
+            .replace("ö", "o")
+            .replace("ü", "u")
+            .replace("ç", "c")
+            .replace("ş", "s")
+            .replace("ğ", "g")
+        )
+    return dict(slugify=slugify)
 
 
     

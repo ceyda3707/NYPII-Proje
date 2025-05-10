@@ -1,3 +1,19 @@
+
+function slugify(str) {
+    return str
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/ç/g, 'c')
+        .replace(/ğ/g, 'g')
+        .replace(/ı/g, 'i')
+        .replace(/ö/g, 'o')
+        .replace(/ş/g, 's')
+        .replace(/ü/g, 'u');
+}
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const tarifId = window.location.pathname.split("/").pop();
 
@@ -9,6 +25,13 @@ document.addEventListener("DOMContentLoaded", function () {
             // Kategori ve başlık
             document.getElementById("kategoriBaslik").textContent = data.kategori;
             document.getElementById("tarifBaslik").textContent = data.isim;
+
+            const image = document.querySelector(".left img");
+            const slug = slugify(data.isim);
+            image.src = `/static/uploads/${slug}.png`;
+            image.onerror = function () {
+                this.src = "/static/uploads/placeholder.png";
+            };
 
             // Detaylar
             const detaylar = document.querySelectorAll(".detay-deger");
