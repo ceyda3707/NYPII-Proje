@@ -22,12 +22,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 
-<<<<<<< HEAD
-def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifleri.db'):
-=======
 
 def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifler.db'):
->>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
     malzeme_metni = malzeme_metni.lower()
 
     # Etiket için referans listeleri
@@ -276,12 +272,7 @@ def tarif_ekle():
         conn.commit()
         conn.close()
 
-<<<<<<< HEAD
-        return redirect(url_for('tarifler'))
-    
-=======
         return redirect(url_for('yemek_tarifleri'))
->>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
 
 
 @app.route('/test')
@@ -439,9 +430,6 @@ def get_tarifler():
     cursor.execute(query, params)
     satirlar = cursor.fetchall()
     conn.close()
-<<<<<<< HEAD
-    return jsonify([dict(t) for t in tarifler])
-=======
 
     seen = set()
     tarifler = []
@@ -453,7 +441,6 @@ def get_tarifler():
     return jsonify(tarifler)
 
 
->>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
 
 
 @app.route("/api/tarif/<int:tarif_id>")
@@ -527,8 +514,6 @@ def tum_tarifleri_getir():
 
     return jsonify([dict(t) for t in tarifler])
 
-<<<<<<< HEAD
-=======
 
 @app.route('/tum_tarifler')
 def tum_tarifler():
@@ -541,7 +526,6 @@ def tum_tarifler():
     return render_template("tum_tarifler.html", tarifler=tarifler)
 
 
->>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
     
 # ... (diğer importlar ve kodlar aynı)
 
