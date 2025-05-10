@@ -1,38 +1,35 @@
 import pandas as pd
 import sqlite3
 
-
-# CSV'den okuma
+# CSV'yi oku
 df = pd.read_csv('tarifler.csv', encoding='utf-8')
 
-# Veritabanı bağlantısı
 with sqlite3.connect('turk_tarifleri.db') as conn:
-    # Tabloyu oluştur (yoksa)
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS tarifler (
-            isim TEXT UNIQUE,
-            kategori TEXT,
-            bolge TEXT,
-            malzemeler TEXT,
-            tarif TEXT,
-            resim_url TEXT,
-            hazirlama_suresi TEXT,
-            pisirme_suresi TEXT,
-            kalori TEXT,
-            porsiyon TEXT
-        )
-    """)
+    cursor = conn.cursor()
 
-    # Veritabanındaki mevcut tarif isimlerini al
-    mevcut = pd.read_sql_query("SELECT isim FROM tarifler", conn)
-    mevcut_isimler = set(mevcut['isim'])
+    # Eksik sütunları ekle (varsa atla)
+    yeni_sutunlar = ["hazirlama_suresi", "pisirme_suresi", "kalori", "porsiyon"]
+    for sutun in yeni_sutunlar:
+        try:
+            cursor.execute(f"ALTER TABLE tarifler ADD COLUMN {sutun} TEXT")
+            print(f"{sutun} sütunu eklendi.")
+        except sqlite3.OperationalError:
+            pass  # Zaten varsa hata vermez
 
-    # CSV'deki yeni tarifleri filtrele
+    # Tüm eski tarifleri sil (tablo yapısı ve bağlantılar korunur)
+    cursor.execute("DELETE FROM tarifler")
+    print("Mevcut tarif verileri silindi (tablo yapısı ve bağlantılar korunarak).")
+
+    # Mevcut tarif isimlerini kontrol etmek için boş liste, çünkü her şeyi sildik
+    mevcut_isimler = set()
+
+    # Eğer CSV'deki isim veritabanında varsa zaten eklemeyecekti,
+    # ama biz tabloyu sildiğimiz için tüm veriler yeni sayılır:
     yeni_tarifler = df[~df['isim'].isin(mevcut_isimler)]
 
-    # Sadece yeni tarifleri ekle
+    # Yeni tarifleri ekle
     if not yeni_tarifler.empty:
         yeni_tarifler.to_sql('tarifler', conn, if_exists='append', index=False)
-        print(f"{len(yeni_tarifler)} yeni tarif veritabanına eklendi.")
+        print(f"{len(yeni_tarifler)} tarif başarıyla veritabanına yeniden yüklendi.")
     else:
-        print("Yeni tarif bulunamadı. Güncelleme yapılmadı.")
+        print("CSV'de hiç yeni tarif bulunamadı.")
