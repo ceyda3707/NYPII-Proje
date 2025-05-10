@@ -39,15 +39,15 @@ class Veritabani:
         return self.cursor.fetchall()
 
     def tabloları_sil(self):
-        self.cursor.execute("DROP TABLE IF EXISTS yemek_tarifleri")
-        self.cursor.execute("DROP TABLE IF EXISTS ingredients")
-        self.cursor.execute("DROP TABLE IF EXISTS recipe_ingredients")
+        self.cursor.execute("DROP TABLE IF EXISTS tarifler")
+        self.cursor.execute("DROP TABLE IF EXISTS malzemeler")
+        self.cursor.execute("DROP TABLE IF EXISTS tarif_malzemeleri")
         self.conn.commit()
 
     def tablolar_olustur(self):
-        self.cursor.execute("DROP TABLE IF EXISTS yemek_tarifleri")  # Eski tabloyu sil
+        self.cursor.execute("DROP TABLE IF EXISTS tarifler")  # Eski tabloyu sil
         self.cursor.execute("""
-        CREATE TABLE IF NOT EXISTS yemek_tarifleri (
+        CREATE TABLE IF NOT EXISTS tarifler (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         meal_id TEXT,
         isim TEXT,
@@ -63,7 +63,7 @@ class Veritabani:
     def tarif_ekle(self, meal_id, isim, kategori, bolge, tarif, resim):
         try:
             self.cursor.execute("""
-            INSERT INTO yemek_tarifleri (meal_id, isim, kategori, bolge, tarif, resim_url)
+            INSERT INTO tarifler (meal_id, isim, kategori, bolge, tarif, resim_url)
             VALUES (?, ?, ?, ?, ?, ?)
             """, (meal_id, isim, kategori, bolge, tarif, resim))
             self.conn.commit()
@@ -72,7 +72,7 @@ class Veritabani:
 
     def malzemeleri_ekle(self, meal_id, meal_data):
         # tarif ID'sini bul
-        self.cursor.execute("SELECT id FROM yemek_tarifleri WHERE meal_id = ?", (meal_id,))
+        self.cursor.execute("SELECT id FROM tarifler WHERE meal_id = ?", (meal_id,))
         result = self.cursor.fetchone()
         if not result:
             return

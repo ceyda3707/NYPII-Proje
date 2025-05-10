@@ -3,8 +3,13 @@ from flask_login import UserMixin
 
 
 class YemekTarifi(db.Model):
+<<<<<<< HEAD
+    __tablename__ = 'tarifler'
+    __bind_key__ = None
+=======
     __tablename__ = 'yemek_tarifleri'
     __bind_key__ = 'turk_tarifleri'
+>>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
     
     id = db.Column(db.Integer, primary_key=True)
     isim = db.Column(db.String)

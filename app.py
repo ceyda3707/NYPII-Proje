@@ -22,8 +22,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 
+<<<<<<< HEAD
+def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifleri.db'):
+=======
 
 def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifler.db'):
+>>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
     malzeme_metni = malzeme_metni.lower()
 
     # Etiket için referans listeleri
@@ -37,7 +41,7 @@ def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifler.db'):
     if veritabani == 'turk_tarifleri.db':
         conn = sqlite3.connect('turk_tarifleri.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT name FROM ingredients")
+        cursor.execute("SELECT isim FROM malzemeler")
         tum_malzemeler = [row[0].lower() for row in cursor.fetchall()]
     else:
         return []  # Geçersiz veritabanı adı
@@ -76,8 +80,8 @@ def etiket_id_getir(conn, etiket_adi):
         cursor.execute("INSERT INTO etiketler (ad) VALUES (?)", (etiket_adi,))
         conn.commit()
         return cursor.lastrowid
-    
-def tum_tarifleri_etiketle(veritabani='turk_tarifler.db'):
+
+def tum_tarifleri_etiketle(veritabani='turk_tarifleri.db'):
     conn = sqlite3.connect(veritabani)
     cursor = conn.cursor()
 
@@ -88,10 +92,11 @@ def tum_tarifleri_etiketle(veritabani='turk_tarifler.db'):
     for (tarif_id,) in tarifler:
         # Bu tarifin malzemelerini bul
         cursor.execute("""
-            SELECT ingredients.name
-            FROM recipe_ingredients
-            JOIN ingredients ON recipe_ingredients.ingredient_id = ingredients.id
-            WHERE recipe_ingredients.recipe_id = ?
+            SELECT malzemeler.isim
+            FROM tarif_malzemeleri
+            JOIN malzemeler ON tarif_malzemeleri.malzeme_id = malzemeler.id
+            WHERE tarif_malzemeleri.tarif_id = ?
+
         """, (tarif_id,))
         malzemeler = [row[0].lower() for row in cursor.fetchall()]
         malzeme_metni = ' '.join(malzemeler)
@@ -117,13 +122,13 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row  # Satırları sözlük gibi döndür
     return conn
 
-def tarif_etiketlerini_guncelle(tarif_id, veritabani='turk_tarifler.db'):
+def tarif_etiketlerini_guncelle(tarif_id,malzemeler, veritabani='turk_tarifleri.db'):
     conn = sqlite3.connect(veritabani)
     cursor = conn.cursor()
 
     # Tarifin malzemelerini al
-    if veritabani == 'turk_tarifler.db':
-        cursor.execute("SELECT malzemeler FROM yemek_tarifleri WHERE id = ?", (tarif_id,))
+    if veritabani == 'turk_tarifleri.db':
+        cursor.execute("SELECT malzemeler FROM yemek_tarifler WHERE id = ?", (tarif_id,))
     else:
         conn.close()
         return False
@@ -134,8 +139,10 @@ def tarif_etiketlerini_guncelle(tarif_id, veritabani='turk_tarifler.db'):
         return False
 
     malzemeler = row[0]
-    etiketler = tarif_etiketlerini_belirle(malzemeler, veritabani)
+    sonuc = tarif_etiketlerini_belirle(malzemeler, veritabani)
+    etiketler = sonuc['etiketler']
     print(f"Tarif ID: {tarif_id}, Bulunan etiketler: {etiketler}")
+
 
     # Eski etiketleri sil
     cursor.execute("DELETE FROM tarif_etiketleri WHERE tarif_id = ?", (tarif_id,))
@@ -160,7 +167,32 @@ def tarif_etiketlerini_guncelle(tarif_id, veritabani='turk_tarifler.db'):
     conn.commit()
     conn.close()
     return True
-
+@app.route('/arama')
+def arama():
+    arama_terimi = request.args.get('q', '').strip().lower()
+    
+    if not arama_terimi:
+        return redirect(url_for('tarifler'))
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Hem isimde hem malzemelerde arama yap
+    cursor.execute("""
+        SELECT * FROM tarifler 
+        WHERE LOWER(isim) LIKE ? OR LOWER(malzemeler) LIKE ?
+        ORDER BY 
+            CASE WHEN LOWER(isim) LIKE ? THEN 0 ELSE 1 END,
+            isim
+    """, (f'%{arama_terimi}%', f'%{arama_terimi}%', f'{arama_terimi}%'))
+    
+    tarifler = cursor.fetchall()
+    conn.close()
+    
+    return render_template('filtreli_tarifler.html', 
+                         tarifler=tarifler,
+                         arama_terimi=arama_terimi,
+                         sayfa_basligi=f"'{arama_terimi}' için sonuçlar")
 @app.route('/filtreli/<etiket>')
 def filtreli_tarifler(etiket):
     conn = get_db_connection()
@@ -176,7 +208,7 @@ def filtreli_tarifler(etiket):
 
     # Etikete göre tarifleri getir
     cursor.execute("""
-        SELECT t.* FROM yemek_tarifleri t
+        SELECT t.* FROM tarifler t
         JOIN tarif_etiketleri te ON t.id = te.tarif_id
         WHERE te.etiket_id = ?
     """, (etiket_id[0],))
@@ -189,9 +221,9 @@ def filtreli_tarifler(etiket):
 
         # Malzemeleri getir
         cursor.execute("""
-            SELECT m.name FROM ingredients m
-            JOIN recipe_ingredients ri ON m.id = ri.ingredient_id
-            WHERE ri.recipe_id = ?
+            SELECT m.isim FROM malzemeler m
+            JOIN tarif_malzemeleri ri ON m.id = ri.malzeme_id
+            WHERE ri.tarif_id = ?
         """, (tarif['id'],))
         malzemeler = [m[0] for m in cursor.fetchall()]
         tarif['malzemeler'] = ','.join(malzemeler)
@@ -213,11 +245,7 @@ def filtreli_tarifler(etiket):
                            etiket=etiket,
                            sayfa_basligi=f"{etiket.capitalize()} Tarifler")
 
-    # Filtrelenmiş tarifler için özel bir şablon kullanın
-    return render_template('filtreli_tarifler.html', 
-                         tarifler=tarifler, 
-                         etiket=etiket,
-                         sayfa_basligi=f"{etiket.capitalize()} Tarifler")
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -231,15 +259,16 @@ def tarif_ekle():
         isim = request.form['isim']
         kategori = request.form['kategori']
         bolge = request.form['bolge']
+        malzemeler = request.form['malzemeler']
         tarif = request.form['tarif']
         resim_url = request.form['resim_url']
 
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO yemek_tarifleri (isim, kategori, bolge, tarif , resim_url)
-            VALUES (?, ?, ?, ?, ?)
-        """, (isim, kategori, bolge, tarif , resim_url))
+            INSERT INTO tarifler (isim, kategori, bolge,malzemeler,tarif,resim_url
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (isim, kategori, bolge,malzemeler,tarif,resim_url))
         
         tarif_id = cursor.lastrowid
         tarif_etiketlerini_guncelle(tarif_id)
@@ -247,7 +276,12 @@ def tarif_ekle():
         conn.commit()
         conn.close()
 
+<<<<<<< HEAD
+        return redirect(url_for('tarifler'))
+    
+=======
         return redirect(url_for('yemek_tarifleri'))
+>>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
 
 
 @app.route('/test')
@@ -405,6 +439,9 @@ def get_tarifler():
     cursor.execute(query, params)
     satirlar = cursor.fetchall()
     conn.close()
+<<<<<<< HEAD
+    return jsonify([dict(t) for t in tarifler])
+=======
 
     seen = set()
     tarifler = []
@@ -416,6 +453,7 @@ def get_tarifler():
     return jsonify(tarifler)
 
 
+>>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
 
 
 @app.route("/api/tarif/<int:tarif_id>")
@@ -489,6 +527,8 @@ def tum_tarifleri_getir():
 
     return jsonify([dict(t) for t in tarifler])
 
+<<<<<<< HEAD
+=======
 
 @app.route('/tum_tarifler')
 def tum_tarifler():
@@ -501,6 +541,14 @@ def tum_tarifler():
     return render_template("tum_tarifler.html", tarifler=tarifler)
 
 
+>>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
     
+# ... (diğer importlar ve kodlar aynı)
+
 if __name__ == '__main__':
+    # Uygulama başlamadan önce tüm tarifleri etiketle
+    print("Tarifler etiketleniyor...")
+    tum_tarifleri_etiketle()
+    print("Etiketleme tamamlandı.")
+    
     app.run(debug=True)
