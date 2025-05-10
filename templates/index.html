@@ -97,10 +97,12 @@
 
                 <p>Binlerce tarif arasından seçim yapın ve mutfağınızda harikalar yaratın</p>
 
-                <div class="search-bar">
-                    <input type="text" placeholder="Tarif ara...">
-                    <button>Şimdi Keşfet</button>
-                </div>
+               <div class="search-bar">
+               <form action="{{ url_for('arama') }}" method="get">
+               <input type="text" name="q" placeholder="Tarif ara..." value="{{ arama_terimi if arama_terimi else '' }}">
+               <button type="submit">Şimdi Keşfet</button>
+               </form>
+               </div>
             </div>
         </div>
     </section>

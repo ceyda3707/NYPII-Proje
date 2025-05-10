@@ -22,12 +22,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 
-<<<<<<< HEAD
-def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifleri.db'):
-=======
 
-def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifler.db'):
->>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
+def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifleri.db'):
+
     malzeme_metni = malzeme_metni.lower()
 
     # Etiket için referans listeleri
@@ -191,6 +188,7 @@ def arama():
     
     return render_template('filtreli_tarifler.html', 
                          tarifler=tarifler,
+                         etiket='', 
                          arama_terimi=arama_terimi,
                          sayfa_basligi=f"'{arama_terimi}' için sonuçlar")
 @app.route('/filtreli/<etiket>')
@@ -276,12 +274,7 @@ def tarif_ekle():
         conn.commit()
         conn.close()
 
-<<<<<<< HEAD
         return redirect(url_for('tarifler'))
-    
-=======
-        return redirect(url_for('yemek_tarifleri'))
->>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
 
 
 @app.route('/test')
@@ -408,18 +401,8 @@ def tarif_detay(tarif_id):
 @app.route('/api/tarifler', methods=['GET'])
 def get_tarifler():
     malzemeler = request.args.get('malzemeler')
-    kategori = request.args.get('kategori')  # Yeni kategori parametresi
-    
-    conn = sqlite3.connect("turk_tarifleri.db")
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-
-
     if not malzemeler:
-        cursor.execute("SELECT * FROM tarifler")
-        satirlar = cursor.fetchall()
-        conn.close()
-        return jsonify([dict(row) for row in satirlar])
+        return jsonify({"error": "Malzemeler parametresi eksik"}), 400
 
     secilenler = malzemeler.split(',')
     # 🔥 OR değil AND
@@ -427,21 +410,12 @@ def get_tarifler():
     query = f"SELECT * FROM tarifler WHERE {placeholders}"
     params = [f"%{m.strip().lower()}%" for m in secilenler]
 
-    # Kategori filtresi ekleniyor (Tümü hariç)
-    if kategori and kategori.lower() != "tümü":
-        query += " AND LOWER(kategori) = LOWER(?)"
-        params.append(kategori.strip())
-
-
     conn = sqlite3.connect("turk_tarifleri.db")
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     cursor.execute(query, params)
     satirlar = cursor.fetchall()
     conn.close()
-<<<<<<< HEAD
-    return jsonify([dict(t) for t in tarifler])
-=======
 
     seen = set()
     tarifler = []
@@ -452,8 +426,6 @@ def get_tarifler():
 
     return jsonify(tarifler)
 
-
->>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
 
 
 @app.route("/api/tarif/<int:tarif_id>")
@@ -527,9 +499,6 @@ def tum_tarifleri_getir():
 
     return jsonify([dict(t) for t in tarifler])
 
-<<<<<<< HEAD
-=======
-
 @app.route('/tum_tarifler')
 def tum_tarifler():
     conn = sqlite3.connect("turk_tarifleri.db")
@@ -541,10 +510,7 @@ def tum_tarifler():
     return render_template("tum_tarifler.html", tarifler=tarifler)
 
 
->>>>>>> c01ad9ab68ad12e99cde755769738e977820cc04
-    
-# ... (diğer importlar ve kodlar aynı)
-
+    app.run(debug=True)
 if __name__ == '__main__':
     # Uygulama başlamadan önce tüm tarifleri etiketle
     print("Tarifler etiketleniyor...")

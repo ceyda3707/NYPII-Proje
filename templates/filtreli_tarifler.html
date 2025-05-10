@@ -11,9 +11,10 @@
             <div class="card-top">
                 <img src="{{ tarif['resim_url'] or '/static/placeholder.jpg' }}" alt="{{ tarif['isim'] }}">
                 <div class="diet-badges">
-                    {% for etiket in tarif['etiketler'] %}
-                    <span class="diet-badge {{ etiket }}">{{ etiket }}</span>
+                    {% for etiket_adı in tarif['etiketler'] %}
+                        <span class="diet-badge {{ etiket_adı }}">{{ etiket_adı }}</span>
                     {% endfor %}
+        
                 </div>
             </div>
             <div class="card-content">
