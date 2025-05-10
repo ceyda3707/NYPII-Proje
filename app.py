@@ -522,6 +522,7 @@ def chatbot():
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
 
+            # Herhangi birini içeren tarifleri getir (dilersen OR yerine AND kalabilir)
             conditions = ' AND '.join(["LOWER(malzemeler) LIKE ?" for _ in secilen_malzemeler])
             query = f"SELECT * FROM tarifler WHERE {conditions}"
             params = [f"%{m}%" for m in secilen_malzemeler]

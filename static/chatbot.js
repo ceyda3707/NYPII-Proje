@@ -4,7 +4,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const input = document.getElementById("chat-input");
   const sendBtn = document.getElementById("chat-submit");
   const chatBody = document.getElementById("chat-body");
-  
+  const closeBtn = document.querySelector(".chatbot-close");
+
+  closeBtn.addEventListener("click", () => {
+    windowEl.classList.add("hidden");
+  });
+
 
   
    // Sadece ilk açılışta 1 kere "Merhaba" eklensin
