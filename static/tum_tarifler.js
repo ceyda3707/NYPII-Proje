@@ -64,9 +64,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const favClass = tarif.favori ? "fa-solid" : "fa-regular";
 
+      const slug = tarif.isim.toLowerCase().replaceAll(" ", "-").replaceAll("ı", "i").replaceAll("ç", "c").replaceAll("ş", "s").replaceAll("ğ", "g").replaceAll("ü", "u").replaceAll("ö", "o");
+
+      const imgPath = `/static/uploads/${slug}.png`;
+
+
       const cardHTML = `
         <div class="recipe-card" data-index="${globalIndex}">
           <div class="card-top">
+            <img src="${imgPath}" alt="${tarif.isim}" onerror="this.src='/static/uploads/placeholder.png'" style="width:100%; height:200px; object-fit:cover; border-radius: 12px 12px 0 0;">
             <div class="fav-icon" data-index="${globalIndex}">
               <i class="${favClass} fa-heart"></i>
             </div>
@@ -84,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <a href="#">Tarifi Gör →</a>
             </div>
           </div>
-        </div>
+  </div>
       `;
       container.insertAdjacentHTML("beforeend", cardHTML);
     });

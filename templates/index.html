@@ -229,9 +229,9 @@
           {% for tarif in tarifler %}
           <div class="recipe-card">
             <div class="card-top">
-             <img src="{{ tarif[6] }}" alt="{{ tarif[1] }}" class="test-gorsel">
-
-
+              <img src="{{ url_for('static', filename='uploads/' + tarif[7] + '.png') }}"
+                    onerror="this.onerror=null;this.src='/static/uploads/placeholder.png';"
+                    alt="{{ tarif[1] }}">
               <div class="plus">+</div>
               <div class="time-badge">30 dk</div>
             </div>
@@ -326,7 +326,7 @@
         </div>
 
         <button class="chatbot-close">&times;</button> 
-        
+
       </div>
 
       <div class="chatbot-body" id="chat-body">
