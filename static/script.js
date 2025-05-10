@@ -239,32 +239,33 @@ document.addEventListener("DOMContentLoaded", function () {
           unique.forEach(tarif => {
             const card = document.createElement('div');
             card.classList.add('tarif-card');
-            
+
             card.innerHTML = `
-             <div class="card-top">
-                 <img src="${tarif.resim && tarif.resim.length > 5 ? tarif.resim : '/static/placeholder.png'}" alt="${tarif.isim}" class="dinamik-gorsel">
-
-
-
-                  <div class="plus">+</div>
-                  <div class="time-badge">${tarif.hazirlama_suresi || '30 dk'}</div>
-                  <div class="favorite-btn">♡</div>
+              <div class="card-top">
+                <img src="/static/uploads/${slugify(tarif.isim)}.png"
+                    onerror="this.onerror=null;this.src='/static/uploads/placeholder.png';"
+                    alt="${tarif.isim}" class="dinamik-gorsel">
+                <div class="plus">+</div>
+                <div class="time-badge">${tarif.hazirlama_suresi || '30 dk'}</div>
+                <div class="favorite-btn">♡</div>
               </div>
               <div class="card-content">
-                 <div class="card-header-alt">
+                <div class="card-header-alt">
                   <span class="difficulty">${tarif.kategori || 'Genel'}</span>
                   <div class="favorite-btn">♡</div>
                 </div>
-
-                  <h3>${tarif.isim}</h3>
-                  <p>${tarif.malzemeler ? tarif.malzemeler.split(',').length : 0} malzeme</p>
-                  <div class="card-footer">
-                      <span>${tarif.bolge || 'Bilinmiyor'}</span>
-                      <a href="/tarif/${tarif.id || 1}">Tarifi Gör →</a>
-                  </div>
+                <h3>${tarif.isim}</h3>
+                <p>${tarif.malzemeler ? tarif.malzemeler.split(',').length : 0} malzeme</p>
+                <div class="card-footer">
+                  <span>${tarif.bolge || 'Bilinmiyor'}</span>
+                  <a href="/tarif/${tarif.id || 1}">Tarifi Gör →</a>
+                </div>
               </div>
               <div class="rating">⭐ 4.8</div>
             `;
+
+            
+          
             const favBtn = card.querySelector('.favorite-btn');
             favBtn.addEventListener('click', function () {
                   favBtn.classList.toggle('active');
@@ -281,4 +282,17 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     });
   });
+  function slugify(str) {
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/ç/g, 'c')
+    .replace(/ğ/g, 'g')
+    .replace(/ı/g, 'i')
+    .replace(/ö/g, 'o')
+    .replace(/ş/g, 's')
+    .replace(/ü/g, 'u');
+}
+
   

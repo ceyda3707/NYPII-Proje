@@ -101,7 +101,9 @@
         {% for tarif in tarifler %}
         <div class="recipe-card">
             <div class="card-top">
-                <img src="{{ tarif['resim_url'] or '/static/placeholder.jpg' }}" alt="{{ tarif['isim'] }}">
+                <img src="{{ url_for('static', filename='uploads/' + tarif.isim|lower|replace(' ', '-') + '.png') }}"
+                      onerror="this.onerror=null;this.src='/static/uploads/placeholder.png';"
+                      alt="{{ tarif.isim }}">
                 <div class="diet-badges">
                     {% for etiket_adı in tarif['etiketler'] %}
                         <span class="diet-badge {{ etiket_adı }}">{{ etiket_adı }}</span>

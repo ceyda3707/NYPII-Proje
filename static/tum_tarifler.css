@@ -286,9 +286,10 @@ body {
 
 /* Kart Üst */
 .card-top {
-  background: #d5d2b5;
-  height: 230px;
+  height: 200px;
   position: relative;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
 }
 
 /* Kalp ikonu */
@@ -468,7 +469,7 @@ body, html {
   background-color: white;
 }
 
-  .user-menu {
+.user-menu {
   position: relative;
   display: inline-block;
 }
@@ -526,19 +527,6 @@ body, html {
 .user-initials:hover {
   background-color: #eee;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -634,9 +622,9 @@ body, html {
     font-size: 14px;
     color: #9ca3af;
   }
-  img {
+ .card-top img {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
   display: block;
 }

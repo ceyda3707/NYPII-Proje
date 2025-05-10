@@ -99,7 +99,9 @@
         {% for tarif in tarifler %}
         <div class="recipe-card">
           <div class="card-top">
-            <img src="${tarif.resim_url || '/static/placeholder.png'}" alt="${tarif.isim}">
+           <img src="{{ url_for('static', filename='uploads/' + tarif[1]|lower|replace(' ', '-') + '.png') }}"
+                onerror="this.onerror=null;this.src='/static/uploads/placeholder.png';"
+                alt="{{ tarif[1] }}">
 
             <div class="plus">+</div>
             <div class="time-badge">30 dk</div>

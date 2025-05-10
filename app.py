@@ -6,6 +6,17 @@ from extensions import db
 from model import YemekTarifi, TurkTarifi, User
 from flask_login import LoginManager, current_user, login_user, logout_user
 
+def slugify(text):
+    return (
+        text.strip().lower()
+        .replace(" ", "-")
+        .replace("ı", "i")
+        .replace("ö", "o")
+        .replace("ü", "u")
+        .replace("ç", "c")
+        .replace("ş", "s")
+        .replace("ğ", "g")
+    )
 
 
 app = Flask(__name__)
@@ -164,6 +175,8 @@ def tarif_etiketlerini_guncelle(tarif_id,malzemeler, veritabani='turk_tarifleri.
     conn.commit()
     conn.close()
     return True
+
+
 @app.route('/arama')
 def arama():
     arama_terimi = request.args.get('q', '').strip().lower()
@@ -191,6 +204,9 @@ def arama():
                          etiket='', 
                          arama_terimi=arama_terimi,
                          sayfa_basligi=f"'{arama_terimi}' için sonuçlar")
+
+
+
 @app.route('/filtreli/<etiket>')
 def filtreli_tarifler(etiket):
     conn = get_db_connection()
@@ -214,7 +230,7 @@ def filtreli_tarifler(etiket):
     rows = cursor.fetchall()
     tarifler = []
 
-    for row in rows:
+    for row in tarifler:
         tarif = dict(row)
 
         # Malzemeleri getir
@@ -348,8 +364,17 @@ def index():
     conn = sqlite3.connect("turk_tarifleri.db")
     cursor = conn.cursor()
     cursor.execute("SELECT id, isim, kategori, bolge, malzemeler, tarif, resim_url FROM tarifler LIMIT 3")
-    tarifler = cursor.fetchall()
+    rows = cursor.fetchall()
     conn.close()
+
+     # Slug ekle
+    tarifler = []
+    for row in rows:
+        row = list(row)
+        slug = slugify(row[1])  # row[1] → tarif ismi
+        row.append(slug)        # row[7] → slug
+        tarifler.append(row)
+
     return render_template("index.html", tarifler=tarifler)
 
 @app.route("/tarifler")
@@ -553,6 +578,9 @@ def tum_tarifler():
     return render_template("tum_tarifler.html", tarifler=tarifler)
 
     app.run(debug=True)
+
+
+
     
 if __name__ == '__main__':
     # Uygulama başlamadan önce tüm tarifleri etiketle
