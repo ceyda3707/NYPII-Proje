@@ -9,7 +9,7 @@
         {% for tarif in tarifler %}
         <div class="recipe-card">
             <div class="card-top">
-                <img src="{{ tarif['resim_url'] or '/static/placeholder.jpg' }}" alt="{{ tarif['isim'] }}">
+                <img src="{{ tarif['resim_url'] or '/static/placeholder.png' }}" alt="{{ tarif['isim'] }}">
                 <div class="diet-badges">
                     {% for etiket_adı in tarif['etiketler'] %}
                         <span class="diet-badge {{ etiket_adı }}">{{ etiket_adı }}</span>

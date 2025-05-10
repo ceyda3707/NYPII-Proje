@@ -34,15 +34,28 @@
             
             <nav class="site-nav">
                 <ul>
-                    <li><a href="#">Ana Sayfa</a></li>
+                    <li><a href="/">Ana Sayfa</a></li>
                     <li><a href="#">Kategoriler</a></li>
                     <li><a href="#">Popüler</a></li>
                     <li><a href="#">Hakkımızda</a></li>
                 </ul>
             </nav>
             <div class="auth-buttons">
-                <button class="login-btn">Giriş Yap</button>
-                <button class="signup-btn">Üye Ol</button>
+               {% if current_user.is_authenticated %}
+                  <div class="user-menu">
+                    <div class="user-initials user-icon">
+                      {{ current_user.username[0]|upper }}{{ current_user.username.split(' ')[1][0]|upper if ' ' in current_user.username else '' }}
+                    </div>
+
+                    <div class="dropdown">
+                      <a href="{{ url_for('favoriler') }}">⭐ Favoriler</a>
+                      <a href="{{ url_for('logout') }}">🔓 Çıkış Yap</a>
+                    </div>
+                  </div>
+                {% else %}
+                  <a href="{{ url_for('login') }}" class="login-btn">Giriş Yap</a>
+                  <a href="{{ url_for('register') }}" class="signup-btn">Üye Ol</a>
+                {% endif %}
             </div>
         </div>
     </header>
@@ -86,7 +99,7 @@
         {% for tarif in tarifler %}
         <div class="recipe-card">
           <div class="card-top">
-            <img src="${tarif.resim_url || '/static/placeholder.jpg'}" alt="${tarif.isim}">
+            <img src="${tarif.resim_url || '/static/placeholder.png'}" alt="${tarif.isim}">
 
             <div class="plus">+</div>
             <div class="time-badge">30 dk</div>
@@ -150,7 +163,7 @@
           <div class="footer-section">
             <h4>Hızlı Bağlantılar</h4>
             <ul>
-              <li><a href="#">Ana Sayfa</a></li>
+              <li><a href="/">Ana Sayfa</a></li>
               <li><a href="#">Kategoriler</a></li>
               <li><a href="#">Popüler Tarifler</a></li>
               <li><a href="#">Yeni Eklenenler</a></li>

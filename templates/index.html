@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
+
 </head>
 <body>
   
@@ -38,7 +40,7 @@
 
             <nav class="site-nav">
                 <ul>
-                    <li><a href="#">Ana Sayfa</a></li>
+                    <li><a href="/">Ana Sayfa</a></li>
                     <li><a href="#">Kategoriler</a></li>
                     <li><a href="#">Popüler</a></li>
                     <li><a href="#">Hakkımızda</a></li>
@@ -151,14 +153,14 @@
             <button>🧀 Peynir</button>
             <button>🥛 Süt</button>
             <button>🍅 Domates</button>
-            <button>🧅 Soğan</button>
+            <button>🍃 Ispanak</button>
             <button>🥔 Patates</button>
             <button>🍗 Tavuk</button>
             <button>🥩 Kıyma</button>
             <button>🍚 Pirinç</button>
             <button>🍝 Makarna</button>
-            <button>🧄 Sarımsak</button>
-            <button>🥕 Havuç</button>
+            <button>🥒 Kabak</button>
+            <button>🍈 Kavun</button>
           </div>
       
           <h3>Başka Malzeme Ekle</h3>
@@ -188,19 +190,19 @@
   
       
 
-      <section class="featured-recipes">
-        <!-- Ana sayfada (featured-recipes bölümüne ekleyin) -->
-  <div class="diet-filters">
-    <a href="{{ url_for('filtreli_tarifler', etiket='vegan') }}" class="diet-filter vegan">
-        <i class="fas fa-leaf"></i> Vegan
-    </a>
-    <a href="{{ url_for('filtreli_tarifler', etiket='vejetaryen') }}" class="diet-filter vegetarian">
-        <i class="fas fa-carrot"></i> Vejetaryen
-    </a>
-   <a href="{{ url_for('filtreli_tarifler', etiket='laktozsuz') }}" class="diet-filter lactose-free">
-        <i class="fas fa-cheese"></i> Laktozsuz
-    </a>
-  </div>
+     <section class="featured-recipes">
+            <!-- Ana sayfada (featured-recipes bölümüne ekleyin) -->
+      <div class="diet-filters">
+        <a href="{{ url_for('filtreli_tarifler', etiket='vegan') }}" class="diet-filter vegan">
+            <i class="fas fa-leaf"></i> Vegan
+        </a>
+        <a href="{{ url_for('filtreli_tarifler', etiket='vejetaryen') }}" class="diet-filter vegetarian">
+            <i class="fas fa-carrot"></i> Vejetaryen
+        </a>
+      <a href="{{ url_for('filtreli_tarifler', etiket='laktozsuz') }}" class="diet-filter lactose-free">
+            <i class="fas fa-cheese"></i> Laktozsuz
+        </a>
+      </div>
         <div class="title">
           <div class="title-top">
             <div class="logo-animation">
@@ -227,7 +229,9 @@
           {% for tarif in tarifler %}
           <div class="recipe-card">
             <div class="card-top">
-              <img src="{{ tarif[6] or '/static/placeholder.jpg' }}" alt="{{ tarif[1] }}" style="width:100%; height:150px; object-fit:cover;">
+             <img src="{{ tarif[6] }}" alt="{{ tarif[1] }}" class="test-gorsel">
+
+
               <div class="plus">+</div>
               <div class="time-badge">30 dk</div>
             </div>
@@ -279,7 +283,7 @@
             <div class="footer-section">
               <h4>Hızlı Bağlantılar</h4>
               <ul>
-                <li><a href="#">Ana Sayfa</a></li>
+                <li><a href="/">Ana Sayfa</a></li>
                 <li><a href="#">Kategoriler</a></li>
                 <li><a href="#">Popüler Tarifler</a></li>
                 <li><a href="#">Yeni Eklenenler</a></li>
@@ -309,10 +313,35 @@
             <p>© 2023 RECIPIA. Tüm hakları saklıdır.</p>
           </div>
         </footer>
-        
-      
-<script src="{{ url_for('static', filename='script.js') }}"></script>  
-    <i class="fa-solid fa-user" style="font-size: 40px; color: red;"></i>
 
+
+
+    <div id="chatbot-button">&#128172;</div>
+
+    <div id="chatbot-window" class="hidden">
+      <div class="chatbot-header">
+        <span class="chatbot-icon"><i class="fas fa-comment-dots"></i></span>
+        <div>
+          Akıllı Asistan<br><span>Her zaman yardıma hazır</span>
+        </div>
+      </div>
+
+      <div class="chatbot-body" id="chat-body">
+        
+      </div>
+
+    <div class="chatbot-input">
+      <div class="input-wrapper">
+        <input type="text" id="chat-input" placeholder="Bir mesaj yazın..." />
+        <button type="button" id="chat-submit"><span>➜</span></button>
+    </div>
+  </div>
+</div>
+
+
+      
+    <script src="{{ url_for('static', filename='script.js') }}"></script>  
+    <i class="fa-solid fa-user" style="font-size: 40px; color: red;"></i>
+    <script src="{{ url_for('static', filename='chatbot.js') }}"></script>
 </body>
 </html>

@@ -23,7 +23,7 @@ db.init_app(app)
 
 
 
-def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifleri.db'):
+def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifler.db'):
 
     malzeme_metni = malzeme_metni.lower()
 
@@ -274,6 +274,7 @@ def tarif_ekle():
         conn.commit()
         conn.close()
 
+
         return redirect(url_for('tarifler'))
 
 
@@ -451,26 +452,62 @@ def api_tarif_detay(tarif_id):
         })
     else:
         return jsonify({"error": "Tarif bulunamadı"}), 404
-    
+
+
+
+def normalize_soru(soru):
+    import re
+    soru = soru.lower()
+    soru = re.sub(r'[^\w\s]', '', soru)  # Noktalama kaldır
+    kelimeler = soru.split()
+
+    # Tüm bilinen kök malzemeler
+    bilinen_malzemeler = [
+        'süt', 'pirinç', 'soğan', 'yumurta', 'domates', 'patates', 'biber', 'şeker', 'un', 'yoğurt', 'et', 'tavuk',
+        'kıyma', 'balık', 'makarna', 'zeytinyağı', 'salça', 'baharatlar', 'maydanoz', 'dereotu', 'limon', 'sarımsak',
+        'kabak', 'patlıcan', 'havuç', 'bezelye', 'mantar', 'ceviz', 'fındık', 'badem', 'kuru üzüm', 'kuru kayısı',
+        'fesleğen', 'marul', 'taze soğan', 'fasulye', 'nohut', 'mercimek', 'kinoa', 'bulgur', 'pirinç unu',
+        'ıspanak', 'pırasa', 'karnabahar', 'brokoli', 'hardal', 'kavun', 'karpuz', 'çilek', 'muz', 'elma',
+    ]
+
+    secilen = set()
+
+    # Hepsine kök arama yap
+    for kelime in kelimeler:
+        for malzeme in bilinen_malzemeler:
+            if malzeme in kelime:
+                secilen.add(malzeme)
+                break  # Aynı kelimeden birden fazla eşleşme olmasın
+
+    return list(secilen)
+
+
+from flask import request, render_template, jsonify, make_response
 
 @app.route('/chatbot', methods=['GET', 'POST'])
 def chatbot():
     cevap = ""
+
     if request.method == 'POST':
         soru = request.form.get('soru', '').lower()
 
-        # Bilinen malzeme listesi (örnek)
-        bilinen_malzemeler = ['süt', 'pirinç', 'soğan', 'yumurta', 'domates', 'patates', 'biber', 'şeker', 'un', 'yoğurt', 'et', 'tavuk']
-        secilen_malzemeler = [m for m in bilinen_malzemeler if m in soru]
+        # 1️⃣ Malzemeleri ayıkla
+        secilen_malzemeler = normalize_soru(soru)
 
-        if not secilen_malzemeler:
-            cevap = "Elindeki malzemeleri anlayamadım 😔 Lütfen açıkça yaz (örneğin: süt, pirinç, yumurta)"
+        # 2️⃣ Kategori analizleri
+        if "tatlı" in soru:
+            cevap = "🍰 Tatlı tarifleri için sitemizdeki Tatlılar kategorisine göz atabilirsin!"
+        elif "çorba" in soru:
+            cevap = "🍲 Sıcacık bir çorba mı? Mercimek Çorbası ya da Ezogelin harika olur!"
+        elif "kahvaltı" in soru:
+            cevap = "🍳 Kahvaltı önerisi mi istiyorsun? Menemen ya da yumurtalı ekmek şahane olur!"
+        elif not secilen_malzemeler:
+            cevap = "Elindeki malzemeleri anlayamadım 😔 Lütfen örnek ver: süt, pirinç, yumurta"
         else:
             conn = sqlite3.connect("turk_tarifleri.db")
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
 
-            # Bütün malzemelerin hepsi tarifte geçiyor mu kontrolü
             conditions = ' AND '.join(["LOWER(malzemeler) LIKE ?" for _ in secilen_malzemeler])
             query = f"SELECT * FROM tarifler WHERE {conditions}"
             params = [f"%{m}%" for m in secilen_malzemeler]
@@ -480,11 +517,16 @@ def chatbot():
             conn.close()
 
             if not tarifler:
-                cevap = f"'{', '.join(secilen_malzemeler)}' malzemelerinin hepsini içeren tarif bulamadım."
+                cevap = f"'{', '.join(secilen_malzemeler)}' malzemelerinin hepsini içeren tarif bulamadım 😢"
             else:
                 ilk_tarif = tarifler[0]
-                cevap = f"🧠 Elindeki malzemelerle '{ilk_tarif['isim']}' tarifini yapabilirsin! İçindekiler: {ilk_tarif['malzemeler']}"
+                cevap = f"🥬Elindeki malzemelerle '{ilk_tarif['isim']}' tarifini yapabilirsin!\nİçindekiler: {ilk_tarif['malzemeler']}"
 
+        # Eğer AJAX çağrısıysa sadece cevap HTML'ini döndür
+        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            return render_template('partials/chat_response.html', cevap=cevap)
+
+    # GET isteği veya normal kullanımda tüm sayfa render edilir
     return render_template('chatbot.html', cevap=cevap)
 
 
@@ -509,8 +551,8 @@ def tum_tarifler():
     conn.close()
     return render_template("tum_tarifler.html", tarifler=tarifler)
 
-
     app.run(debug=True)
+    
 if __name__ == '__main__':
     # Uygulama başlamadan önce tüm tarifleri etiketle
     print("Tarifler etiketleniyor...")

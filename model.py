@@ -4,6 +4,7 @@ from flask_login import UserMixin
 
 class YemekTarifi(db.Model):
 
+
     __tablename__ = 'tarifler'
     __bind_key__ = None
 

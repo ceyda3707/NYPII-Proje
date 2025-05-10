@@ -110,4 +110,19 @@ document.addEventListener("DOMContentLoaded", function () {
             yildizYaziElementi.textContent = `${yildizYazilari[index]}`;
         });
     });
+
+    // Kalp butonunun tıklanma işlevi
+    document.getElementById("kalpBtn").addEventListener("click", function() {
+        const kalpIcon = document.getElementById("kalpIcon");
+
+        if (kalpIcon.classList.contains("fa-regular")) {
+            kalpIcon.classList.remove("fa-regular", "fa-heart");
+            kalpIcon.classList.add("fa-solid", "fa-heart");
+        } else {
+            kalpIcon.classList.remove("fa-solid", "fa-heart");
+            kalpIcon.classList.add("fa-regular", "fa-heart");
+        }
+    });
+
+
 });

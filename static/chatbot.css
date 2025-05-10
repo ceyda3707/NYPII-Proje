@@ -1,0 +1,143 @@
+#chatbot-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #1a2b47;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 26px;
+  text-align: center;
+  line-height: 60px;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#chatbot-window {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 300px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  height: 420px; /* sabit yükseklik VERİYORUZ */
+  z-index: 9998;
+  overflow: hidden;
+}
+
+#chatbot-window.hidden {
+  display: none;
+}
+
+.chatbot-header {
+  background-color: #1a2b47;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chatbot-icon {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  color: #1a2b47;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+
+.chatbot-body {
+  flex: 1; /* tüm dikey alanı kaplar */
+  padding: 10px;
+  overflow-y: auto;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  max-width: 80%;
+  word-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.4;
+  display: inline-block;
+  clear: both;
+}
+
+.message.user {
+  background-color: #cc7548;
+  color: #fff;
+  align-self: flex-end;
+  float: right;
+  text-align: right;
+}
+
+.message.bot {
+  background-color: #f0f0f0;
+  color: #333;
+  align-self: flex-start;
+  float: left;
+  text-align: left;
+}
+
+.chatbot-input {
+  padding: 10px;
+  border-top: 1px solid #eee;
+  background-color: white; /* sabit zemini koru */
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #f0f0f0;
+  border-radius: 25px;
+  padding: 4px 6px;
+}
+
+.input-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px 10px;
+  font-size: 14px;
+  background: transparent;
+}
+
+.input-wrapper button {
+  background-color: #cc7548;
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.input-wrapper button:hover {
+  background-color: #a95132;
+}
+
+
