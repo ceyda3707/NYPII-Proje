@@ -481,7 +481,7 @@ def normalize_soru(soru):
         'kıyma', 'balık', 'makarna', 'zeytinyağı', 'salça', 'baharatlar', 'maydanoz', 'dereotu', 'limon', 'sarımsak',
         'kabak', 'patlıcan', 'havuç', 'bezelye', 'mantar', 'ceviz', 'fındık', 'badem', 'kuru üzüm', 'kuru kayısı',
         'fesleğen', 'marul', 'taze soğan', 'fasulye', 'nohut', 'mercimek', 'kinoa', 'bulgur', 'pirinç unu',
-        'ıspanak', 'pırasa', 'karnabahar', 'brokoli', 'hardal'
+        'ıspanak', 'pırasa', 'karnabahar', 'brokoli', 'hardal', 'kavun', 'karpuz', 'çilek', 'muz', 'elma',
     ]
 
     secilen = set()
@@ -496,10 +496,12 @@ def normalize_soru(soru):
     return list(secilen)
 
 
+from flask import request, render_template, jsonify, make_response
 
 @app.route('/chatbot', methods=['GET', 'POST'])
 def chatbot():
     cevap = ""
+
     if request.method == 'POST':
         soru = request.form.get('soru', '').lower()
 
@@ -532,10 +534,14 @@ def chatbot():
                 cevap = f"'{', '.join(secilen_malzemeler)}' malzemelerinin hepsini içeren tarif bulamadım 😢"
             else:
                 ilk_tarif = tarifler[0]
-                cevap = f"🧠 Elindeki malzemelerle '{ilk_tarif['isim']}' tarifini yapabilirsin!\nİçindekiler: {ilk_tarif['malzemeler']}"
+                cevap = f"🥬Elindeki malzemelerle '{ilk_tarif['isim']}' tarifini yapabilirsin!\nİçindekiler: {ilk_tarif['malzemeler']}"
 
+        # Eğer AJAX çağrısıysa sadece cevap HTML'ini döndür
+        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            return render_template('partials/chat_response.html', cevap=cevap)
+
+    # GET isteği veya normal kullanımda tüm sayfa render edilir
     return render_template('chatbot.html', cevap=cevap)
-
 
 
 @app.route("/api/tum_tarifler", methods=["GET"])

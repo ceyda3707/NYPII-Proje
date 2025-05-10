@@ -19,16 +19,14 @@
   position: fixed;
   bottom: 90px;
   right: 20px;
-  width: 350px;
-  height: 450px;
+  width: 300px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
-  font-family: 'Poppins', sans-serif;
-  overflow: hidden;
-  z-index: 1000;
+  height: 420px; /* sabit yükseklik VERİYORUZ */
+  z-index: 9998;
 }
 
 #chatbot-window.hidden {
@@ -60,42 +58,49 @@
 
 
 .chatbot-body {
-  flex: 1;
+  flex: 1; /* tüm dikey alanı kaplar */
   padding: 10px;
   overflow-y: auto;
-  background-color: #f5f5f5;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
+
 
 .message {
-  padding: 10px;
-  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  border-radius: 16px;
   max-width: 80%;
+  word-wrap: break-word;
   font-size: 14px;
-}
-
-.message.bot {
-  background-color: white;
-  color: #1a2b47;
-  font-size: 14px;
-  align-self: flex-start;
-  border: 1px solid #ddd;
-  border-radius: 0px 10px 10px 10px; /* sol üst köşe sivri */
+  line-height: 1.4;
+  display: inline-block;
+  clear: both;
 }
 
 .message.user {
   background-color: #cc7548;
-  color: white;
-  font-size: 14px;
+  color: #fff;
   align-self: flex-end;
-  border-radius: 10px 0px 10px 10px; /* sağ üst köşe sivri */
+  float: right;
+  text-align: right;
+}
+
+.message.bot {
+  background-color: #f0f0f0;
+  color: #333;
+  align-self: flex-start;
+  float: left;
+  text-align: left;
 }
 
 .chatbot-input {
-  border-top: 1px solid #ddd;
   padding: 10px;
+  border-top: 1px solid #eee;
+  background-color: white; /* sabit zemini koru */
 }
 
 .input-wrapper {
