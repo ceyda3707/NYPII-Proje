@@ -40,7 +40,7 @@
 
             <nav class="site-nav">
                 <ul>
-                    <li><a href="#">Ana Sayfa</a></li>
+                    <li><a href="/">Ana Sayfa</a></li>
                     <li><a href="#">Kategoriler</a></li>
                     <li><a href="#">Popüler</a></li>
                     <li><a href="#">Hakkımızda</a></li>
@@ -99,10 +99,12 @@
 
                 <p>Binlerce tarif arasından seçim yapın ve mutfağınızda harikalar yaratın</p>
 
-                <div class="search-bar">
-                    <input type="text" placeholder="Tarif ara...">
-                    <button>Şimdi Keşfet</button>
-                </div>
+               <div class="search-bar">
+               <form action="{{ url_for('arama') }}" method="get">
+               <input type="text" name="q" placeholder="Tarif ara..." value="{{ arama_terimi if arama_terimi else '' }}">
+               <button type="submit">Şimdi Keşfet</button>
+               </form>
+               </div>
             </div>
         </div>
     </section>
@@ -281,7 +283,7 @@
             <div class="footer-section">
               <h4>Hızlı Bağlantılar</h4>
               <ul>
-                <li><a href="#">Ana Sayfa</a></li>
+                <li><a href="/">Ana Sayfa</a></li>
                 <li><a href="#">Kategoriler</a></li>
                 <li><a href="#">Popüler Tarifler</a></li>
                 <li><a href="#">Yeni Eklenenler</a></li>

@@ -120,6 +120,7 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-decoration: none; /* Alt çizgiyi kaldırır */
 }
 
 /* Giriş Yap */
@@ -426,7 +427,105 @@ body {
   color: white;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body, html {
+  height: 100%;
+  font-family: sans-serif;
+}
+
+.main-background {
+  background-color: #7A7A7A; /* gri arka plan */
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel-container {
+  display: flex;
+  width: 900px;
+  height: 500px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.panel-left {
+  padding: 48px;
+  width: 35%;
+  background-color: #1D2B53; /* lacivert */
+}
+
+.panel-right {
+  padding: 48px;
+  width: 65%;
+  background-color: white;
+}
+
+  .user-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.user-icon {
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  padding: 5px;
+  display: inline-block; /* EKLE */
+}
+
+.user-menu .dropdown {
+  display: none;
+  position: absolute;
+  background-color: white;
+  top: 100%;
+  right: 0;
+  min-width: 150px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  border-radius: 6px;
+}
+
+.user-menu:hover .dropdown {
+  display: block;
+}
+
+.dropdown a {
+  color: #333;
+  padding: 10px 15px;
+  display: block;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.dropdown a:hover {
+  background-color: #f2f2f2;
+}
+.user-initials {
+  background-color: white;
+  color: #244435;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+  transition: background 0.3s;
+}
+
+.user-initials:hover {
+  background-color: #eee;
+}
 
 
 

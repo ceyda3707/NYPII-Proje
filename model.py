@@ -3,9 +3,11 @@ from flask_login import UserMixin
 
 
 class YemekTarifi(db.Model):
-    __tablename__ = 'yemek_tarifleri'
-    __bind_key__ = 'turk_tarifleri'
-    
+
+
+    __tablename__ = 'tarifler'
+    __bind_key__ = None
+
     id = db.Column(db.Integer, primary_key=True)
     isim = db.Column(db.String)
     kategori = db.Column(db.String)
