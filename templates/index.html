@@ -232,7 +232,6 @@
               <img src="{{ url_for('static', filename='uploads/' + tarif[7] + '.png') }}"
                     onerror="this.onerror=null;this.src='/static/uploads/placeholder.png';"
                     alt="{{ tarif[1] }}">
-              <div class="plus">+</div>
               <div class="time-badge">30 dk</div>
             </div>
             <div class="card-content">
@@ -244,7 +243,6 @@
                 <a href="{{ url_for('tarif_detay', tarif_id=tarif[0]) }}">Tarifi Gör →</a>
               </div>
             </div>
-            <div class="rating">⭐ 4.8</div>
           </div>
           {% endfor %}
         </div>
