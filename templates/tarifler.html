@@ -15,7 +15,7 @@
             <p>{{ tarif[4].split(',')|length }} malzeme</p>
             <div class="card-footer">
                 <span>Bölge: {{ tarif[3] }}</span>
-                <a href="/tarif/{{ tarif[0] }}">Tarifi Gör →</a>
+               <a href="{{ url_for('tarif_detay', tarif_id=tarif[0]) }}">Tarifi Gör →</a>
             </div>
         </div>
     </div>

@@ -32,49 +32,51 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 
+import re
 
-def tarif_etiketlerini_belirle(malzeme_metni, veritabani='turk_tarifler.db'):
-
+def tarif_etiketlerini_belirle(malzeme_metni):
     malzeme_metni = malzeme_metni.lower()
 
-    # Etiket için referans listeleri
-    vegan_olmayanlar = ["et", "tavuk", "peynir", "süt", "yoğurt", "balık", "yumurta", "bal"]
-    laktoz_icerikliler = ["süt", "peynir", "yoğurt", "krema", "tereyağı"]
-    et_ve_baliklar = ["et", "tavuk", "balık", "sucuk", "pastırma", "jambon", "kıyma"]
+    vegan_olmayanlar = [
+        "et","eti", "kıyma", "tavuk", "balık", "yumurta", "peynir", "yoğurt", "süt",
+        "krema", "tereyağı", "tereyagi", "jambon", "pastırma", "sucuk", "bal",
+        "kuzu", "dana","koyun", "köfte", "kanat", "ciğer", "domuz", "bonfile", "kelle", "ayak"
+    ]
 
-    bulunan_malzemeler = []
+    laktoz_icerikliler = [
+        "süt", "yoğurt", "peynir", "tereyağı", "tereyagi", "krema"
+    ]
 
-    # Veritabanına bağlan ve malzeme isimlerini çek
-    if veritabani == 'turk_tarifleri.db':
-        conn = sqlite3.connect('turk_tarifleri.db')
-        cursor = conn.cursor()
-        cursor.execute("SELECT isim FROM malzemeler")
-        tum_malzemeler = [row[0].lower() for row in cursor.fetchall()]
-    else:
-        return []  # Geçersiz veritabanı adı
-    conn.close()
+    et_ve_baliklar = [
+        "et", "eti", "koyun", "kıyma", "tavuk", "balık", "sucuk", "pastırma", "jambon", "kuzu", "dana", "ciğer", "domuz", "bonfile", "kelle", "ayak"
+    ]
+    bulunan = []
 
-    # Metindeki geçen malzemeleri bul
-    gecen_malzemeler = []
-    for malzeme in tum_malzemeler:
-        if malzeme in malzeme_metni:
-            gecen_malzemeler.append(malzeme)
+    def icermez(kara_liste):
+        return all(re.search(rf"\b{re.escape(m)}\b", malzeme_metni) is None for m in kara_liste)
 
-    # Etiket kontrolü
-    if all(urun not in malzeme_metni for urun in vegan_olmayanlar):
-        bulunan_malzemeler.append("vegan")
+    # 🔍 TEST: Hangi kelime eşleşiyor, hangisi eşleşmiyor?
+    print("------")
+    print("MALZEME:", malzeme_metni)
 
-    if all(urun not in malzeme_metni for urun in laktoz_icerikliler):
-        bulunan_malzemeler.append("laktozsuz")
+    for m in et_ve_baliklar:
+        if re.search(rf"\b{re.escape(m)}\b", malzeme_metni):
+            print(f"❌ BULUNDU: {m}")
+        else:
+            print(f"✅ YOK: {m}")
 
-    if all(urun not in malzeme_metni for urun in et_ve_baliklar):
-        bulunan_malzemeler.append("vejetaryen")
+    if icermez(vegan_olmayanlar):
+        bulunan.append("vegan")
+    if icermez(laktoz_icerikliler):
+        bulunan.append("laktozsuz")
+    if icermez(et_ve_baliklar):
+        bulunan.append("vejetaryen")
 
-    # Hem malzemeleri hem de uygun etiketleri birlikte döndür
-    return {
-        "gecen_malzemeler": gecen_malzemeler,
-        "etiketler": bulunan_malzemeler
-    }
+    print("SONUC:", bulunan)
+    return bulunan
+
+   
+
 
 
 def etiket_id_getir(conn, etiket_adi):
@@ -87,41 +89,39 @@ def etiket_id_getir(conn, etiket_adi):
         cursor.execute("INSERT INTO etiketler (ad) VALUES (?)", (etiket_adi,))
         conn.commit()
         return cursor.lastrowid
+    
+
 
 def tum_tarifleri_etiketle(veritabani='turk_tarifleri.db'):
     conn = sqlite3.connect(veritabani)
     cursor = conn.cursor()
 
-    # Tüm tarifleri çek
-    cursor.execute("SELECT id FROM tarifler")
+    cursor.execute("SELECT id, malzemeler FROM tarifler")
     tarifler = cursor.fetchall()
 
-    for (tarif_id,) in tarifler:
-        # Bu tarifin malzemelerini bul
-        cursor.execute("""
-            SELECT malzemeler.isim
-            FROM tarif_malzemeleri
-            JOIN malzemeler ON tarif_malzemeleri.malzeme_id = malzemeler.id
-            WHERE tarif_malzemeleri.tarif_id = ?
+    for tarif_id, malzeme_metni in tarifler:
+        if not malzeme_metni:
+            continue
 
-        """, (tarif_id,))
-        malzemeler = [row[0].lower() for row in cursor.fetchall()]
-        malzeme_metni = ' '.join(malzemeler)
+        print(f"\nTARİF ID: {tarif_id}")
+        print("MALZEME:", malzeme_metni)
 
-        # Etiketleri belirle
-        sonuc = tarif_etiketlerini_belirle(malzeme_metni, veritabani)
-        etiketler = sonuc['etiketler']
+        etiketler = tarif_etiketlerini_belirle(malzeme_metni)
+        print("SONUC TİPİ:", type(etiketler), etiketler)
 
         for etiket in etiketler:
             etiket_id = etiket_id_getir(conn, etiket)
 
-            # Aynı etiket daha önce eklenmiş mi?
             cursor.execute("SELECT 1 FROM tarif_etiketleri WHERE tarif_id = ? AND etiket_id = ?", (tarif_id, etiket_id))
             if not cursor.fetchone():
-                cursor.execute("INSERT INTO tarif_etiketleri (tarif_id, etiket_id) VALUES (?, ?)", (tarif_id, etiket_id))
+                cursor.execute(
+                    "INSERT INTO tarif_etiketleri (tarif_id, etiket_id) VALUES (?, ?)",
+                    (tarif_id, etiket_id)
+                )
 
     conn.commit()
     conn.close()
+
 
 
 def get_db_connection():
@@ -212,7 +212,7 @@ def filtreli_tarifler(etiket):
     cursor = conn.cursor()
     
     # Etiket ID'sini al
-    cursor.execute("SELECT id FROM etiketler WHERE ad = ?", (etiket,))
+    cursor.execute("SELECT id FROM etiketler WHERE LOWER(ad) = ?", (etiket,))
     etiket_id = cursor.fetchone()
     
     if not etiket_id:
@@ -221,25 +221,35 @@ def filtreli_tarifler(etiket):
 
     # Etikete göre tarifleri getir
     cursor.execute("""
-        SELECT t.* FROM tarifler t
+        SELECT DISTINCT t.id, t.isim, t.kategori, t.bolge, t.malzemeler, t.tarif, t.resim_url
+        FROM tarifler t
         JOIN tarif_etiketleri te ON t.id = te.tarif_id
         WHERE te.etiket_id = ?
     """, (etiket_id[0],))
 
+
     rows = cursor.fetchall()
     tarifler = []
 
-    for row in tarifler:
+    seen_ids = set()
+    tarifler = []
+
+    for row in rows:
         tarif = dict(row)
+        if tarif['id'] in seen_ids:
+            continue  # ZATEN EKLENMİŞ, atla
+        seen_ids.add(tarif['id'])
+
+        tarif['malzemeler'] = tarif['malzemeler']
 
         # Malzemeleri getir
-        cursor.execute("""
-            SELECT m.isim FROM malzemeler m
-            JOIN tarif_malzemeleri ri ON m.id = ri.malzeme_id
-            WHERE ri.tarif_id = ?
-        """, (tarif['id'],))
-        malzemeler = [m[0] for m in cursor.fetchall()]
-        tarif['malzemeler'] = ','.join(malzemeler)
+       # cursor.execute("""
+        #    SELECT m.isim FROM malzemeler m
+        #    JOIN tarif_malzemeleri ri ON m.id = ri.malzeme_id
+         #   WHERE ri.tarif_id = ?
+        #""", (tarif['id'],))
+        #malzemeler = [m[0] for m in cursor.fetchall()]
+        #tarif['malzemeler'] = ','.join(malzemeler)
 
         # Etiketleri getir
         cursor.execute("""

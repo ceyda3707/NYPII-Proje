@@ -192,42 +192,30 @@ body {
 }
 /* Diyet filtre butonları */
 .diet-filters {
-  display: flex;
-  gap: 15px;
-  margin: 20px 0;
-  justify-content: center;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    margin: 30px 0 10px;
 }
 
-.diet-filter {
-  padding: 10px 20px;
-  border-radius: 25px;
-  text-decoration: none;
-  color: white;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: transform 0.3s, box-shadow 0.3s;
+.diet-filters .diet-filter {
+    padding: 10px 18px;
+    margin: 0 10px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    color: white;
 }
+
+.diet-filter.vegan { background-color: #4CAF50; }
+.diet-filter.vegetarian { background-color: #f1b44c; }
+.diet-filter.lactose-free { background-color: #36a2eb; }
 
 .diet-filter:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    filter: brightness(1.1);
 }
 
-.diet-filter.vegan {
-  background-color: #4CAF50;
-}
-
-.diet-filter.vegetarian {
-  background-color: #8BC34A;
-}
-
-.diet-filter.lactose-free {
-  background-color: #FFC107;
-  color: #333;
-}
 /* Search Bar */
 .search-bar {
     display: flex;
