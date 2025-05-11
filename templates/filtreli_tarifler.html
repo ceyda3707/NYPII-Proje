@@ -8,41 +8,94 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='filtreli_tarifler.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
 
 </head>
 <body>
-  
+
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <svg width="50" height="50" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Pot Base -->
+                    <path d="M50,80 C50,80 45,100 45,120 C45,140 50,150 100,150 C150,150 155,140 155,120 C155,100 150,80 150,80 Z" fill="#dad0b3"/>
+                    <!-- Pot Top -->
+                    <path d="M40,80 L160,80 C160,80 150,60 100,60 C50,60 40,80 40,80 Z" fill="#ffffff"/>
+                    
+                    <!-- Handles -->
+                    <path d="M40,80 C30,80 25,90 30,100 L40,100 Z" fill="#ffffff"/>
+                    <path d="M160,80 C170,80 175,90 170,100 L160,100 Z" fill="#ffffff"/>
+                    
+                    <!-- Steam -->
+                    <path class="steam steam-1" d="M90,60 C90,40 110,50 110,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path class="steam steam-2" d="M100,60 C100,45 80,40 80,25" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path class="steam steam-3" d="M110,60 C110,50 120,45 125,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                </svg>
+                <span>RECIPIA</span>
+            </div>
+            
+            
+
+            <nav class="site-nav">
+                <ul>
+                    <li><a href="/">Ana Sayfa</a></li>
+                    <li><a href="#">Kategoriler</a></li>
+                    <li><a href="#">Popüler</a></li>
+                    <li><a href="#">Hakkımızda</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+               {% if current_user.is_authenticated %}
+                  <div class="user-menu">
+                    <div class="user-initials user-icon">
+                      {{ current_user.username[0]|upper }}{{ current_user.username.split(' ')[1][0]|upper if ' ' in current_user.username else '' }}
+                    </div>
+
+                    <div class="dropdown">
+                      <a href="{{ url_for('favoriler') }}">⭐ Favoriler</a>
+                      <a href="{{ url_for('logout') }}">🔓 Çıkış Yap</a>
+                    </div>
+                  </div>
+                {% else %}
+                  <a href="{{ url_for('login') }}" class="login-btn">Giriş Yap</a>
+                  <a href="{{ url_for('register') }}" class="signup-btn">Üye Ol</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+      
 
 <div class="filtered-recipes-container">
     <h1 class="filter-header">{{ sayfa_basligi }}</h1>
     <p class="filter-description">{{ etiket.capitalize() }} beslenme tarzına uygun {{ tarifler|length }} tarif bulundu.</p>
     
-    <div class="recipe-cards">
-        {% for tarif in tarifler %}
-        <div class="recipe-card">
-            <div class="card-top">
-                <img src="{{ url_for('static', filename='uploads/' + tarif[1]|lower|replace(' ', '-') + '.png') }}"
-                    alt="{{ tarif[1] }}"
-                    style="width:100%; height:150px; object-fit:cover;">
-
-                <div class="diet-badges">
-                    {% for etiket_adı in tarif['etiketler'] %}
-                        <span class="diet-badge {{ etiket_adı }}">{{ etiket_adı }}</span>
-                    {% endfor %}
-        
-                </div>
-            </div>
-            <div class="card-content">
-                <h3>{{ tarif['isim'] }}</h3>
-                <p>{% if tarif['malzemeler'] %}{{ tarif['malzemeler'].split(',')|length }} malzeme{% else %}0 malzeme{% endif %}</p>
-
-                <a href="{{ url_for('tarif_detay', tarif_id=tarif['id']) }}" class="view-recipe-btn">
-                    Tarifi Gör <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
+   <div class="tarifler-grid">
+    {% for tarif in tarifler %}
+    <div class="tarif-kart">
+        <div class="tarif-resim">
+            <img src="{{ tarif['resim_url'] }}" alt="{{ tarif['isim'] }}">
+            <div class="sure-badge">30 dk</div>
+            <button class="favori-btn"><i class="fas fa-heart"></i></button>
         </div>
-        {% endfor %}
+        <div class="tarif-detay">
+            <span class="kategori-etiket">{{ tarif['kategori'] }}</span>
+            <h2>{{ tarif['isim'] }}</h2>
+            <div class="sureler">
+                <span>🕒 Hazırlık: {{ tarif.get('hazirlama_suresi', 'undef') }}</span>
+                <span>🔥 Pişirme: {{ tarif.get('pisirme_suresi', 'undef') }}</span>
+            </div>
+            <div class="malzemeler-preview">
+                {% set malzeme_listesi = tarif['malzemeler'].split(',') %}
+                {% for malzeme in malzeme_listesi[:2] %}
+                <span class="malzeme-badge">{{ malzeme }}</span>
+                {% endfor %}
+                {% if malzeme_listesi|length > 2 %}
+                <span class="diger">+{{ malzeme_listesi|length - 2 }} daha</span>
+                {% endif %}
+            </div>
+            <a href="{{ url_for('tarif_detay', tarif_id=tarif['id']) }}" class="tarif-btn">Tarifi Gör →</a>
+        </div>
     </div>
+    {% endfor %}
 </div>
-
