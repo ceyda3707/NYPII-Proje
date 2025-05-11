@@ -374,7 +374,12 @@ def favoriler():
 def index():
     conn = sqlite3.connect("turk_tarifleri.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT id, isim, kategori, bolge, malzemeler, tarif, resim_url FROM tarifler LIMIT 3")
+    cursor.execute("""
+        SELECT id, isim, kategori, bolge, malzemeler, tarif, resim_url,
+               hazirlama_suresi, pisirme_suresi, kalori, porsiyon
+        FROM tarifler
+        LIMIT 3
+    """)
     rows = cursor.fetchall()
     conn.close()
 

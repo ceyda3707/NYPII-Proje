@@ -250,15 +250,14 @@ document.addEventListener("DOMContentLoaded", function () {
                   <i class="fa-regular fa-heart"></i>
                 </div>
               </div>
-              <div class="card-content">
-                <div class="card-header-alt">
-                  <span class="difficulty">${tarif.kategori || 'Genel'}</span>
-                </div>
-                <h3>${tarif.isim}</h3>
-                <div class="süre-bilgi">
-                  <span class="hazirlik"><i class="fa-solid fa-clock"></i> Hazırlık: ${tarif.hazirlik}</span>
-                  <span class="pisirme"><i class="fa-solid fa-fire"></i> Pişirme: ${tarif.pisirme}</span>
-                </div>
+               <div class="card-content">
+                    <span class="difficulty">${tarif.kategori}</span>
+                    <h3>${tarif.isim}</h3>
+
+                    <div class="süre-bilgi">
+                      <span class="hazirlik"><i class="fa-solid fa-clock"></i> Hazırlık: ${tarif.hazirlama_suresi || '—'}</span>
+                      <span class="pisirme"><i class="fa-solid fa-fire"></i> Pişirme: ${tarif.pisirme_suresi || '—'}</span>
+                    </div>
                 <p>${tarif.malzemeler ? tarif.malzemeler.split(',').length : 0} malzeme</p>
                 <div class="card-footer">
                   <a href="/tarif/${tarif.id || 1}">Tarifi Gör →</a>

@@ -113,7 +113,7 @@
     <section id="kategoriler">
         <h2>Kategoriler</h2>
         <div class="kategori-buttons">
-            <button class="kategori-btn active" data-kategori="Tümü">Tümü</button>
+            <button class="kategori-btn" data-kategori="Tümü">Tümü</button>
             <button class="kategori-btn" data-kategori="Kahvaltı">Kahvaltı</button>
             <button class="kategori-btn" data-kategori="Ana Yemek">Ana Yemekler</button>
             <button class="kategori-btn" data-kategori="Tatlı">Tatlılar</button>
@@ -231,9 +231,11 @@
           {% for tarif in tarifler %}
           <div class="recipe-card">
             <div class="card-top">
-              <img src="{{ url_for('static', filename='uploads/' + tarif[7] + '.png') }}"
+              <img src="{{ url_for('static', filename='uploads/' + tarif[11] + '.png') }}"
                     onerror="this.onerror=null;this.src='/static/uploads/placeholder.png';"
                     alt="{{ tarif[1] }}">
+
+
               <!-- Kalp Butonu -->
               <div class="heart-wrapper">
                 <button class="heart-btn" onclick="toggleHeart(this)">
@@ -244,16 +246,24 @@
             <div class="card-content">
               <span class="difficulty">{{ tarif[2] }}</span>
               <h3>{{ tarif[1] }}</h3>
+
               <div class="süre-bilgi">
-                <span class="hazirlik"><i class="fa-solid fa-clock"></i> Hazırlık: {{ tarif[8] }}</span>
-                <span class="pisirme"><i class="fa-solid fa-fire"></i> Pişirme: {{ tarif[9] }}</span>
+                <span class="hazirlik">
+                  <i class="fa-solid fa-clock"></i> Hazırlık: {{ tarif[7] }}
+                </span>
+                <span class="pisirme">
+                  <i class="fa-solid fa-fire"></i> Pişirme: {{ tarif[8] }}
+                </span>
+               
               </div>
+
               <p>{{ tarif[4].split(',')|length }} malzeme</p>
               <div class="card-footer">
                 <span>{{ tarif[3] }}</span>
                 <a href="{{ url_for('tarif_detay', tarif_id=tarif[0]) }}">Tarifi Gör →</a>
               </div>
             </div>
+
           </div>
           {% endfor %}
         </div>
