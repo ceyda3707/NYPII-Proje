@@ -64,38 +64,155 @@
             </div>
         </div>
     </header>
+
+
+        <section class="all-header">
+        <div class="container all-header-content">
+          <div class="all-text">
+            <h1>{{ sayfa_basligi }}</h1>
+            <p>{{ etiket.capitalize() }} beslenme tarzına uygun {{ tarifler|length }} tarif bulundu</p>
+          </div>
+      
+          <div class="all-search">
+            <input
+              type="text"
+              class="search-input"
+              id="aramaInput"
+              placeholder="Tarif ara..."
+              autocomplete="off"
+            />
+            <i class="fas fa-search search-icon"></i>
+          </div>          
+        </div>
+      </section>
+
+      <section id="kategoriler">
+        <div class="kategori-buttons">
+          <button data-kategori="Tümü">Tümü</button>
+          <button data-kategori="Kahvaltı">Kahvaltı</button>
+          <button data-kategori="Ana Yemek">Ana Yemek</button>
+          <button data-kategori="Tatlı">Tatlı</button>
+          <button data-kategori="Çorba">Çorba</button>
+          <button data-kategori="Salata">Salata</button>
+          <button data-kategori="İçecek">İçecek</button>
+
+        </div>
+      </section>
       
 
-<div class="filtered-recipes-container">
-    <h1 class="filter-header">{{ sayfa_basligi }}</h1>
-    <p class="filter-description">{{ etiket.capitalize() }} beslenme tarzına uygun {{ tarifler|length }} tarif bulundu.</p>
+
     
    <div class="tarifler-grid">
     {% for tarif in tarifler %}
-    <div class="tarif-kart">
-        <div class="tarif-resim">
+    <div class="recipe-card">
+        <div class="card-top">
             <img src="{{ tarif['resim_url'] }}" alt="{{ tarif['isim'] }}">
-            <div class="sure-badge">30 dk</div>
-            <button class="favori-btn"><i class="fas fa-heart"></i></button>
+            <div class="heart-wrapper">
+                <button class="heart-btn" onclick="toggleHeart(this)">
+                  <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
         </div>
-        <div class="tarif-detay">
-            <span class="kategori-etiket">{{ tarif['kategori'] }}</span>
-            <h2>{{ tarif['isim'] }}</h2>
-            <div class="sureler">
-                <span>🕒 Hazırlık: {{ tarif.get('hazirlama_suresi', 'undef') }}</span>
-                <span>🔥 Pişirme: {{ tarif.get('pisirme_suresi', 'undef') }}</span>
+        <div class="card-content">
+            <span class="difficulty">{{ tarif['kategori'] }}</span>
+            <h3>{{ tarif['isim'] }}</h3>
+            <div class="süre-bilgi">
+                <span class="hazirlik"><i class="fa-solid fa-clock"></i> Hazırlık: {{ tarif.get('hazirlama_suresi', 'undef') }}</span>
+                <span class="pisirme"><i class="fa-solid fa-fire"></i> Pişirme: {{ tarif.get('pisirme_suresi', 'undef') }}</span>
             </div>
             <div class="malzemeler-preview">
-                {% set malzeme_listesi = tarif['malzemeler'].split(',') %}
-                {% for malzeme in malzeme_listesi[:2] %}
-                <span class="malzeme-badge">{{ malzeme }}</span>
-                {% endfor %}
-                {% if malzeme_listesi|length > 2 %}
-                <span class="diger">+{{ malzeme_listesi|length - 2 }} daha</span>
-                {% endif %}
-            </div>
+    {% set malzeme_listesi = tarif['malzemeler'].split(',') %}
+    
+    {% for malzeme in malzeme_listesi[:2] %}
+    <span class="malzeme-badge">{{ malzeme }}</span>
+    {% endfor %}
+
+    {% if malzeme_listesi|length > 2 %}
+        <span class="diger" onclick="toggleMalzemeler(this)">+{{ malzeme_listesi|length - 2 }} daha</span>
+        
+        <span class="gizli-malzeme-listesi" style="display:none;">
+            {% for malzeme in malzeme_listesi[2:] %}
+            <span class="malzeme-badge">{{ malzeme }}</span>
+            {% endfor %}
+        </span>
+    {% endif %}
+</div>
+
             <a href="{{ url_for('tarif_detay', tarif_id=tarif['id']) }}" class="tarif-btn">Tarifi Gör →</a>
         </div>
     </div>
     {% endfor %}
 </div>
+
+
+<div class="sayfa-numaralari" id="sayfalama"></div>
+
+
+
+        <footer class="footer">
+          <div class="container footer-container">
+            <div class="footer-section logo-section">
+              <div class="footer-logo">
+                <svg width="40" height="40" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Pot Base -->
+                  <path d="M50,80 C50,80 45,100 45,120 C45,140 50,150 100,150 C150,150 155,140 155,120 C155,100 150,80 150,80 Z" fill="#dad0b3"/>
+                  <!-- Pot Top -->
+                  <path d="M40,80 L160,80 C160,80 150,60 100,60 C50,60 40,80 40,80 Z" fill="#ffffff"/>
+                  <!-- Handles -->
+                  <path d="M40,80 C30,80 25,90 30,100 L40,100 Z" fill="#ffffff"/>
+                  <path d="M160,80 C170,80 175,90 170,100 L160,100 Z" fill="#ffffff"/>
+                  <!-- Steam -->
+                  <path class="steam steam-1" d="M90,60 C90,40 110,50 110,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                  <path class="steam steam-2" d="M100,60 C100,45 80,40 80,25" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                  <path class="steam steam-3" d="M110,60 C110,50 120,45 125,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                </svg>
+                <span>RECIPIA</span>
+              </div>
+              <p class="footer-description">Mutfak tutkunları için en lezzetli tarifler ve ipuçları.</p>
+              <div class="footer-social">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+              </div>
+            </div>
+        
+            <div class="footer-section">
+              <h4>Hızlı Bağlantılar</h4>
+              <ul>
+                <li><a href="/">Ana Sayfa</a></li>
+                <li><a href="#">Kategoriler</a></li>
+                <li><a href="#">Popüler Tarifler</a></li>
+                <li><a href="#">Yeni Eklenenler</a></li>
+              </ul>
+            </div>
+        
+            <div class="footer-section">
+              <h4>Kategoriler</h4>
+              <ul>
+                <li><a href="#">Kahvaltı</a></li>
+                <li><a href="#">Ana Yemekler</a></li>
+                <li><a href="#">Tatlılar</a></li>
+                <li><a href="#">İçecekler</a></li>
+              </ul>
+            </div>
+        
+            <div class="footer-section">
+              <h4>İletişim</h4>
+              <ul>
+                <li><a href="mailto:info@recipia.com">info@recipia.com</a></li>
+                <li><a href="tel:+902121234567">+90 212 123 4567</a></li>
+              </ul>
+            </div>
+          </div>
+        
+          <div class="footer-bottom">
+            <p>© 2023 RECIPIA. Tüm hakları saklıdır.</p>
+          </div>
+        </footer>
+
+
+
+
+
+<script src="{{ url_for('static', filename='filtreli_tarifler.js') }}"></script>

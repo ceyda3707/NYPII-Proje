@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let seciliKategori = "Tümü";
   let aramaKelimesi = "";
   let mevcutSayfa = 1;
-  const tarifSayisiBirSayfada = 20;
+  const tarifSayisiBirSayfada = 21;
 
   let tarifler = [];
   
