@@ -179,30 +179,39 @@ def tarif_etiketlerini_guncelle(tarif_id,malzemeler, veritabani='turk_tarifleri.
 @app.route('/arama')
 def arama():
     arama_terimi = request.args.get('q', '').strip().lower()
-    
+
     if not arama_terimi:
         return redirect(url_for('tarifler'))
-    
+
     conn = get_db_connection()
+    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
-    
-    # Hem isimde hem malzemelerde arama yap
+
     cursor.execute("""
-        SELECT * FROM tarifler 
-        WHERE LOWER(isim) LIKE ? OR LOWER(malzemeler) LIKE ?
+        SELECT * FROM tarifler
+        WHERE LOWER(isim) LIKE ?
         ORDER BY 
-            CASE WHEN LOWER(isim) LIKE ? THEN 0 ELSE 1 END,
+            CASE 
+                WHEN LOWER(isim) LIKE ? THEN 0
+                ELSE 1
+            END,
             isim
-    """, (f'%{arama_terimi}%', f'%{arama_terimi}%', f'{arama_terimi}%'))
-    
-    tarifler = cursor.fetchall()
+    """, (
+        f'%{arama_terimi}%',   # içinde geçenler
+        f'{arama_terimi}%',    # başlıyorsa öncelik
+    ))
+
+    rows = cursor.fetchall()
+    tarifler = [dict(row) for row in rows]  # .get kullanabilmen için
+
     conn.close()
-    
-    return render_template('filtreli_tarifler.html', 
-                         tarifler=tarifler,
-                         etiket='', 
-                         arama_terimi=arama_terimi,
-                         sayfa_basligi=f"'{arama_terimi}' için sonuçlar")
+
+    return render_template('filtreli_tarifler.html',
+                           tarifler=tarifler,
+                           etiket='',
+                           arama_terimi=arama_terimi,
+                           sayfa_basligi=f"'{arama_terimi}' için sonuçlar")
+
 
 
 
