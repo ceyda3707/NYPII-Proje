@@ -92,36 +92,11 @@
         </div>
       </section>
       
+
       <div id="tarifler-container" class="recipe-cards">
-      <div class="filtered-recipes-container">
-    <h1 class="filter-header">{{ sayfa_basligi or "Tüm Tarifler" }}</h1>
-    <p class="filter-description">{{ tarifler|length }} tarif bulundu.</p>
-
-    <div class="recipe-cards">
-        {% for tarif in tarifler %}
-        <div class="recipe-card">
-            <div class="card-top">
-                <img src="{{ url_for('static', filename='uploads/' + tarif.isim|lower|replace(' ', '-') + '.png') }}"
-                      onerror="this.onerror=null;this.src='/static/uploads/placeholder.png';"
-                      alt="{{ tarif.isim }}">
-                <div class="diet-badges">
-                    {% for etiket_adı in tarif['etiketler'] %}
-                        <span class="diet-badge {{ etiket_adı }}">{{ etiket_adı }}</span>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="card-content">
-                <h3>{{ tarif['isim'] }}</h3>
-                <p>{{ tarif['malzemeler'].split(',')|length }} malzeme</p>
-                <a href="{{ url_for('tarif_detay', tarif_id=tarif['id']) }}" class="view-recipe-btn">
-                    Tarifi Gör <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
+        <!-- Tarif Kartları Dinamik Olarak Burada Yüklenecek -->
+      </div>
+      
 
       <section id="favoriBosMesaji">
         <div class="favori-bos" style="display: none;">
@@ -226,7 +201,7 @@
       </footer>
 
       
-      <script src="{{ url_for('static', filename='favoriler.js') }}"></script>  
+      <script src="{{ url_for('static', filename='favoriler.js') }}"></script>
 
 </body>
 </html>
