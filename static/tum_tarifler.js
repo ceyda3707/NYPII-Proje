@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p class="malzeme-listesi">${malzemelerHTML} ${ekstraMalzemeHTML}</p>
             <div class="card-footer">
               <span>${tarif.malzemeler.length} malzeme</span>
-              <a href="#">Tarifi Gör →</a>
+              <a href="/tarif/${tarif.id || 1}">Tarifi Gör →</a>
             </div>
           </div>
   </div>
