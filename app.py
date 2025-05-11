@@ -40,7 +40,8 @@ def tarif_etiketlerini_belirle(malzeme_metni):
     vegan_olmayanlar = [
         "et","eti", "kıyma", "tavuk", "balık", "yumurta", "peynir", "yoğurt", "süt",
         "krema", "tereyağı", "tereyagi", "jambon", "pastırma", "sucuk", "bal",
-        "kuzu", "dana","koyun", "köfte", "kanat", "ciğer", "domuz", "bonfile", "kelle", "ayak"
+        "kuzu", "dana","koyun", "köfte", "kanat", "ciğer", "domuz", "bonfile", "kelle", 
+        "ayak", "işkembe"
     ]
 
     laktoz_icerikliler = [
@@ -48,7 +49,8 @@ def tarif_etiketlerini_belirle(malzeme_metni):
     ]
 
     et_ve_baliklar = [
-        "et", "eti", "koyun", "kıyma", "tavuk", "balık", "sucuk", "pastırma", "jambon", "kuzu", "dana", "ciğer", "domuz", "bonfile", "kelle", "ayak"
+        "et", "eti", "koyun", "kıyma", "tavuk", "balık", "sucuk", "pastırma", "jambon", "kuzu", 
+        "dana", "ciğer", "domuz", "bonfile", "kelle", "ayak", "işkembe", "kanat"
     ]
     bulunan = []
 
@@ -436,14 +438,20 @@ def tarif_detay(tarif_id):
 @app.route('/api/tarifler', methods=['GET'])
 def get_tarifler():
     malzemeler = request.args.get('malzemeler')
+    kategori = request.args.get('kategori')
     if not malzemeler:
         return jsonify({"error": "Malzemeler parametresi eksik"}), 400
-
+    
     secilenler = malzemeler.split(',')
-    # 🔥 OR değil AND
+   
     placeholders = ' AND '.join(["LOWER(malzemeler) LIKE ?" for _ in secilenler])
     query = f"SELECT * FROM tarifler WHERE {placeholders}"
-    params = [f"%{m.strip().lower()}%" for m in secilenler]
+
+    if kategori and kategori.lower() != 'tümü':
+        query += " AND LOWER(kategori) = ?"
+        params = [f"%{m.strip().lower()}%" for m in secilenler] + [kategori.lower()]
+    else:
+        params = [f"%{m.strip().lower()}%" for m in secilenler]
 
     conn = sqlite3.connect("turk_tarifleri.db")
     conn.row_factory = sqlite3.Row
