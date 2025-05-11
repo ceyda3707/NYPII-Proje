@@ -787,3 +787,20 @@ body, html {
     color: #9ca3af;
   }
 
+
+  .tarif-bolge {
+  margin-top: 12px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  font-size: 15px;
+  background-color: #fdf1e6;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  color: #cc7548;
+  font-weight: 500;
+}
+.bolge-baslik {
+  font-weight: bold;
+  margin-right: 4px;
+}
