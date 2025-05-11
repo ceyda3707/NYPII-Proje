@@ -240,34 +240,34 @@ document.addEventListener("DOMContentLoaded", function () {
             const card = document.createElement('div');
             card.classList.add('tarif-card');
 
-            card.innerHTML = `
+          card.innerHTML = `
+            <div class="recipe-card">
               <div class="card-top">
                 <img src="/static/uploads/${slugify(tarif.isim)}.png"
                     onerror="this.onerror=null;this.src='/static/uploads/placeholder.png';"
                     alt="${tarif.isim}" class="dinamik-gorsel">
-                <div class="time-badge">${tarif.hazirlama_suresi || '30 dk'}</div>
-                <div class="favorite-btn">♡</div>
+                <div class="favorite-btn" onclick="toggleFavorite(this)">
+                  <i class="fa-regular fa-heart"></i>
+                </div>
               </div>
               <div class="card-content">
                 <div class="card-header-alt">
                   <span class="difficulty">${tarif.kategori || 'Genel'}</span>
                 </div>
                 <h3>${tarif.isim}</h3>
+                <div class="süre-bilgi">
+                  <span class="hazirlik"><i class="fa-solid fa-clock"></i> Hazırlık: ${tarif.hazirlik}</span>
+                  <span class="pisirme"><i class="fa-solid fa-fire"></i> Pişirme: ${tarif.pisirme}</span>
+                </div>
                 <p>${tarif.malzemeler ? tarif.malzemeler.split(',').length : 0} malzeme</p>
                 <div class="card-footer">
-                  <span>${tarif.bolge || 'Bilinmiyor'}</span>
                   <a href="/tarif/${tarif.id || 1}">Tarifi Gör →</a>
                 </div>
               </div>
+              </div>
             `;
 
-            
-          
-            const favBtn = card.querySelector('.favorite-btn');
-            favBtn.addEventListener('click', function () {
-                  favBtn.classList.toggle('active');
-                  favBtn.innerText = favBtn.classList.contains('active') ? '❤️' : '♡';
-});
+
 
             tarifListesi.appendChild(card);
           });
@@ -293,3 +293,22 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 
   
+
+function toggleHeart(btn) {
+  btn.classList.toggle('active');
+  const icon = btn.querySelector('i');
+  if (btn.classList.contains('active')) {
+    icon.classList.remove('fa-regular');
+    icon.classList.add('fa-solid');
+  } else {
+    icon.classList.remove('fa-solid');
+    icon.classList.add('fa-regular');
+  }
+}
+  
+function toggleFavorite(btn) {
+  const icon = btn.querySelector('i');
+  icon.classList.toggle('fa-regular');
+  icon.classList.toggle('fa-solid');
+  btn.classList.toggle('favorited');
+}

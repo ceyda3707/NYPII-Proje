@@ -178,14 +178,15 @@
       </div>
   </section>
   
-  <!-- Tariflerin Görüntüleneceği Alan -->
+    <!-- Tariflerin Görüntüleneceği Alan -->
   <section id="tarifler" style="display:none;">
-      <h2>Malzemelerinize Uygun Tarifler</h2>
+    <h2 class="tarif-baslik">Malzemelerinize Uygun Tarifler</h2>
       <div id="tarif-listesi" class="tarif-listesi">
           <!-- Tarifler burada yer alacak -->
       </div>
       <button class="more-btn" id="more-tarifler-btn" style="display:none;">Daha Fazla Tarif</button>
   </section>
+
   
   
        <div class="diet-filters">
@@ -226,18 +227,27 @@
           <p>Kullanıcılarımızın en çok beğendiği tarifler</p>
         </div>
       
-        <div class="recipe-cards">
+                <div class="recipe-cards">
           {% for tarif in tarifler %}
           <div class="recipe-card">
             <div class="card-top">
               <img src="{{ url_for('static', filename='uploads/' + tarif[7] + '.png') }}"
                     onerror="this.onerror=null;this.src='/static/uploads/placeholder.png';"
                     alt="{{ tarif[1] }}">
-              <div class="time-badge">30 dk</div>
-            </div>
+              <!-- Kalp Butonu -->
+              <div class="heart-wrapper">
+                <button class="heart-btn" onclick="toggleHeart(this)">
+                  <i class="fa-regular fa-heart"></i>
+                </button>
+              </div>
+            </div> 
             <div class="card-content">
               <span class="difficulty">{{ tarif[2] }}</span>
               <h3>{{ tarif[1] }}</h3>
+              <div class="süre-bilgi">
+                <span class="hazirlik"><i class="fa-solid fa-clock"></i> Hazırlık: {{ tarif[8] }}</span>
+                <span class="pisirme"><i class="fa-solid fa-fire"></i> Pişirme: {{ tarif[9] }}</span>
+              </div>
               <p>{{ tarif[4].split(',')|length }} malzeme</p>
               <div class="card-footer">
                 <span>{{ tarif[3] }}</span>
@@ -248,6 +258,8 @@
           {% endfor %}
         </div>
         <button class="more-btn" onclick="window.location.href='/tum_tarifler'">Daha Fazla Tarif</button>
+
+
 
       </section>
 
