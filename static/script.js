@@ -241,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
             card.classList.add('tarif-card');
 
           card.innerHTML = `
-            <div class="recipe-card">
+            <div class="tarif-card">
               <div class="card-top">
                 <img src="/static/uploads/${slugify(tarif.isim)}.png"
                     onerror="this.onerror=null;this.src='/static/uploads/placeholder.png';"
