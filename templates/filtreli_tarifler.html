@@ -106,7 +106,12 @@
     {% for tarif in tarifler %}
     <div class="recipe-card">
         <div class="card-top">
-            <img src="{{ tarif['resim_url'] }}" alt="{{ tarif['isim'] }}">
+            <img src="{{ url_for('static', filename='uploads/' + slugify(tarif['isim']) + '.png') }}"
+                  onerror="this.onerror=null;this.src='/static/uploads/placeholder.png';"
+                  alt="{{ tarif['isim'] }}">
+
+
+
             <div class="heart-wrapper">
                 <button class="heart-btn" onclick="toggleHeart(this)">
                   <i class="fa-regular fa-heart"></i>

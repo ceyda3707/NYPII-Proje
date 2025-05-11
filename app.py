@@ -41,7 +41,7 @@ def tarif_etiketlerini_belirle(malzeme_metni):
         "et","eti", "kıyma", "tavuk", "balık", "yumurta", "peynir", "yoğurt", "süt",
         "krema", "tereyağı", "tereyagi", "jambon", "pastırma", "sucuk", "bal",
         "kuzu", "dana","koyun", "köfte", "kanat", "ciğer", "domuz", "bonfile", "kelle", 
-        "ayak", "işkembe"
+        "ayak", "işkembe", "kıyması"
     ]
 
     laktoz_icerikliler = [
@@ -50,7 +50,7 @@ def tarif_etiketlerini_belirle(malzeme_metni):
 
     et_ve_baliklar = [
         "et", "eti", "koyun", "kıyma", "tavuk", "balık", "sucuk", "pastırma", "jambon", "kuzu", 
-        "dana", "ciğer", "domuz", "bonfile", "kelle", "ayak", "işkembe", "kanat"
+        "dana", "ciğer", "domuz", "bonfile", "kelle", "ayak", "işkembe", "kanat","kıyması"
     ]
     bulunan = []
 
