@@ -192,14 +192,14 @@ body {
 }
 /* Diyet filtre butonları */
 .diet-filters {
-    display: flex;
-    justify-content: center;
-    margin: 30px 0 10px;
+  background-color: #f9f9fa;
+  display: flex;
+  justify-content: center;
 }
 
 .diet-filters .diet-filter {
     padding: 10px 18px;
-    margin: 0 10px;
+    margin: 60px 10px;
     border-radius: 30px;
     font-weight: bold;
     text-decoration: none;
@@ -443,7 +443,7 @@ body {
   }
   
   .tarif-bul-btn:hover {
-    background-color: #cc7548;
+    background-color: #bf5a33;
   }
 
   .tarif-container {
@@ -464,7 +464,7 @@ body {
   }
   
   .tarif-kart:hover {
-    transform: scale(1.03);
+    transform: translateY(-5px);
   }
   
   .tarif-kart img {
@@ -906,31 +906,37 @@ body, html {
   padding-top: 30px;
   padding-bottom: 20px;
   padding-left: 30px;
-  font-size: 30px; /* İstediğin boyut */
-  font-weight: 400; /* Kalınlık ayarı (isteğe bağlı) */
+  font-size: 20px; /* İstediğin boyut */
+  font-weight: bold; /* Kalınlık ayarı (isteğe bağlı) */
   margin-bottom: 1rem;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Poppins', sans-serif;
   color: #244435;
 }
 
 
-#tarif-listesi {
+.tarif-listesi {
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: 1rem;
-  padding: 1rem;
+  flex-wrap: nowrap;            /* ❗️Sarmalama kapalı */
+  overflow-x: auto;             /* ⬅️ Yana kaydırma aktif */
+  overflow-y: hidden; /* 👈 Bu dikey kaymayı engeller */
+  gap: 24px;                    /* Kartlar arası boşluk */
+  padding: 16px;
   scroll-snap-type: x mandatory;
 }
 
 .tarif-card {
-  min-width: 300px;
+  width: 420px;
+  height: 420px;
   flex: 0 0 auto;
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.08);
   scroll-snap-align: start;
   transition: transform 0.3s;
+}
+
+.tarif-card:hover {
+    transform: translateY(-5px);
 }
 
 .recipe-card img,
@@ -949,31 +955,38 @@ body, html {
 
 
 .tarif-card h3 {
-  font-size: 1.2rem;
-  margin: 0.5rem;
+  font-size: 20px;
+  color: #244435;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .tarif-card p {
-  font-size: 0.9rem;
-  margin: 0.5rem;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
 .tarif-card .time,
 .tarif-card .difficulty {
-  font-size: 0.8rem;
-  margin: 0.5rem;
-  color: #555;
+  display: inline-block;
+  background: #e5e7da;
+  color: #244435;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
-.tarif-card button {
-  margin: 0.5rem;
-  background: #cc7548;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
+.tarif-card a {
+  display: block;          /* Blok yapmazsan text-align işe yaramaz */
+  text-align: right;       /* Yazıyı sağa yasla */
+  color: #cc7548;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-left: 295px;
 }
+
 
 .flash-popup {
   position: fixed;
