@@ -32,7 +32,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 
-import re
+
 
 def tarif_etiketlerini_belirle(malzeme_metni):
     malzeme_metni = malzeme_metni.lower()
