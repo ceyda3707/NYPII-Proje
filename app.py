@@ -489,16 +489,17 @@ def get_tarifler():
 def api_tarif_detay(tarif_id):
     conn = sqlite3.connect("turk_tarifleri.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT isim, kategori, malzemeler, tarif FROM tarifler WHERE id = ?", (tarif_id,))
+    cursor.execute("SELECT isim, kategori, bolge, malzemeler, tarif FROM tarifler WHERE id = ?", (tarif_id,))
     data = cursor.fetchone()
     conn.close()
     if data:
        import random
        return jsonify({
-            "isim": data[0],
+             "isim": data[0],
             "kategori": data[1],
-            "malzemeler": data[2].split(','),
-            "hazirlanis": re.split(r'\\n|\\d+\\.', data[3])  # 1. 2. 3. ile bölmek için
+            "bolge": data[2],  # ← Burası önemli
+            "malzemeler": data[3].split(','),
+            "hazirlanis": re.split(r'\\n|\\d+\\.', data[4])  # 1. 2. 3. ile bölmek için
 ,
             # Bunlar veritabanında yok, sabit/random gönderiyoruz:
             "hazirlik_suresi": f"{random.randint(10, 25)} dk",

@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // Kategori ve başlık
             document.getElementById("kategoriBaslik").textContent = data.kategori;
             document.getElementById("tarifBaslik").textContent = data.isim;
+            document.querySelector('.bolge-deger').textContent = data.bolge || 'Bilinmiyor';
+
 
             const image = document.querySelector(".left img");
             const slug = slugify(data.isim);
